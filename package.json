@@ -1,6 +1,6 @@
 {
   "name": "pr5-ltp-rn-front",
-  "homepage": "https://wallmartboss.github.io/pr5-ltp-rn-front/",
+ 
   "private": true,
   "version": "0.1.0",
   "type": "module",
@@ -9,9 +9,7 @@
     "build": "vite build",
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
-    "start": "react-scripts start",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "deploy": "gh-pages -d dist"
     },
   "dependencies": {
     "@hookform/resolvers": "^3.9.1",
