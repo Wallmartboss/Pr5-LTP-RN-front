@@ -1,13 +1,14 @@
-import s from './HomePage.module.css';
+/*шаблон сторінки для корекції  */
+import Header from '../../components/Header/Header.jsx'
+import SideBar from '../../components/SideBar/SideBar.jsx'
+import ScreensPage from '../ScreensPage/ScreensPage'
 
-const HomePage = () => {
-  return (
-    <div>
-      {/* <h3>Home</h3> */}
-      <div className={s.container}>
-        <h1 className={s.title}> Contact book welcome page </h1>
-      </div>
-    </div>
-  );
-};
-export default HomePage;
+const HomePage = () => (
+	<div className='home-page'>
+		<Header />
+		<SideBar />
+		<ScreensPage />
+	</div>
+)
+
+export default HomePage

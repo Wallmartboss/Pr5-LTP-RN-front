@@ -1,0 +1,31 @@
+@font-face {
+	font-family: 'Poppins';
+	src: url('../../fonts/Poppins-Medium.ttf');
+	font-weight: 500;
+	font-display: swap;
+}
+
+@font-face {
+	font-family: 'Poppins';
+	src: url('../../fonts/Poppins-Regular.ttf');
+	font-weight: 400;
+	font-display: swap;
+}
+
+@font-face {
+	font-family: 'Poppins';
+	src: url('../../fonts/Poppins-SemiBold.ttf');
+	font-weight: 600;
+	font-display: swap;
+}
+
+body {
+	font-family: -apple-system, BlinkMacSystemFont, 'Poppins', sans-serif;
+	font-style: normal;
+	font-weight: 400;
+	font-synthesis: none;
+	text-rendering: optimizeLegibility;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	-webkit-text-size-adjust: 100%;
+}

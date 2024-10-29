@@ -1,5 +1,6 @@
 {
-  "name": "goit-react-hw-08",
+  "name": "pr5-ltp-rn-front",
+  "homepage": "https://wallmartboss.github.io/pr5-ltp-rn-front/",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -7,22 +8,34 @@
     "dev": "vite",
     "build": "vite build",
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "start": "react-scripts start",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
   },
   "dependencies": {
-    "@reduxjs/toolkit": "^2.2.7",
+    "@hookform/resolvers": "^3.9.1",
+    "@mui/material": "^6.1.5",
+    "@reduxjs/toolkit": "^2.3.0",
     "@vitejs/plugin-react": "^4.3.1",
     "axios": "^1.7.3",
     "clsx": "^2.1.1",
     "formik": "^2.4.6",
+    "gh-pages": "^6.2.0",
     "modern-normalize": "^2.0.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-hook-form": "^7.53.1",
     "react-hot-toast": "^2.4.1",
     "react-redux": "^9.1.2",
     "react-router": "^6.26.0",
-    "react-router-dom": "^6.26.0",
-    "redux-persist": "^6.0.0"
+    "react-router-dom": "^6.27.0",
+    "react-scripts": "^5.0.1",
+    "redux": "^5.0.1",
+    "redux-persist": "^6.0.0",
+    "yup": "^1.4.0"
   },
   "devDependencies": {
     "@types/react": "^18.2.66",

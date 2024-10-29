@@ -1,0 +1,72 @@
+@import 'modern-normalize';
+@import url('./reset.css');
+@import url('./fonts.css');
+
+:root {
+	--black: #161616;
+	--white_bg: #fdfdfd;
+	--white: #ffffff;
+	--background-color: var(--white_bg);
+	--text-color: black;
+}
+
+body {
+	margin: 0;
+	background-color: var(--background-color);
+	color: var(--text-color);
+	transition: background-color 0.3s, color 0.3s;
+	min-width: 320px;
+}
+
+body.dark-mode {
+	--background-color: #232323;
+	--text-color: white;
+}
+body.violet-mode {
+	--background-color: #d6d8ff;
+	--text-color: black;
+}
+
+.visually-hidden {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	margin: -1px;
+	border: 0;
+	padding: 0;
+	white-space: nowrap;
+	clip-path: inset(100%);
+	clip: rect(0 0 0 0);
+	overflow: hidden;
+}
+
+html {
+	scroll-behavior: smooth;
+}
+
+/* Ддя екрану від 320 px, і щоб від тягнувся від 320 до 375 */
+.container {
+	width: 100%;
+}
+
+/* Для мобільного екрану від 375 px  */
+@media screen and (min-width: 375px) {
+	.container {
+		width: 375px; /*100%;*/
+		margin: 0 auto;
+	}
+}
+
+/* Для планшетного екрану від 768 px  */
+@media screen and (min-width: 768px) {
+	.container {
+		width: 768px; /* 100%;*/
+	}
+}
+
+/* Для десктопного екрану від 1440 px  */
+@media screen and (min-width: 1440px) {
+	.container {
+		width: 1440px;
+	}
+}
