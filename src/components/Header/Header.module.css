@@ -1,0 +1,9 @@
+.header {
+  background-color: #fcfcfc;
+  max-width: 375px;
+  height: 100px;
+}
+
+.burgerMenu {
+  fill: black;
+}

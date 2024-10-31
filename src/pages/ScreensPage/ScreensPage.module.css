@@ -1,0 +1,21 @@
+.container {
+  margin-left: 20px;
+  margin-right: 20px;
+}
+
+.startTitle {
+  margin: 0 auto;
+  width: 335px;
+  margin-top: 292px;
+}
+
+.startTitle p {
+  text-align: center;
+  color: rgba(22, 22, 22, 0.7);
+  font-family: 'Poppins', sans-serif;
+
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 1.33;
+  letter-spacing: -0.02em;
+}

@@ -1,7 +1,21 @@
-const ScreenPage = () => (
-  <div className="screen-page">
-    <h1>test Screen Page</h1>
-  </div>
-);
+import React from 'react';
+import s from './ScreensPage.module.css';
 
-export default ScreenPage;
+const ScreensPage = () => {
+  return (
+    <div>
+      <div className={s.container}>
+        <div className={s.startTitle}>
+          <p>
+            Before starting your project, it is essential to
+            <a>create a board</a> to visualize and track all the necessary tasks
+            and milestones. This board serves as a powerful tool to organize the
+            workflow and ensure effective collaboration among team members.
+          </p>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default ScreensPage;
