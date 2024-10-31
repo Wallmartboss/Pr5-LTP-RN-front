@@ -1,6 +1,5 @@
 {
   "name": "pr5-ltp-rn-front",
- 
   "private": true,
   "version": "0.1.0",
   "type": "module",
@@ -10,7 +9,7 @@
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
     "deploy": "gh-pages -d build"
-    },
+  },
   "dependencies": {
     "@hookform/resolvers": "^3.9.1",
     "@mui/material": "^6.1.5",
