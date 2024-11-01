@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import s from './AddColumnModal.module.css';
 
 const AddColumnModal = ({ onClose, onAddColumn }) => {
@@ -12,13 +12,32 @@ const AddColumnModal = ({ onClose, onAddColumn }) => {
     if (title.trim()) {
       onAddColumn(title);
       setTitle('');
+      onClose();
     } else {
       alert('Please add title');
     }
   };
 
+  useEffect(() => {
+    const handleKeyDown = event => {
+      if (event.key === 'Escape') {
+        onClose();
+      }
+    };
+    document.addEventListener('keydown', handleKeyDown);
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [onClose]);
+
+  const handleOverlayClick = event => {
+    if (event.target === event.currentTarget) {
+      onClose();
+    }
+  };
+
   return (
-    <div className={s.modalOverlay}>
+    <div className={s.modalOverlay} onClick={handleOverlayClick}>
       <div className={s.modalContent}>
         <button className={s.closeBtn} onClick={onClose}>
           X
