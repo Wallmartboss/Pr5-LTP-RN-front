@@ -9,7 +9,7 @@ const FiltersDropDown = () => {
     high: false,
   });
 
-  const [isOpen, setIsOpen] = useState(false); // поміняти потім на false
+  const [isOpen, setIsOpen] = useState(false);
 
   const handleFilterChange = event => {
     const { value, checked } = event.target;

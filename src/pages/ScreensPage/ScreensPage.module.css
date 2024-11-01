@@ -15,3 +15,37 @@
   display: flex;
   justify-content: space-between;
 }
+
+.addColumnBtn {
+  border-radius: 8px;
+  width: 335px;
+  height: 56px;
+  background-color: #fff;
+  border: none;
+  margin-top: 40px;
+  font-weight: 500;
+  font-size: 14px;
+  letter-spacing: -0.02em;
+  color: #161616;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  font-size: 18px; /* прибрати коли буде свг*/
+}
+
+.addColumnBtn:hover {
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.plus {
+  width: 28px;
+  height: 28px;
+  background-color: black;
+  color: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 6px;
+}
