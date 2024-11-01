@@ -8,12 +8,24 @@
   top: 100%;
   left: 0;
   background-color: #fff;
-  border: 1px solid #000;
+  border: none;
   border-radius: 8px;
   padding: 24px;
   z-index: 1;
-  width: 300px;
+  width: 100vw;
+  max-width: 300px;
   height: 234px;
+  background-color: #fff;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  transform: translateX(-92%);
+  margin-top: 10px;
+}
+
+@media (max-width: 375px) {
+  .dropList {
+    width: 100vw;
+    left: 0;
+  }
 }
 
 .filtersBtn {
@@ -135,8 +147,8 @@
   position: absolute;
   top: 50%;
   left: 50%;
-  width: 14px;
-  height: 14px;
+  width: 13px;
+  height: 13px;
   border-radius: 50%;
   border: 1px solid;
   transform: translate(-50%, -50%) scale(1);

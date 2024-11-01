@@ -4,10 +4,12 @@ import FiltersDropDown from '../../components/FiltersDropDown/FiltersDropDown';
 
 const ScreensPage = () => {
   return (
-    <div>
-      <div className={s.boardHeader}>
-        <p>Project board</p>
-        <FiltersDropDown />
+    <div className={s.mainDashboard}>
+      <div className={s.container}>
+        <div className={s.boardHeader}>
+          <p>Project board</p>
+          <FiltersDropDown />
+        </div>
       </div>
     </div>
   );
