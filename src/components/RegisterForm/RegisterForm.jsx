@@ -7,6 +7,7 @@ import './RegisterForm.css';
 import { Link } from 'react-router-dom';
 import toast from 'react-hot-toast';
 import { register as registerUser } from '../../redux/auth/operations.js';
+import sprite from '../../icons/icons.svg';
 
 const registerSchema = yup.object().shape({
   name: yup
@@ -35,6 +36,7 @@ const RegisterForm = ({ onSuccess }) => {
   });
 
   const [isLoading, setIsLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
 
   const onSubmit = async data => {
     setIsLoading(true);
@@ -67,11 +69,21 @@ const RegisterForm = ({ onSuccess }) => {
         <input {...register('email')} placeholder="Enter your email" />
         {errors.email && <p>{errors.email.message}</p>}
 
-        <input
-          {...register('password')}
-          type="password"
-          placeholder="Create a password"
-        />
+        <div className="passwordInput">
+          <input
+            {...register('password')}
+            type={showPassword ? 'text' : 'password'}
+            placeholder="Create a password"
+          />
+          <span
+            className="passwordToggleIcon"
+            onClick={() => setShowPassword(!showPassword)}
+          >
+            <svg className="icon">
+              <use href={`${sprite}#eye-icon`} />
+            </svg>
+          </span>
+        </div>
         {errors.password && <p>{errors.password.message}</p>}
         <button className="registerButton" type="submit" disabled={isLoading}>
           {isLoading ? 'Registering...' : 'Register Now'}
