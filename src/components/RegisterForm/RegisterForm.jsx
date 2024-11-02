@@ -56,7 +56,7 @@ const RegisterForm = ({ onSuccess }) => {
     <div className="container">
       <form className="registerForm" onSubmit={handleSubmit(onSubmit)}>
         <div className="formTitle">
-          <Link to="/auth/register" className="register">
+          <Link to="/auth/register" className="register active">
             Registration
           </Link>
           <Link to="/auth/login" className="login">
