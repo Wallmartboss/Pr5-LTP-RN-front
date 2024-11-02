@@ -15,6 +15,7 @@
 body {
   margin: 0;
   --text-color: black;
+  --secondary-text-color: #161616;
   --main-color: #bedbb0;
   --accent-color: #9dc888;
   --icon-color: rgba(22, 22, 22, 0.5);
@@ -26,31 +27,38 @@ body {
   --input-stroke-color: rgba(190, 219, 176, 0.4);
   --icon-inprogress-color: var(--main-color);
   --icon-done-color: var(--black);
+  --background-color: #f6f6f7;
+  --secondary-bg-color: #fcfcfc;
 
   background-color: var(--white);
 }
 
 body.dark-mode {
   background-color: #121212;
-  --text-color-dark: white;
-  --main-color-dark: #bedbb0;
-  --accent-color-dark: #9dc888;
-  --icon-color-dark: rgba(255, 255, 255, 0.5);
-  --active-icon-color-dark: rgba(255, 255, 255, 1);
-  --input-stroke-color-dark: rgba(190, 219, 176, 0.4);
-  --icon-inprogress-color-dark: var(--main-color);
-  --icon-done-color-dark: rgba(255, 255, 255, 0.5);
+  --text-color: white;
+  --main-color: #bedbb0;
+  --accent-color: #9dc888;
+  --icon-color: rgba(255, 255, 255, 0.5);
+  --active-icon-color: rgba(255, 255, 255, 1);
+  --input-stroke-color: rgba(190, 219, 176, 0.4);
+  --icon-inprogress-color: var(--main-color);
+  --icon-done-color: rgba(255, 255, 255, 0.5);
+  --background-color: #1f1f1f;
+  --secondary-bg-color: #161616;
 }
 body.violet-mode {
   background-color: #d6d8ff;
-  --text-color-violet: black;
-  --main-color-violet: #5255bc;
-  --accent-color-violet: #7b7ede;
-  --icon-color-violet: rgba(22, 22, 22, 0.5);
-  --active-icon-color-violet: rgba(22, 22, 22, 1);
-  --input-stroke-color-violet: rgba(82, 85, 188, 0.4);
-  --icon-inprogress-color-violet: var(--main-color-violet);
-  --icon-done-color-violet: var(--black);
+  --text-color: black;
+  --secondary-text-color: #ffffff;
+  --main-color: #5255bc;
+  --accent-color: #7b7ede;
+  --icon-color: rgba(22, 22, 22, 0.5);
+  --active-icon-color: rgba(22, 22, 22, 1);
+  --input-stroke-color: rgba(82, 85, 188, 0.4);
+  --icon-inprogress-color: var(--main-color-violet);
+  --icon-done-color: var(--black);
+  --background-color: #ecedfd;
+  --secondary-bg-color: #ffffff;
 }
 
 .visually-hidden {
