@@ -1,4 +1,4 @@
-.registerForm {
+.loginForm {
   display: flex;
   flex-direction: column;
   gap: 20px;
@@ -47,7 +47,7 @@ input:focus {
   border: solid 1px var(--main-color);
 }
 
-.registerButton {
+.loginButton {
   background-color: var(--high-priority-color);
   border: none;
   border-radius: 8px;
@@ -59,7 +59,7 @@ input:focus {
   transition: background-color 0.3s, color 0.3s;
 }
 
-.registerButton:hover {
+.loginButton:hover {
   background-color: var(--accent-color);
 }
 
@@ -96,7 +96,7 @@ input:focus {
 }
 
 @media screen and (min-width: 768px) {
-  .registerForm {
+  .loginForm {
     padding: 40px;
     max-width: 424px;
   }
