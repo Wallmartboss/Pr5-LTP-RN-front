@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import s from './FiltersDropDown.module.css';
+import sprite from '../../icons/icons.svg';
 
 const FiltersDropDown = () => {
   const [selectedFilter, setSelectedFilter] = useState({
@@ -44,6 +45,9 @@ const FiltersDropDown = () => {
   return (
     <div className={s.dropDown}>
       <button className={s.filtersBtn} onClick={() => setIsOpen(!isOpen)}>
+        <svg className={s.filtersIcon} width="16" height="16">
+          <use href={`${sprite}#filter-icon`} />
+        </svg>
         Filters
       </button>
       {isOpen && (
@@ -54,7 +58,9 @@ const FiltersDropDown = () => {
               className={s.closeModalBtn}
               onClick={() => setIsOpen(false)}
             >
-              X
+              <svg className={s.xCloseBtn} width="18" height="18">
+                <use href={`${sprite}#x-close-icon`} />
+              </svg>
             </button>
           </div>
           <div className={s.filtersTop}>

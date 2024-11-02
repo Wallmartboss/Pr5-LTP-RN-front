@@ -3,6 +3,7 @@ import s from './ScreensPage.module.css';
 import FiltersDropDown from '../../components/FiltersDropDown/FiltersDropDown';
 import AddColumnModal from '../../components/AddColumnModal/AddColumnModal';
 import BoardColumn from '../../components/BoardColumn/BoardColumn';
+import sprite from '../../icons/icons.svg';
 
 const ScreensPage = () => {
   const [columns, setColumns] = useState([]);
@@ -33,7 +34,10 @@ const ScreensPage = () => {
             <BoardColumn key={index} title={column.title} />
           ))}
           <button className={s.addColumnBtn} onClick={handleOpenModal}>
-            <span className={s.plus}>+</span>Add another column
+            <svg className={s.plusIcon} width="24" height="24">
+              <use href={`${sprite}#plus-icon`} />
+            </svg>
+            Add another column
           </button>
         </div>
       </div>

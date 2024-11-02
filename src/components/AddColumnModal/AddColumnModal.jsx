@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import s from './AddColumnModal.module.css';
+import sprite from '../../icons/icons.svg';
 
 const AddColumnModal = ({ onClose, onAddColumn }) => {
   const [title, setTitle] = useState('');
@@ -40,9 +41,10 @@ const AddColumnModal = ({ onClose, onAddColumn }) => {
     <div className={s.modalOverlay} onClick={handleOverlayClick}>
       <div className={s.modalContent}>
         <button className={s.closeBtn} onClick={onClose}>
-          X
+          <svg className={s.xCloseBtn} width="18" height="18">
+            <use href={`${sprite}#x-close-icon`} />
+          </svg>
         </button>
-        {/* пізніше тут буде свг*/}
         <h2 className={s.modalTitle}>Add column</h2>
         <input
           className={s.inputField}
@@ -52,7 +54,9 @@ const AddColumnModal = ({ onClose, onAddColumn }) => {
           onChange={handleInputChange}
         />
         <button className={s.addBtn} onClick={handleAddClick}>
-          <span className={s.plus}>+</span>
+          <svg className={s.plusIcon} width="14" height="14">
+            <use href={`${sprite}#plus-icon`} />
+          </svg>
           Add
         </button>
       </div>
