@@ -1,0 +1,80 @@
+.welcomePage {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  margin-top: auto;
+  margin-bottom: auto;
+  width: 100%;
+  height: 100vh;
+  background: linear-gradient(180deg, rgba(196, 196, 196, 0), #bedbb0);
+
+  @media screen and (min-width: 375px) {
+    width: 375px; /*100%;*/
+    margin: 0 auto;
+  }
+  @media screen and (min-width: 768px) {
+    width: 768px; /* 100%;*/
+  }
+
+  @media screen and (min-width: 1440px) {
+    width: 1440px;
+  }
+}
+.linkButton {
+  font-size: 14px;
+  text-decoration: none;
+  display: block;
+  width: 344px;
+  height: 49px;
+  line-height: 49px;
+  text-align: center;
+  border-radius: 8px;
+  margin-bottom: 0;
+  transition: background-color 0.4s, color 0.4s;
+}
+.linkButton:hover {
+  color: white;
+  background-color: black;
+}
+.logoTitle {
+  display: flex;
+  font-size: 28px;
+  font-weight: 600;
+  align-items: center;
+  padding: 0;
+  gap: 14px;
+
+  @media screen and (min-width: 768px) {
+    font-size: 40px;
+  }
+}
+.welcomeText {
+  font-size: 14px;
+  line-height: 18px;
+  text-align: center;
+  /* margin: 0 auto; */
+  margin-left: 20px;
+  margin-right: 20px;
+  margin-top: 24px;
+  margin-bottom: 48px;
+
+  @media screen and (min-width: 375px) {
+    width: 335px;
+    margin-top: 24px;
+    margin-bottom: 48px;
+  }
+  @media screen and (min-width: 768px) {
+    width: 473px;
+  }
+}
+.user_ava {
+  width: 124px;
+  margin: 0 auto;
+  margin-bottom: 14px;
+
+  @media screen and (min-width: 768px) {
+    width: 162px;
+    margin-bottom: 24px;
+  }
+}
