@@ -1,26 +1,29 @@
 /*шаблон сторінки для корекції  */
 import { Link } from 'react-router-dom';
-import './WelcomePage.module.css';
+import '../../css/styles.css';
+import s from './WelcomePage.module.css';
 import logo from '../../icons/icon.svg';
 import user_ava from '../../icons/Image 1.png';
-const WelcomePage = () => (
-  <div className="welcomePage">
-    <img src={user_ava} alt="user_ava" className="user_ava" />
-    <div className="logoTitle">
-      <img src={logo} alt="logo" />
-      Task Pro
+const welcomePage = () => (
+  <div>
+    <div className={s.welcomePage}>
+      <img src={user_ava} alt="user_ava" className={s.user_ava} />
+      <div className={s.logoTitle}>
+        <img src={logo} alt="logo" className={s.logo} />
+        Task Pro
+      </div>
+      <p className={s.welcomeText}>
+        Supercharge your productivity and take control of your tasks with Task
+        Pro - Don`t wait, start achieving your goals now!
+      </p>
+      <Link to="/auth/register" className={s.linkButton}>
+        Register
+      </Link>
+      <Link to="/auth/login" className={s.linkButton}>
+        Log In
+      </Link>
     </div>
-    <p className="welcomeText">
-      Supercharge your productivity and take control of your tasks with Task Pro
-      - Don't wait, start achieving your goals now!
-    </p>
-    <Link to="/auth/register" className="linkRegister">
-      Register
-    </Link>
-    <Link to="/auth/login" className="linkLogin">
-      Log In
-    </Link>
   </div>
 );
 
-export default WelcomePage;
+export default welcomePage;
