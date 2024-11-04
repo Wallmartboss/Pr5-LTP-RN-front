@@ -1,16 +1,26 @@
 /*шаблон сторінки для корекції  */
-import { useParams } from 'react-router-dom'
-import LoginForm from '../../components/LoginForm/LoginForm.jsx'
-import RegisterForm from '../../components/RegisterForm/RegisterForm.jsx'
+import { useNavigate, useParams } from 'react-router-dom';
+import LoginForm from '../../components/LoginForm/LoginForm.jsx';
+import RegisterForm from '../../components/RegisterForm/RegisterForm.jsx';
+import s from './AuthPage.module.css';
 
 const AuthPage = () => {
-	const { id } = useParams()
+  const { id } = useParams();
+  const navigate = useNavigate();
 
-	return (
-		<div className='auth-page'>
-			{id === 'login' ? <LoginForm /> : <RegisterForm />}
-		</div>
-	)
-}
+  const handleSuccess = () => {
+    navigate('/home');
+  };
 
-export default AuthPage
+  return (
+    <div className={s.authPage}>
+      {id === 'login' ? (
+        <LoginForm onSuccess={handleSuccess} />
+      ) : (
+        <RegisterForm onSuccess={handleSuccess} />
+      )}
+    </div>
+  );
+};
+
+export default AuthPage;

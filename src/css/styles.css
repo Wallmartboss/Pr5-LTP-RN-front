@@ -3,70 +3,98 @@
 @import url('./fonts.css');
 
 :root {
-	--black: #161616;
-	--white_bg: #fdfdfd;
-	--white: #ffffff;
-	--background-color: var(--white_bg);
-	--text-color: black;
+  --black: #161616;
+  --white_bg: #fdfdfd;
+  --white: #ffffff;
+  --low-priority-color: #8fa1d0;
+  --medium-priority-color: #e09cb5;
+  --high-priority-color: #bedbb0;
+  --no-priopity-color: rgba(22, 22, 22, 0.4);
+  --auth-form-bg-color: #151515;
 }
 
 body {
-	margin: 0;
-	background-color: var(--background-color);
-	color: var(--text-color);
-	transition: background-color 0.3s, color 0.3s;
-	min-width: 320px;
+  margin: 0;
+  --text-color: black;
+  --main-color: #bedbb0;
+  --accent-color: #9dc888;
+  --icon-color: rgba(22, 22, 22, 0.5);
+  --active-icon-color: rgba(22, 22, 22, 1);
+  color: var(--text-color);
+  transition: background-color 0.3s, color 0.3s;
+  min-width: 320px;
+
+  --input-stroke-color: rgba(190, 219, 176, 0.4);
+  --input-bg-color: #1f1f1f;
+  --icon-inprogress-color: var(--main-color);
+  --icon-done-color: var(--black);
+
+  background-color: var(--white);
 }
 
 body.dark-mode {
-	--background-color: #232323;
-	--text-color: white;
+  background-color: #121212;
+  --text-color-dark: white;
+  --main-color-dark: #bedbb0;
+  --accent-color-dark: #9dc888;
+  --icon-color-dark: rgba(255, 255, 255, 0.5);
+  --active-icon-color-dark: rgba(255, 255, 255, 1);
+  --input-stroke-color-dark: rgba(190, 219, 176, 0.4);
+  --icon-inprogress-color-dark: var(--main-color);
+  --icon-done-color-dark: rgba(255, 255, 255, 0.5);
 }
 body.violet-mode {
-	--background-color: #d6d8ff;
-	--text-color: black;
+  background-color: #d6d8ff;
+  --text-color-violet: black;
+  --main-color-violet: #5255bc;
+  --accent-color-violet: #7b7ede;
+  --icon-color-violet: rgba(22, 22, 22, 0.5);
+  --active-icon-color-violet: rgba(22, 22, 22, 1);
+  --input-stroke-color-violet: rgba(82, 85, 188, 0.4);
+  --icon-inprogress-color-violet: var(--main-color-violet);
+  --icon-done-color-violet: var(--black);
 }
 
 .visually-hidden {
-	position: absolute;
-	width: 1px;
-	height: 1px;
-	margin: -1px;
-	border: 0;
-	padding: 0;
-	white-space: nowrap;
-	clip-path: inset(100%);
-	clip: rect(0 0 0 0);
-	overflow: hidden;
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  border: 0;
+  padding: 0;
+  white-space: nowrap;
+  clip-path: inset(100%);
+  clip: rect(0 0 0 0);
+  overflow: hidden;
 }
 
 html {
-	scroll-behavior: smooth;
+  scroll-behavior: smooth;
 }
 
 /* Ддя екрану від 320 px, і щоб від тягнувся від 320 до 375 */
 .container {
-	width: 100%;
+  width: 100%;
 }
 
 /* Для мобільного екрану від 375 px  */
 @media screen and (min-width: 375px) {
-	.container {
-		width: 375px; /*100%;*/
-		margin: 0 auto;
-	}
+  .container {
+    width: 375px; /*100%;*/
+    margin: 0 auto;
+  }
 }
 
 /* Для планшетного екрану від 768 px  */
 @media screen and (min-width: 768px) {
-	.container {
-		width: 768px; /* 100%;*/
-	}
+  .container {
+    width: 768px; /* 100%;*/
+  }
 }
 
 /* Для десктопного екрану від 1440 px  */
 @media screen and (min-width: 1440px) {
-	.container {
-		width: 1440px;
-	}
+  .container {
+    width: 1440px;
+  }
 }
