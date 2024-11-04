@@ -1,4 +1,4 @@
-import css from './NeedHelp.module.css';
+import css from './needHelp.module.css';
 import sprite from '../../../icons/icons.svg';
 import Modal from "../NeedHelpModal/Modal/Modal.jsx";
 import NeedHelpModal from '../NeedHelpModal/NeedHelpModal';
