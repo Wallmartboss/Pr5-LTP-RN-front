@@ -48,7 +48,7 @@ const RegisterForm = ({ onSuccess }) => {
     } finally {
       setIsLoading(false);
     }
-    console.log(data);
+    // console.log(data);
   };
 
   return (
@@ -62,17 +62,29 @@ const RegisterForm = ({ onSuccess }) => {
             Log In
           </Link>
         </div>
-        <input {...register('name')} placeholder="Enter your name" />
-        {errors.name && <p>{errors.name.message}</p>}
 
-        <input {...register('email')} placeholder="Enter your email" />
-        {errors.email && <p>{errors.email.message}</p>}
+        <input
+          {...register('name')}
+          placeholder="Enter your name"
+          className={errors.name ? s.errorInput : ''}
+        />
+        {errors.name && <p className={s.errorMessage}>{errors.name.message}</p>}
+
+        <input
+          {...register('email')}
+          placeholder="Enter your email"
+          className={errors.email ? s.errorInput : ''}
+        />
+        {errors.email && (
+          <p className={s.errorMessage}>{errors.email.message}</p>
+        )}
 
         <div className={s.passwordInput}>
           <input
             {...register('password')}
             type={showPassword ? 'text' : 'password'}
             placeholder="Create a password"
+            className={errors.password ? s.errorInput : ''}
           />
           <span
             className={s.passwordToggleIcon}
@@ -83,7 +95,9 @@ const RegisterForm = ({ onSuccess }) => {
             </svg>
           </span>
         </div>
-        {errors.password && <p>{errors.password.message}</p>}
+        {errors.password && (
+          <p className={s.errorMessage}>{errors.password.message}</p>
+        )}
         <button className={s.registerButton} type="submit" disabled={isLoading}>
           {isLoading ? 'Registering...' : 'Register Now'}
         </button>
