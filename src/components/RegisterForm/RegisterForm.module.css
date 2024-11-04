@@ -1,7 +1,8 @@
-.loginForm {
+.registerForm {
   display: flex;
   flex-direction: column;
   gap: 20px;
+  min-width: 335px;
   background-color: var(--auth-form-bg-color);
   padding: 24px;
   border-radius: 8px;
@@ -47,7 +48,7 @@ input:focus {
   border: solid 1px var(--main-color);
 }
 
-.loginButton {
+.registerButton {
   background-color: var(--high-priority-color);
   border: none;
   border-radius: 8px;
@@ -59,7 +60,7 @@ input:focus {
   transition: background-color 0.3s, color 0.3s;
 }
 
-.loginButton:hover {
+.registerButton:hover {
   background-color: var(--accent-color);
 }
 
@@ -95,9 +96,21 @@ input:focus {
   stroke: rgba(255, 255, 255, 0.4);
 }
 
+.errorInput {
+  border: solid 1px red;
+}
+
+.errorInput:focus {
+  border: solid 1px red;
+}
+
+.errorMessage {
+  color: red;
+}
+
 @media screen and (min-width: 768px) {
-  .loginForm {
+  .registerForm {
     padding: 40px;
-    max-width: 424px;
+    min-width: 424px;
   }
 }
