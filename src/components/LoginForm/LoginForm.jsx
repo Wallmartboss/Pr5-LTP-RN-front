@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
-import './LoginForm.css';
+import s from './LoginForm.module.css';
 import toast from 'react-hot-toast';
 import { login } from '../../redux/auth/operations.js';
 import { Link } from 'react-router-dom';
@@ -43,37 +43,44 @@ const LoginForm = ({ onSuccess }) => {
   };
 
   return (
-    <div className="container">
-      <form className="loginForm" onSubmit={handleSubmit(onSubmit)}>
-        <div className="formTitle">
-          <Link to="/auth/register" className="register">
+    <div className={s.container}>
+      <form className={s.loginForm} onSubmit={handleSubmit(onSubmit)}>
+        <div className={s.formTitle}>
+          <Link to="/auth/register" className={s.register}>
             Registration
           </Link>
-          <Link to="/auth/login" className="login active">
+          <Link to="/auth/login" className={`${s.login} ${s.active}`}>
             Log In
           </Link>
         </div>
-        <input {...register('email')} placeholder="Email" />
-        {errors.email && <p>{errors.email.message}</p>}
-
-        <div className="passwordInput">
+        <input
+          {...register('email')}
+          placeholder="Email"
+          className={errors.email ? s.errorInput : ''}
+        />
+        {errors.email && (
+          <p className={s.errorMessage}>{errors.email.message}</p>
+        )}
+        <div className={s.passwordInput}>
           <input
             {...register('password')}
             type={showPassword ? 'text' : 'password'}
             placeholder="Create a password"
+            className={errors.password ? s.errorInput : ''}
           />
           <span
-            className="passwordToggleIcon"
+            className={s.passwordToggleIcon}
             onClick={() => setShowPassword(!showPassword)}
           >
-            <svg className="icon">
+            <svg className={s.icon}>
               <use href={`${sprite}#eye-icon`} />
             </svg>
           </span>
         </div>
-        {errors.password && <p>{errors.password.message}</p>}
-
-        <button className="loginButton" type="submit" disabled={isLoading}>
+        {errors.password && (
+          <p className={s.errorMessage}>{errors.password.message}</p>
+        )}
+        <button className={s.loginButton} type="submit" disabled={isLoading}>
           {isLoading ? 'Logging in...' : 'Log In Now'}
         </button>
       </form>

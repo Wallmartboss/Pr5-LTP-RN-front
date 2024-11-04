@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
-import './RegisterForm.css';
+import s from './RegisterForm.module.css';
 import { Link } from 'react-router-dom';
 import toast from 'react-hot-toast';
 import { register as registerUser } from '../../redux/auth/operations.js';
@@ -53,13 +53,13 @@ const RegisterForm = ({ onSuccess }) => {
   };
 
   return (
-    <div className="container">
-      <form className="registerForm" onSubmit={handleSubmit(onSubmit)}>
-        <div className="formTitle">
-          <Link to="/auth/register" className="register active">
+    <div className={s.container}>
+      <form className={s.registerForm} onSubmit={handleSubmit(onSubmit)}>
+        <div className={s.formTitle}>
+          <Link to="/auth/register" className={`${s.register} ${s.active}`}>
             Registration
           </Link>
-          <Link to="/auth/login" className="login">
+          <Link to="/auth/login" className={s.login}>
             Log In
           </Link>
         </div>
@@ -69,23 +69,23 @@ const RegisterForm = ({ onSuccess }) => {
         <input {...register('email')} placeholder="Enter your email" />
         {errors.email && <p>{errors.email.message}</p>}
 
-        <div className="passwordInput">
+        <div className={s.passwordInput}>
           <input
             {...register('password')}
             type={showPassword ? 'text' : 'password'}
             placeholder="Create a password"
           />
           <span
-            className="passwordToggleIcon"
+            className={s.passwordToggleIcon}
             onClick={() => setShowPassword(!showPassword)}
           >
-            <svg className="icon">
+            <svg className={s.icon}>
               <use href={`${sprite}#eye-icon`} />
             </svg>
           </span>
         </div>
         {errors.password && <p>{errors.password.message}</p>}
-        <button className="registerButton" type="submit" disabled={isLoading}>
+        <button className={s.registerButton} type="submit" disabled={isLoading}>
           {isLoading ? 'Registering...' : 'Register Now'}
         </button>
       </form>

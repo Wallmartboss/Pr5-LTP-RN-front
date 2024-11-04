@@ -2,7 +2,7 @@
 import { useNavigate, useParams } from 'react-router-dom';
 import LoginForm from '../../components/LoginForm/LoginForm.jsx';
 import RegisterForm from '../../components/RegisterForm/RegisterForm.jsx';
-import './AuthPage.css';
+import s from './AuthPage.module.css';
 
 const AuthPage = () => {
   const { id } = useParams();
@@ -13,7 +13,7 @@ const AuthPage = () => {
   };
 
   return (
-    <div className="auth-page">
+    <div className={s.authPage}>
       {id === 'login' ? (
         <LoginForm onSuccess={handleSuccess} />
       ) : (
