@@ -1,4 +1,3 @@
-/*шаблон сторінки для корекції  */
 import { Link } from 'react-router-dom';
 import '../../css/styles.css';
 import s from './WelcomePage.module.css';
