@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 
-axios.defaults.baseURL = 'https://connections-api.goit.global';
+axios.defaults.baseURL = ' https://pr5-ltp-rn-back.onrender.com';
 
 // Utility to add JWT
 const setAuthHeader = token => {
@@ -62,6 +62,7 @@ export const logout = createAsyncThunk('auth/logout', async (_, thunkAPI) => {
     return thunkAPI.rejectWithValue(error.message);
   }
 });
+
 
 /*
  * GET @ /users/current

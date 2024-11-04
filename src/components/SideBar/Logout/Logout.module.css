@@ -1,0 +1,43 @@
+.block {
+  display: flex;
+  margin-left: 24px;
+}
+
+.logoutBtn {
+  margin-top: 24px;
+  gap: 14px;
+  display: flex;
+  align-items: center;
+  background-color: transparent;
+  border: none;
+  padding: 0;
+}
+.logoutIcon {
+  stroke: var(--icon-inprogress-color);
+  fill: transparent;
+  transition: stroke 0.25s ease;
+}
+
+.logoutText {
+  font-family: 'Poppins';
+  color: var(--text-color);
+  font-weight: 500;
+  font-size: 14px;
+}
+
+.logoutBtn {
+  transition: transform 0.25s ease;
+}
+
+.logoutBtn:hover,
+.logoutBtn:focus {
+  transform: translateX(5px);
+}
+
+/* .theme_light .logoutText {
+  color: var(--logout-text-color-light);
+}
+
+.theme_dark .logoutText {
+  color: var(--logout-text-color-dark);
+} */
