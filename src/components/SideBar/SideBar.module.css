@@ -63,7 +63,7 @@
   .sidebarContainer {
     position: static;
     width: 260px;
-    left: 1;
+    left: 0;
   }
 
   .sidebar {
