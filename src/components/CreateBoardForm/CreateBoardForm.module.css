@@ -1,0 +1,34 @@
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.input {
+  width: 100%;
+  padding: 8px;
+  font-size: 16px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.section {
+  margin-top: 10px;
+}
+
+.icons,
+.backgrounds {
+  display: flex;
+  gap: 10px;
+}
+
+.createButton {
+  width: 100%;
+  padding: 10px;
+  font-size: 16px;
+  color: #fff;
+  background-color: #bedbb0;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
