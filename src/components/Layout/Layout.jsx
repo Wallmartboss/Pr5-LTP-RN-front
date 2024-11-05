@@ -1,4 +1,4 @@
-import Sidebar from '../SideBar/Sidebar.jsx';
+import Sidebar from '../SideBar/SideBar.jsx';
 import Header from '../Header/Header.jsx';
 import ScreensPage from '../ScreensPage/ScreensPage.jsx';
 import s from './Layout.module.css';
