@@ -1,24 +1,28 @@
-import React, { useState } from 'react';
+import React from 'react';
 import s from './ScreensPage.module.css';
 import FiltersDropDown from '../../components/FiltersDropDown/FiltersDropDown';
 import AddColumnModal from '../../components/AddColumnModal/AddColumnModal';
 import BoardColumn from '../../components/BoardColumn/BoardColumn';
 import sprite from '../../icons/icons.svg';
+import { useDispatch, useSelector } from 'react-redux';
+import { selectColumns, selectIsModalOpen } from '../../redux/boards/selectors';
+import { addColumn, closeModal, openModal } from '../../redux/boards/slice';
 
 const ScreensPage = () => {
-  const [columns, setColumns] = useState([]);
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const columns = useSelector(selectColumns);
+  const isModalOpen = useSelector(selectIsModalOpen);
+  const dispatch = useDispatch();
 
   const handleOpenModal = () => {
-    setIsModalOpen(true);
+    dispatch(openModal());
   };
 
   const handleCloseModal = () => {
-    setIsModalOpen(false);
+    dispatch(closeModal());
   };
 
   const handleAddColumn = columnTitle => {
-    setColumns([...columns, { title: columnTitle }]);
+    dispatch(addColumn(columnTitle));
     handleCloseModal();
   };
 

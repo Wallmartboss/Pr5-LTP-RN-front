@@ -1,38 +1,39 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import s from './FiltersDropDown.module.css';
 import sprite from '../../icons/icons.svg';
+import { useDispatch, useSelector } from 'react-redux';
+import {
+  selectIsFiltersOpen,
+  selectSelectedFilter,
+} from '../../redux/boards/selectors';
+import {
+  selectAllFilters,
+  toggleFilter,
+  toggleFiltersOpen,
+} from '../../redux/boards/slice';
 
 const FiltersDropDown = () => {
-  const [selectedFilter, setSelectedFilter] = useState({
-    none: false,
-    low: false,
-    medium: false,
-    high: false,
-  });
-
-  const [isOpen, setIsOpen] = useState(false);
+  const selectedFilter = useSelector(selectSelectedFilter);
+  const isOpen = useSelector(selectIsFiltersOpen);
+  const dispatch = useDispatch();
 
   const handleFilterChange = event => {
     const { value, checked } = event.target;
-    setSelectedFilter(prev => ({
-      ...prev,
-      [value]: checked,
-    }));
+    dispatch(toggleFilter({ value, checked }));
   };
 
-  const selectAllFilters = () => {
-    setSelectedFilter({
-      none: true,
-      low: true,
-      medium: true,
-      high: true,
-    });
+  const handleSelectAllFilters = () => {
+    dispatch(selectAllFilters());
+  };
+
+  const handleToggleOpen = () => {
+    dispatch(toggleFiltersOpen());
   };
 
   useEffect(() => {
     const handleKeyDown = event => {
       if (event.key === 'Escape') {
-        setIsOpen(false);
+        dispatch(toggleFiltersOpen());
       }
     };
 
@@ -40,11 +41,11 @@ const FiltersDropDown = () => {
     return () => {
       document.removeEventListener('keydown', handleKeyDown);
     };
-  }, []);
+  }, [dispatch]);
 
   return (
     <div className={s.dropDown}>
-      <button className={s.filtersBtn} onClick={() => setIsOpen(!isOpen)}>
+      <button className={s.filtersBtn} onClick={handleToggleOpen}>
         <svg className={s.filtersIcon} width="16" height="16">
           <use href={`${sprite}#filter-icon`} />
         </svg>
@@ -54,10 +55,7 @@ const FiltersDropDown = () => {
         <div className={s.dropList}>
           <div className={s.filtersHeader}>
             <span className={s.modalName}>Filters</span>
-            <button
-              className={s.closeModalBtn}
-              onClick={() => setIsOpen(false)}
-            >
+            <button className={s.closeModalBtn} onClick={handleToggleOpen}>
               <svg className={s.xCloseBtn} width="18" height="18">
                 <use href={`${sprite}#x-close-icon`} />
               </svg>
@@ -65,7 +63,7 @@ const FiltersDropDown = () => {
           </div>
           <div className={s.filtersTop}>
             <span className={s.filtersName}>Label color</span>
-            <span onClick={selectAllFilters} className={s.showAllFilters}>
+            <span onClick={handleSelectAllFilters} className={s.showAllFilters}>
               Show all
             </span>
           </div>
