@@ -2,14 +2,12 @@ import s from './NeedHelpModal.module.css';
 import Notiflix from 'notiflix';
 import { useState } from 'react';
 
-
 const INITIAL_STATE = {
   email: '',
-  description: '',
+  message: '',
 };
 
 const NeedHelpModal = ({ onClose, onSubmit }) => {
-
   const [modalState, setModalState] = useState({ ...INITIAL_STATE });
 
   const handleChange = ({ target }) => {
@@ -18,13 +16,13 @@ const NeedHelpModal = ({ onClose, onSubmit }) => {
   };
 
   const validateInput = () => {
-    return (modalState.description.trim() !== '')
+    return modalState.message.trim() !== '';
   };
 
-   const handleSubmit = e => {
+  const handleSubmit = e => {
     e.preventDefault();
     if (!validateInput()) {
-      Notiflix.Notify.failure('Description cannot be empty')
+      Notiflix.Notify.failure('Message cannot be empty');
       return;
     }
 
@@ -33,7 +31,7 @@ const NeedHelpModal = ({ onClose, onSubmit }) => {
     setModalState({ ...INITIAL_STATE });
   };
 
-  const { email, description } = modalState;
+  const { email, message } = modalState;
   return (
     <form className={s.form} onSubmit={handleSubmit}>
       <input
@@ -48,8 +46,8 @@ const NeedHelpModal = ({ onClose, onSubmit }) => {
 
       <textarea
         className={`${s.textarea} `}
-        value={description}
-        name="description"
+        value={message}
+        name="message"
         rows="7"
         required
         placeholder="Comment"
@@ -59,7 +57,6 @@ const NeedHelpModal = ({ onClose, onSubmit }) => {
       <button className={`${s.btn} `} type="submit">
         Send
       </button>
-    
     </form>
   );
 };

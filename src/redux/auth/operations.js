@@ -4,7 +4,7 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 axios.defaults.baseURL = 'https://pr5-ltp-rn-back.onrender.com';
 
 // Utility to add JWT
-const setAuthHeader = token => {
+export const setAuthHeader = token => {
   axios.defaults.headers.common.Authorization = `Bearer ${token}`;
 };
 
@@ -21,12 +21,16 @@ export const register = createAsyncThunk(
   'auth/register',
   async (credentials, thunkAPI) => {
     try {
+      console.log('Sending registration data:', credentials);
       const res = await axios.post('/auth/register', credentials);
-      // After successful registration, add the token to the HTTP header
+      console.log('Registration response:', res.data);
       setAuthHeader(res.data.token);
       return res.data;
     } catch (error) {
-      return thunkAPI.rejectWithValue(error.res.data || 'Registration failed');
+      console.error('Registration error:', error);
+      const errorMessage =
+        error.response?.data?.message || 'Registration failed';
+      return thunkAPI.rejectWithValue(errorMessage);
     }
   }
 );
@@ -35,20 +39,42 @@ export const register = createAsyncThunk(
  * POST @ /users/login
  * body: { email, password }
  */
+// export const login = createAsyncThunk(
+//   'auth/login',
+//   async (credentials, thunkAPI) => {
+//     try {
+//       const res = await axios.post('/auth/login', credentials);
+
+//       setAuthHeader(res.data.accessToken);
+//       localStorage.setItem('token', res.data.accessToken);
+//       return res.data;
+//     } catch (error) {
+//       return thunkAPI.rejectWithValue(error.message);
+//     }
+//   }
+// );
 export const login = createAsyncThunk(
   'auth/login',
   async (credentials, thunkAPI) => {
     try {
       const res = await axios.post('/auth/login', credentials);
-      // After successful login, add the token to the HTTP header
-      setAuthHeader(res.data.token);
+
+      // Извлечение токена из правильного поля
+      const token = res.data.data.accessToken;
+      if (!token) {
+        console.error('Токен не найден в ответе:', res.data);
+        return thunkAPI.rejectWithValue('Token is missing in the response');
+      }
+
+      setAuthHeader(token); // Установить токен в заголовок
+      localStorage.setItem('token', token); // Сохранить токен в localStorage
       return res.data;
     } catch (error) {
+      console.error('Ошибка авторизации:', error.message);
       return thunkAPI.rejectWithValue(error.message);
     }
   }
 );
-
 /*
  * POST @ /users/logout
  * headers: Authorization: Bearer token

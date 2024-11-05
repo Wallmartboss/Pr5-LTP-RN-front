@@ -1,4 +1,4 @@
-import Layout from '../../components/Layout/Layout.jsx';
+import Layout from '../../components/Layout/Layout';
 import s from './HomePage.module.css';
 
 const HomePage = () => (
