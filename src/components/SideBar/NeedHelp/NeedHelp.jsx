@@ -6,6 +6,7 @@ import { useState } from 'react';
 import image from '../../../icons/Cactus.png';
 import { useDispatch, useSelector } from 'react-redux';
 import { sendHelpRequest } from '../../../redux/help/operations.js';
+import toast from 'react-hot-toast';
 
 const NeedHelp = () => {
   const [modalActive, setModalActive] = useState(false);
@@ -18,7 +19,13 @@ const NeedHelp = () => {
 
   const forSubmitNeedHelp = async ({ email, message }) => {
     const data = { email, message };
-    dispatch(sendHelpRequest(data));
+    const action = await dispatch(sendHelpRequest(data));
+
+    if (sendHelpRequest.fulfilled.match(action)) {
+      toast.success('Your message has been sent successfully!');
+    } else {
+      toast.error('Failed to send the message. Please try again.');
+    }
   };
 
   return (
