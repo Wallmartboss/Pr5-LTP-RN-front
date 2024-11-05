@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import LogoComponent from '../LogoComponent/LogoComponent';
 import Modal from '../Modal/Modal';
 import CreateBoardForm from '../CreateBoardForm/CreateBoardForm';
-import styles from './Sidebar.module.css';
+import s from './Sidebar.module.css';
+import sprite from '../../icons/icons.svg';
 
 const Sidebar = () => {
   const [isModalOpen, setModalOpen] = useState(false);
@@ -23,28 +24,42 @@ const Sidebar = () => {
   };
 
   return (
-    <div className={styles.sidebar}>
+    <div className={s.sidebar}>
       <LogoComponent />
 
-      <h2 className={styles.title}>My boards</h2>
-      <hr className={styles.separator} />
+      <h2 className={s.title}>My boards</h2>
+      <hr className={s.separator} />
 
       {/* Кнопка для створення нової дошки */}
-      <div className={styles.createBoard} onClick={handleCreateBoardClick}>
-        <span>Create a new board</span>
-        <button className={styles.createButton}>+</button>
+      <div className={s.createBoardContainer}>
+        <div className={s.createBoard} onClick={handleCreateBoardClick}>
+          <span>Create a new board</span>
+        </div>
+        <button className={s.createButton}>
+          <svg className={s.plusIcon} width="20" height="20">
+            <use href={`${sprite}#plus-icon`} />
+          </svg>
+        </button>
       </div>
 
-      <hr className={styles.separator} />
+      <hr className={s.separator} />
 
       {/* Список дошок */}
-      <div className={styles.boardList}>
+      <div className={s.boardList}>
         {boards.map(board => (
-          <div key={board.id} className={styles.boardItem}>
+          <div key={board.id} className={s.boardItem}>
             <span>{board.name}</span>
-            <div className={styles.actions}>
-              <button className={styles.editButton}>✏️</button>
-              <button className={styles.deleteButton}>🗑️</button>
+            <div className={s.actions}>
+              <button className={s.editButton}>
+                <svg className={s.plusIcon} width="16" height="16">
+                  <use href={`${sprite}#pencil-icon`} />
+                </svg>
+              </button>
+              <button className={s.deleteButton}>
+                <svg className={s.plusIcon} width="16" height="16">
+                  <use href={`${sprite}#trash-icon`} />
+                </svg>
+              </button>
             </div>
           </div>
         ))}
