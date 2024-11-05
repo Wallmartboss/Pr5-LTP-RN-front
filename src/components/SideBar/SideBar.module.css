@@ -1,5 +1,78 @@
+.sidebarContainer {
+  width: 225px;
+  height: 100vh;
+  transition: all 450ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Базовий стиль для закритої панелі */
 .sidebar {
-  width: 280px;
-  /* height: 100vh; */
-  background-color: beige;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 225px;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transform: translateX(-100%); /* Ховає панель за межами екрану */
+  transition: transform 500ms ease;
+}
+
+/* Клас для відкритої панелі */
+.openSidebar {
+  z-index: 1;
+  position: absolute;
+  transition: transform 500ms ease;
+  transform: translateX(0); /* Показує панель на екрані */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 225px;
+  height: 100vh;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  background-color: rgba(21, 21, 21, 0.3);
+}
+
+.needHelpLogout {
+  padding-bottom: 24px;
+}
+
+/* Адаптація для планшетів і мобільних (до 1439px) */
+@media screen and (max-width: 1439px) {
+  .sidebarContainer {
+    width: 100%; /* На мобільних і планшетах ширина на весь екран */
+    left: -100%;
+  }
+
+  .sidebar {
+    width: 100%; /* Займає всю ширину */
+    transform: translateX(-100%); /* Схована за межами екрану */
+    position: absolute;
+  }
+
+  .openSidebar {
+    width: 100%; /* З’являється на весь екран */
+    transform: translateX(0); /* Показує панель на екрані */
+  }
+}
+
+/* Стиль для великих екранів (1440px і більше) */
+@media screen and (min-width: 1440px) {
+  .sidebarContainer {
+    position: static;
+    width: 260px;
+    left: 0;
+  }
+
+  .sidebar {
+    width: 260px;
+    transform: none; /* Завжди видима */
+    position: relative;
+  }
+
+  .openSidebar {
+    width: 260px;
+  }
 }
