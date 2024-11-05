@@ -1,4 +1,3 @@
-/*шаблон сторінки для корекції  */
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -7,6 +6,7 @@ import s from './RegisterForm.module.css';
 import { Link } from 'react-router-dom';
 import toast from 'react-hot-toast';
 import { register as registerUser } from '../../redux/auth/operations.js';
+import { useDispatch, useSelector } from 'react-redux';
 import sprite from '../../icons/icons.svg';
 
 const registerSchema = yup.object().shape({
@@ -27,6 +27,8 @@ const registerSchema = yup.object().shape({
 });
 
 const RegisterForm = ({ onSuccess }) => {
+  const dispatch = useDispatch();
+  const { isLoading, error } = useSelector(state => state.auth);
   const {
     register,
     handleSubmit,
@@ -35,21 +37,29 @@ const RegisterForm = ({ onSuccess }) => {
     resolver: yupResolver(registerSchema),
   });
 
-  const [isLoading, setIsLoading] = useState(false);
+  // const [isLoading, setIsLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
 
   const onSubmit = async data => {
-    setIsLoading(true);
-    try {
-      await registerUser(data);
+    // setIsLoading(true);
+    // try {
+    //   await registerUser(data);
+    //   toast.success('Registration successful! Logging in...');
+    //   onSuccess();
+    // } catch (error) {
+    //   toast.error('Registration failed. Please try again.');
+    // } finally {
+    //   setIsLoading(false);
+    // }
+    // console.log(data);
+    const result = await dispatch(registerUser(data));
+
+    if (registerUser.fulfilled.match(result)) {
       toast.success('Registration successful! Logging in...');
       onSuccess();
-    } catch (error) {
-      toast.error('Registration failed. Please try again.');
-    } finally {
-      setIsLoading(false);
+    } else {
+      toast.error(result.payload || 'Registration failed. Please try again.');
     }
-    console.log(data);
   };
 
   return (
@@ -63,17 +73,29 @@ const RegisterForm = ({ onSuccess }) => {
             Log In
           </Link>
         </div>
-        <input {...register('name')} placeholder="Enter your name" />
-        {errors.name && <p>{errors.name.message}</p>}
 
-        <input {...register('email')} placeholder="Enter your email" />
-        {errors.email && <p>{errors.email.message}</p>}
+        <input
+          {...register('name')}
+          placeholder="Enter your name"
+          className={errors.name ? s.errorInput : ''}
+        />
+        {errors.name && <p className={s.errorMessage}>{errors.name.message}</p>}
+
+        <input
+          {...register('email')}
+          placeholder="Enter your email"
+          className={errors.email ? s.errorInput : ''}
+        />
+        {errors.email && (
+          <p className={s.errorMessage}>{errors.email.message}</p>
+        )}
 
         <div className={s.passwordInput}>
           <input
             {...register('password')}
             type={showPassword ? 'text' : 'password'}
             placeholder="Create a password"
+            className={errors.password ? s.errorInput : ''}
           />
           <span
             className={s.passwordToggleIcon}
@@ -84,10 +106,13 @@ const RegisterForm = ({ onSuccess }) => {
             </svg>
           </span>
         </div>
-        {errors.password && <p>{errors.password.message}</p>}
+        {errors.password && (
+          <p className={s.errorMessage}>{errors.password.message}</p>
+        )}
         <button className={s.registerButton} type="submit" disabled={isLoading}>
           {isLoading ? 'Registering...' : 'Register Now'}
         </button>
+        {error && <p className={s.errorMessage}>{error}</p>}
       </form>
     </div>
   );

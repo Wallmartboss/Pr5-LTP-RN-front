@@ -48,3 +48,4 @@ const SideBar = ({ setIsMenuOpen, isMenuOpen }) => {
 };
 
 export default SideBar;
+
