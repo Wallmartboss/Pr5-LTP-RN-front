@@ -4,6 +4,7 @@ import sprite from '../../icons/icons.svg';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   selectIsFiltersOpen,
+  selectIsModalOpen,
   selectSelectedFilter,
 } from '../../redux/boards/selectors';
 import {
@@ -15,6 +16,7 @@ import {
 const FiltersDropDown = () => {
   const selectedFilter = useSelector(selectSelectedFilter);
   const isOpen = useSelector(selectIsFiltersOpen);
+  const isModalOpen = useSelector(selectIsModalOpen);
   const dispatch = useDispatch();
 
   const handleFilterChange = event => {
@@ -32,7 +34,8 @@ const FiltersDropDown = () => {
 
   useEffect(() => {
     const handleKeyDown = event => {
-      if (event.key === 'Escape') {
+      if (event.key === 'Escape' && !isModalOpen) {
+        // додав перевірку на відкритість модального вікна бо закривання модалки через Esc автоматично відкривало фільтри
         dispatch(toggleFiltersOpen());
       }
     };
@@ -41,7 +44,7 @@ const FiltersDropDown = () => {
     return () => {
       document.removeEventListener('keydown', handleKeyDown);
     };
-  }, [dispatch]);
+  }, [dispatch, isModalOpen]);
 
   return (
     <div className={s.dropDown}>

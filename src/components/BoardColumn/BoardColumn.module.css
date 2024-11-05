@@ -71,6 +71,6 @@
 
 .pencilIcon,
 .trashIcon {
-  fill: inherit;
-  stroke: transparent;
+  fill: none;
+  stroke: currentColor;
 }
