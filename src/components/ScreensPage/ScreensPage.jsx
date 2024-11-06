@@ -7,7 +7,6 @@ import sprite from '../../icons/icons.svg';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectColumns, selectIsModalOpen } from '../../redux/boards/selectors';
 import { addColumn, closeModal, openModal } from '../../redux/boards/slice';
-
 const ScreensPage = () => {
   const columns = useSelector(selectColumns);
   const isModalOpen = useSelector(selectIsModalOpen);

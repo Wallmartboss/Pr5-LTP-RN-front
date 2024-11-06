@@ -2,11 +2,12 @@ import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
-import './LoginForm.css';
+import s from './LoginForm.module.css';
 import toast from 'react-hot-toast';
 import { login } from '../../redux/auth/operations.js';
 import { Link } from 'react-router-dom';
 import sprite from '../../icons/icons.svg';
+import { useDispatch, useSelector } from 'react-redux';
 
 const loginSchema = yup.object().shape({
   email: yup.string().email('Invalid email').required('Email is required'),
@@ -18,6 +19,9 @@ const loginSchema = yup.object().shape({
 });
 
 const LoginForm = ({ onSuccess }) => {
+  const dispatch = useDispatch();
+  const { isLoading, error } = useSelector(state => state.auth);
+
   const {
     register,
     handleSubmit,
@@ -26,54 +30,71 @@ const LoginForm = ({ onSuccess }) => {
     resolver: yupResolver(loginSchema),
   });
 
-  const [isLoading, setIsLoading] = useState(false);
+  // const [isLoading, setIsLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
 
   const onSubmit = async data => {
-    setIsLoading(true);
-    try {
-      await login(data);
+    // setIsLoading(true);
+    // try {
+    //   await login(data);
+    //   toast.success('Login successful!');
+    //   onSuccess();
+    // } catch (error) {
+    //   toast.error('Login failed. Please check your credentials.');
+    // } finally {
+    //   setIsLoading(false);
+    // }
+    const result = await dispatch(login(data));
+
+    if (login.fulfilled.match(result)) {
       toast.success('Login successful!');
       onSuccess();
-    } catch (error) {
-      toast.error('Login failed. Please check your credentials.');
-    } finally {
-      setIsLoading(false);
+    } else {
+      toast.error(
+        result.payload || 'Login failed. Please check your credentials.'
+      );
     }
   };
 
   return (
-    <div className="container">
-      <form className="loginForm" onSubmit={handleSubmit(onSubmit)}>
-        <div className="formTitle">
-          <Link to="/auth/register" className="register">
+    <div className={s.container}>
+      <form className={s.loginForm} onSubmit={handleSubmit(onSubmit)}>
+        <div className={s.formTitle}>
+          <Link to="/auth/register" className={s.register}>
             Registration
           </Link>
-          <Link to="/auth/login" className="login active">
+          <Link to="/auth/login" className={`${s.login} ${s.active}`}>
             Log In
           </Link>
         </div>
-        <input {...register('email')} placeholder="Email" />
-        {errors.email && <p>{errors.email.message}</p>}
-
-        <div className="passwordInput">
+        <input
+          {...register('email')}
+          placeholder="Email"
+          className={errors.email ? s.errorInput : ''}
+        />
+        {errors.email && (
+          <p className={s.errorMessage}>{errors.email.message}</p>
+        )}
+        <div className={s.passwordInput}>
           <input
             {...register('password')}
             type={showPassword ? 'text' : 'password'}
             placeholder="Create a password"
+            className={errors.password ? s.errorInput : ''}
           />
           <span
-            className="passwordToggleIcon"
+            className={s.passwordToggleIcon}
             onClick={() => setShowPassword(!showPassword)}
           >
-            <svg className="icon">
+            <svg className={s.icon}>
               <use href={`${sprite}#eye-icon`} />
             </svg>
           </span>
         </div>
-        {errors.password && <p>{errors.password.message}</p>}
-
-        <button className="loginButton" type="submit" disabled={isLoading}>
+        {errors.password && (
+          <p className={s.errorMessage}>{errors.password.message}</p>
+        )}
+        <button className={s.loginButton} type="submit" disabled={isLoading}>
           {isLoading ? 'Logging in...' : 'Log In Now'}
         </button>
       </form>

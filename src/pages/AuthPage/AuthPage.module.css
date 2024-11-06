@@ -1,10 +1,10 @@
-.auth-page {
+.authPage {
   display: flex;
   justify-content: center;
   align-items: center;
   margin-top: auto;
   margin-bottom: auto;
-  padding: 0 20px;
+  padding: 0;
   height: 100vh;
   background: linear-gradient(
     180deg,

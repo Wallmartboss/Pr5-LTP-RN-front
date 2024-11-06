@@ -95,9 +95,21 @@ input:focus {
   stroke: rgba(255, 255, 255, 0.4);
 }
 
+.errorInput {
+  border: solid 1px red;
+}
+
+.errorInput:focus {
+  border: solid 1px red;
+}
+
+.errorMessage {
+  color: red;
+}
+
 @media screen and (min-width: 768px) {
   .loginForm {
     padding: 40px;
-    max-width: 424px;
+    min-width: 424px;
   }
 }
