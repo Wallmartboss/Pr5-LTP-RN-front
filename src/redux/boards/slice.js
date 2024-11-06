@@ -10,6 +10,10 @@ const initialState = {
     medium: false,
     high: false,
   },
+  isEditModalOpen: false,
+  isDeleteModalOpen: false,
+  columnToEdit: null,
+  columnToDelete: null,
 };
 
 const boardsSlice = createSlice({
@@ -23,7 +27,7 @@ const boardsSlice = createSlice({
       state.isModalOpen = false;
     },
     addColumn(state, action) {
-      state.columns.push({ title: action.payload });
+      state.columns.push({ id: Date.now(), title: action.payload });
     },
     toggleFilter(state, action) {
       const { value, checked } = action.payload;
@@ -37,8 +41,36 @@ const boardsSlice = createSlice({
         high: true,
       };
     },
-    toggleFiltersOpen: state => {
+    toggleFiltersOpen(state, action) {
       state.isFiltersOpen = !state.isFiltersOpen;
+    },
+    openEditModal(state, action) {
+      state.isEditModalOpen = true;
+      state.columnToEdit = action.payload;
+    },
+    closeEditModal(state, action) {
+      state.isEditModalOpen = false;
+      state.columnToEdit = null;
+    },
+    editColumnTitle(state, action) {
+      const { id, newTitle } = action.payload;
+      const column = state.columns.find(column => column.id === id);
+      if (column) column.title = newTitle;
+    },
+    openDeleteModal(state, action) {
+      state.isDeleteModalOpen = true;
+      state.columnToDelete = action.payload;
+    },
+    closeDeleteModal(state, action) {
+      state.isDeleteModalOpen = false;
+      state.columnToDelete = null;
+    },
+    deleteColumn(state, action) {
+      state.columns = state.columns.filter(
+        column => column.id !== state.columnToDelete.id
+      );
+      state.isDeleteModalOpen = false;
+      state.columnToDelete = null;
     },
   },
 });
@@ -50,5 +82,11 @@ export const {
   toggleFilter,
   selectAllFilters,
   toggleFiltersOpen,
+  openEditModal,
+  closeEditModal,
+  editColumnTitle,
+  openDeleteModal,
+  closeDeleteModal,
+  deleteColumn,
 } = boardsSlice.actions;
 export const boardsReducer = boardsSlice.reducer;
