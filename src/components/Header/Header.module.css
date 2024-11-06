@@ -61,6 +61,10 @@
   }
 }
 
+.selected {
+  color: var(--main-color);
+}
+
 .theme_dropdown.active {
   transform: translateY(0);
   opacity: 1;

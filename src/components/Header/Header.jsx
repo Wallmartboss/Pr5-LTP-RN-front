@@ -2,12 +2,26 @@ import clsx from 'clsx';
 import s from './Header.module.css';
 import UserInfo from '../UserInfo/UserInfo.jsx';
 import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { updateTheme } from '../../redux/user/operations.js';
+import { selectUserTheme } from '../../redux/user/selectors.js';
 const Header = () => {
-  const [theme, setTheme] = useState('White');
+  const dispatch = useDispatch();
+  const currentTheme = useSelector(selectUserTheme);
+  const [theme, setTheme] = useState(currentTheme || 'light');
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
+  const chooseTheme = async newTheme => {
+    try {
+      await dispatch(updateTheme({ theme: newTheme }));
+      setTheme(newTheme);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   useEffect(() => {
-    document.body.classList.remove('White-mode', 'dark-mode', 'violet-mode');
+    document.body.classList.remove('light-mode', 'dark-mode', 'violet-mode');
     setIsDropdownOpen(false);
     document.body.classList.add(`${theme}-mode`);
   }, [theme]);
@@ -28,9 +42,24 @@ const Header = () => {
             <ul
               className={clsx(s.theme_dropdown, { [s.active]: isDropdownOpen })}
             >
-              <li onClick={() => setTheme('White')}>Light</li>
-              <li onClick={() => setTheme('dark')}>Dark</li>
-              <li onClick={() => setTheme('violet')}>Violet</li>
+              <li
+                className={clsx({ [s.selected]: theme === 'light' })}
+                onClick={() => chooseTheme('light')}
+              >
+                Light
+              </li>
+              <li
+                className={clsx({ [s.selected]: theme === 'dark' })}
+                onClick={() => chooseTheme('dark')}
+              >
+                Dark
+              </li>
+              <li
+                className={clsx({ [s.selected]: theme === 'violet' })}
+                onClick={() => chooseTheme('violet')}
+              >
+                Violet
+              </li>
             </ul>
           </div>
           <UserInfo />

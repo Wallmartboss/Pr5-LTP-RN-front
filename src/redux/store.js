@@ -12,6 +12,7 @@ import {
 import storage from 'redux-persist/lib/storage';
 import { contactsReducer } from './contacts/slice';
 import { filtersReducer } from './filters/slice';
+import { userReducer } from './user/slice';
 import { authReducer } from './auth/slice';
 
 // Persisting token field from auth slice to localstorage
@@ -21,11 +22,18 @@ const authPersistConfig = {
   whitelist: ['token'],
 };
 
+const userPersistConfig = {
+  key: 'user',
+  storage,
+  whitelist: ['name', 'email', 'theme'],
+};
+
 export const store = configureStore({
   reducer: {
     auth: persistReducer(authPersistConfig, authReducer),
     contacts: contactsReducer,
     filters: filtersReducer,
+    user: persistReducer(userPersistConfig, userReducer),
   },
   middleware: getDefaultMiddleware =>
     getDefaultMiddleware({
