@@ -1,19 +1,31 @@
 import React from 'react';
 import s from './BoardColumn.module.css';
 import sprite from '../../icons/icons.svg';
+import { useDispatch } from 'react-redux';
+import { openEditModal } from '../../redux/boards/slice';
 
-const BoardColumn = ({ title }) => {
+const BoardColumn = ({ column }) => {
+  const dispatch = useDispatch();
+
+  const handleEditClick = () => {
+    dispatch(openEditModal(column));
+  };
   return (
     <div className={s.column}>
       <div className={s.columnHeader}>
-        <h3 className={s.columnTitle}>{title}</h3>
+        <h3 className={s.columnTitle}>{column.title}</h3>
         <div className={s.icons}>
-          <svg className={s.pencilIcon} width="16" height="16">
-            <use href={`${sprite}#pencil-icon`} />
-          </svg>
-          <svg className={s.trashIcon} width="16" height="16">
-            <use href={`${sprite}#trash-icon`} />
-          </svg>
+          <button className={s.columnHeaderBtn} onClick={handleEditClick}>
+            <svg className={s.pencilIcon} width="16" height="16">
+              <use href={`${sprite}#pencil-icon`} />
+            </svg>
+          </button>
+
+          <button className={s.columnHeaderBtn}>
+            <svg className={s.trashIcon} width="16" height="16">
+              <use href={`${sprite}#trash-icon`} />
+            </svg>
+          </button>
         </div>
       </div>
       <div className={s.columnContent}>
