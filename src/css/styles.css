@@ -16,6 +16,7 @@
 body {
   /* margin: 0;
   --text-color: black;
+  --secondary-text-color: #161616;
   --main-color: #bedbb0;
   --accent-color: #9dc888;
   --icon-color: rgba(22, 22, 22, 0.5);
@@ -80,10 +81,10 @@ body.dark-mode {
   --cards-bg-color: #121212;
   --columnPlus-bg-color: #ffffff;
 
-  --scrollX-color: rgba(255, 255, 255, 0.10); 
-  --scrollX-bg-color: #161616; 
-  --scrollY-color: #121212; 
-  --scrollY-bg-color: #121212; 
+  --scrollX-color: rgba(255, 255, 255, 0.1);
+  --scrollX-bg-color: #161616;
+  --scrollY-color: #121212;
+  --scrollY-bg-color: #121212;
 
   --main-color: #bedbb0;
   --accent-color: #9dc888;
@@ -120,10 +121,10 @@ body.violet-mode {
   --cards-bg-color: #fff;
   --columnPlus-bg-color: #5255bc;
 
-  --scrollX-color: #B8BCFD; 
-  --scrollX-bg-color: #FFFFFF; 
-  --scrollY-color: #B8BCFD; 
-  --scrollY-bg-color: #FFFFFF; 
+  --scrollX-color: #b8bcfd;
+  --scrollX-bg-color: #ffffff;
+  --scrollY-color: #b8bcfd;
+  --scrollY-bg-color: #ffffff;
 
   --main-color: #5255bc;
   --accent-color: #7b7ede;
