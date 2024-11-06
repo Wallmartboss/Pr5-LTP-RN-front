@@ -8,15 +8,18 @@ import { useDispatch, useSelector } from 'react-redux';
 import {
   selectColumns,
   selectEditModalOpen,
+  selectIsDeleteModalOpen,
   selectIsModalOpen,
 } from '../../redux/boards/selectors';
 import { addColumn, closeModal, openModal } from '../../redux/boards/slice';
 import EditColumnModal from '../../components/EditColumnModal/EditColumnModal';
+import DeleteColumnModal from '../../components/DeleteColumnModal/DeleteColumnModal';
 
 const ScreensPage = () => {
   const columns = useSelector(selectColumns);
   const isModalOpen = useSelector(selectIsModalOpen);
   const isEdidModalOpen = useSelector(selectEditModalOpen);
+  const isDeleteModalOpen = useSelector(selectIsDeleteModalOpen);
   const dispatch = useDispatch();
 
   const handleOpenModal = () => {
@@ -58,6 +61,7 @@ const ScreensPage = () => {
         />
       )}
       {isEdidModalOpen && <EditColumnModal />}
+      {isDeleteModalOpen && <DeleteColumnModal />}
     </div>
   );
 };

@@ -81,7 +81,7 @@
   stroke: black;
 }
 
-.pencilIcon {
+.checkIcon {
   width: 28px;
   height: 28px;
   background-color: black;
@@ -89,5 +89,5 @@
   justify-content: center;
   align-items: center;
   border-radius: 6px;
-  stroke: white;
+  fill: white;
 }

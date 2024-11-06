@@ -63,10 +63,10 @@ const EditColumnModal = () => {
           onChange={handleInputChange}
         />
         <button className={s.editBtn} onClick={handleEditClick}>
-          <svg className={s.pencilIcon} width="12" height="12">
-            <use href={`${sprite}#pencil-icon`} />
+          <svg className={s.checkIcon} width="12" height="12">
+            <use href={`${sprite}#icon-check`} />
           </svg>
-          Confirm changes
+          Edit
         </button>
       </div>
     </div>

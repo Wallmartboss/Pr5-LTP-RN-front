@@ -2,13 +2,17 @@ import React from 'react';
 import s from './BoardColumn.module.css';
 import sprite from '../../icons/icons.svg';
 import { useDispatch } from 'react-redux';
-import { openEditModal } from '../../redux/boards/slice';
+import { openDeleteModal, openEditModal } from '../../redux/boards/slice';
 
 const BoardColumn = ({ column }) => {
   const dispatch = useDispatch();
 
   const handleEditClick = () => {
     dispatch(openEditModal(column));
+  };
+
+  const handleDeleteClick = () => {
+    dispatch(openDeleteModal(column));
   };
   return (
     <div className={s.column}>
@@ -21,7 +25,7 @@ const BoardColumn = ({ column }) => {
             </svg>
           </button>
 
-          <button className={s.columnHeaderBtn}>
+          <button className={s.columnHeaderBtn} onClick={handleDeleteClick}>
             <svg className={s.trashIcon} width="16" height="16">
               <use href={`${sprite}#trash-icon`} />
             </svg>
