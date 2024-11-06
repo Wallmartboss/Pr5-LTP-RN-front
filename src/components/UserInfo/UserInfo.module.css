@@ -7,9 +7,25 @@
   color: var(--text-color);
 }
 
-.photo {
+.avatar {
   width: 32px;
   height: 32px;
+  border-radius: 8px;
+}
+
+.avatar_icon {
+  fill: black;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.avatar_wrapper {
+  overflow: hidden;
+  width: 32px;
+  height: 32px;
+  position: relative;
+  background-color: yellow;
   border-radius: 8px;
 }
 
@@ -53,6 +69,11 @@
   cursor: pointer;
   top: 14px;
   right: 14px;
+  stroke: var(--text-color);
+  transition: 0.3s stroke cubic-bezier(0.075, 0.82, 0.165, 1);
+}
+.closeModal:hover {
+  stroke: var(--accent-color);
 }
 
 @media screen and (min-width: 768px) {

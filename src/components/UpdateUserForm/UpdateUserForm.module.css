@@ -26,6 +26,29 @@
     display: none;
   }
 }
+.avatar {
+  width: 100%;
+  height: 100%;
+  border-radius: 8px;
+}
+
+.avatar_icon {
+  fill: black;
+  position: absolute;
+  width: 68px;
+  height: 68px;
+  bottom: -1px;
+  left: 0;
+}
+
+.avatar_wrapper {
+  overflow: hidden;
+  width: 100%;
+  height: 100%;
+  position: relative;
+  background-color: yellow;
+  border-radius: 8px;
+}
 
 .custom_file_upload:hover {
   background-color: var(--accent-color);

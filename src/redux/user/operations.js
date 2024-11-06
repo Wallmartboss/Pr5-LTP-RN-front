@@ -9,7 +9,7 @@ export const updateUser = createAsyncThunk(
     try {
       const response = await axios.patch('/users/info/', userData, {
         headers: {
-          Authorization: `Bearer gyZfzVWGxxGDW5TOHoVFNYlpyIjUzUTtentA+Cid`,
+          Authorization: `Bearer wFKx/8ISwcnkOYb77PSfvSeLRc+TKEbDxdtA5H7e`,
         },
       });
       return response.data;
@@ -18,13 +18,14 @@ export const updateUser = createAsyncThunk(
     }
   }
 );
+
 export const updateTheme = createAsyncThunk(
   'user/updateTheme',
   async (userTheme, thunkAPI) => {
     try {
       const response = await axios.patch('/users/theme/', userTheme, {
         headers: {
-          Authorization: `Bearer gyZfzVWGxxGDW5TOHoVFNYlpyIjUzUTtentA+Cid`,
+          Authorization: `Bearer wFKx/8ISwcnkOYb77PSfvSeLRc+TKEbDxdtA5H7e`,
         },
       });
       return response.data;

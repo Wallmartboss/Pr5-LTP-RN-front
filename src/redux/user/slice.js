@@ -7,6 +7,7 @@ const initialState = {
   theme: null,
   loading: false,
   error: null,
+  avatar: '',
 };
 
 const handlePending = state => {
@@ -31,6 +32,7 @@ const userSlice = createSlice({
         state.name = action.payload.data.name;
         state.email = action.payload.data.email;
         state.theme = action.payload.data.theme;
+        state.avatar = action.payload.data.avatar;
       })
       .addCase(updateUser.rejected, handleRejected)
       .addCase(updateTheme.pending, handlePending)

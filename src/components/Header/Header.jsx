@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { updateTheme } from '../../redux/user/operations.js';
 import { selectUserTheme } from '../../redux/user/selectors.js';
+import sprite from '../../icons/icons.svg';
 const Header = () => {
   const dispatch = useDispatch();
   const currentTheme = useSelector(selectUserTheme);
@@ -13,8 +14,8 @@ const Header = () => {
 
   const chooseTheme = async newTheme => {
     try {
-      await dispatch(updateTheme({ theme: newTheme }));
       setTheme(newTheme);
+      await dispatch(updateTheme({ theme: newTheme }));
     } catch (error) {
       console.log(error);
     }
@@ -36,8 +37,14 @@ const Header = () => {
         </div>
         <div className={s.header_wrapper}>
           <div className={s.theme}>
-            <span onClick={() => setIsDropdownOpen(!isDropdownOpen)}>
+            <span
+              className={s.theme}
+              onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+            >
               Theme
+              <svg className={s.arrow_icon} width="12" height="6">
+                <use href={`${sprite}#icon-arrow-down`} />
+              </svg>
             </span>
             <ul
               className={clsx(s.theme_dropdown, { [s.active]: isDropdownOpen })}

@@ -32,6 +32,9 @@
 
 .theme {
   position: relative;
+  display: flex;
+  gap: 8px;
+  align-items: center;
   span {
     cursor: pointer;
     opacity: 0.8;
@@ -39,6 +42,10 @@
   span:hover {
     color: var(--main-color);
   }
+}
+.arrow_icon {
+  fill: none;
+  stroke: var(--text-color);
 }
 
 .theme_dropdown {

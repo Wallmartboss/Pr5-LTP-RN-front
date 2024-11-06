@@ -5,7 +5,7 @@ import { ErrorMessage, Field, Form, Formik } from 'formik';
 import { updateUser } from '../../redux/user/operations.js';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectUserEmail, selectUserName } from '../../redux/user/selectors.js';
-import toast, { Toaster } from 'react-hot-toast';
+import toast from 'react-hot-toast';
 
 const updateUserSchema = yup.object().shape({
   name: yup
@@ -18,23 +18,29 @@ const updateUserSchema = yup.object().shape({
   //     .min(8, 'Password must be at least 8 characters')
   //     .max(64, 'Password can be up to 64 characters'),
 });
-export default function App() {
+export default function UpdateUserForm({ avatar, closeModal }) {
   const userName = useSelector(selectUserName);
   const userEmail = useSelector(selectUserEmail);
+  // const userAvatar = useSelector(selectUserAvatar);
   const dispatch = useDispatch();
-  const [image, setImage] = useState(null);
+  const [image, setImage] = useState(avatar);
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleImageUpload = (event, setFieldValue) => {
     const file = event.target.files[0];
     if (file) {
       const imageUrl = URL.createObjectURL(file);
       setImage(imageUrl);
-      setFieldValue('image', file);
+      setFieldValue('avatar', file);
     }
   };
 
+  const handleClose = () => {
+    closeModal();
+  };
+
   const handleSubmit = async values => {
-    //   setIsLoading(true);
+    setIsLoading(true);
     if (values.email.length == 0 && values.name.length == 0) {
       return;
     }
@@ -42,19 +48,20 @@ export default function App() {
     formData.append('name', values.name);
     formData.append('email', values.email);
     // formData.append('password', values.password);
+    console.log(values);
 
-    if (values.image) {
-      formData.append('image', values.image);
+    if (values.avatar) {
+      formData.append('avatar', values.avatar);
     }
 
     try {
       await dispatch(updateUser(formData));
       toast.success('Successfully updated!');
+      handleClose();
     } catch (error) {
-      console.log(error);
       toast.error('Error!');
     } finally {
-      // s
+      setIsLoading(false);
     }
   };
 
@@ -62,7 +69,7 @@ export default function App() {
     <>
       <Formik
         initialValues={{
-          image: '',
+          avatar: '',
           name: userName,
           email: userEmail,
           password: '',
@@ -73,11 +80,29 @@ export default function App() {
         {({ setFieldValue }) => (
           <Form className={s.form}>
             <div className={s.img_wrapper}>
-              <img
-                className={s.img}
-                src={image || './icons/icon.svg'}
-                alt="Profile"
-              />
+              {image ? (
+                <img className={s.avatar} src={image} alt="" />
+              ) : (
+                <div className={s.avatar_wrapper}>
+                  <svg
+                    width="32"
+                    height="32"
+                    viewBox="0 0 68 68"
+                    xmlns="http://www.w3.org/2000/svg"
+                    className={s.avatar_icon}
+                  >
+                    <g clipPath="url(#clip0_4566_2575)">
+                      <circle cx="34.3334" cy="31.3334" r="11.3334" />
+                      <path d="M61.7529 69.8119C61.7529 66.1511 61.0319 62.5261 59.6309 59.144C58.23 55.7619 56.1766 52.6888 53.5881 50.1002C50.9995 47.5117 47.9264 45.4583 44.5443 44.0574C41.1622 42.6565 37.5372 41.9354 33.8764 41.9354C30.2157 41.9354 26.5907 42.6565 23.2086 44.0574C19.8265 45.4583 16.7534 47.5117 14.1648 50.1002C11.5763 52.6888 9.52289 55.7619 8.12197 59.144C6.72105 62.5261 6 66.1511 6 69.8119L33.8765 69.8119H61.7529Z" />
+                    </g>
+                    <defs>
+                      <clipPath id="clip0_4566_2575">
+                        <rect width="68" height="68" rx="8" fill="white" />
+                      </clipPath>
+                    </defs>
+                  </svg>
+                </div>
+              )}
               <label htmlFor="file-upload" className={s.custom_file_upload}>
                 <svg
                   className={s.upload_icon}
@@ -127,12 +152,12 @@ export default function App() {
           />
           <ErrorMessage className={s.error} name="password" component="span" /> */}
             <button className={s.send_button} type="submit">
-              Send
+              {isLoading ? 'Loading' : 'Send'}
             </button>
           </Form>
         )}
       </Formik>
-      <Toaster />
+      {/* <Toaster /> */}
     </>
   );
 }
