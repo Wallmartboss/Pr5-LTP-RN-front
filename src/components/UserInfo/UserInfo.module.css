@@ -4,7 +4,7 @@
   align-items: center;
   background-color: transparent;
   border: none;
-  color: var(--text-color);
+  color: var(--main-text-color);
 }
 
 .avatar {
@@ -14,7 +14,7 @@
 }
 
 .avatar_icon {
-  fill: black;
+  fill: var(--modal-bg-color);
   position: absolute;
   top: 0;
   left: 0;
@@ -25,7 +25,7 @@
   width: 32px;
   height: 32px;
   position: relative;
-  background-color: yellow;
+  background-color: var(--main-bg-color);
   border-radius: 8px;
 }
 
@@ -51,7 +51,7 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  background-color: var(--secondary-bg-color);
+  background-color: var(--modal-bg-color);
   padding: 24px;
   max-width: 335px;
   min-width: 320px;
@@ -69,7 +69,7 @@
   cursor: pointer;
   top: 14px;
   right: 14px;
-  stroke: var(--text-color);
+  stroke: var(--main-text-color);
   transition: 0.3s stroke cubic-bezier(0.075, 0.82, 0.165, 1);
 }
 .closeModal:hover {

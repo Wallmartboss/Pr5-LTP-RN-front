@@ -2,8 +2,8 @@ import { createSlice } from '@reduxjs/toolkit';
 import { updateTheme, updateUser } from './operations';
 
 const initialState = {
-  name: null,
-  email: null,
+  name: '',
+  email: '',
   theme: null,
   loading: false,
   error: null,

@@ -16,7 +16,7 @@
     bottom: -10px;
     left: 50%;
     transform: translateX(-50%);
-    background-color: var(--main-color);
+    background-color: var(--icon-bg-color);
     border-radius: 8px;
     width: 24px;
     height: 24px;
@@ -33,7 +33,7 @@
 }
 
 .avatar_icon {
-  fill: black;
+  fill: var(--modal-bg-color);
   position: absolute;
   width: 68px;
   height: 68px;
@@ -46,7 +46,7 @@
   width: 100%;
   height: 100%;
   position: relative;
-  background-color: yellow;
+  background-color: var(--main-bg-color);
   border-radius: 8px;
 }
 
@@ -62,12 +62,17 @@
   flex-direction: column;
 }
 .field {
+  color: var(--main-text-color);
   width: 100%;
   padding: 14px 18px;
   border-radius: 8px;
   border: 1px solid var(--main-color);
   opacity: 0.4;
   margin-bottom: 14px;
+}
+
+.field::placeholder {
+  color: var(--main-text-color);
 }
 
 .field:nth-child(5) {
@@ -86,7 +91,7 @@
   border-radius: 8px;
   outline: transparent;
   border: none;
-  color: var(--secondary-text-color);
+  color: var(--btn-text-color);
 }
 
 .send_button:hover {

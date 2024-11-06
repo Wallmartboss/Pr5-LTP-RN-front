@@ -1,5 +1,5 @@
 .header {
-  background-color: var(--secondary-bg-color);
+  background-color: var(--header-bg-color);
   color: var(--text-color);
   font-size: 14px;
   z-index: 30;
@@ -41,20 +41,23 @@
   }
   span:hover {
     color: var(--main-color);
+    .arrow_icon {
+      stroke: var(--main-color);
+    }
   }
 }
 .arrow_icon {
   fill: none;
-  stroke: var(--text-color);
+  stroke: var(--main-text-color);
 }
 
 .theme_dropdown {
+  background-color: var(--modal-bg-color);
   display: flex;
   flex-direction: column;
   gap: 4px;
   position: absolute;
   top: 24px;
-  background-color: var(--secondary-bg-color);
   box-shadow: 0px 4px 16px 0px rgba(17, 17, 17, 0.1);
   border: 1px solid var(--main-color);
   border-radius: 8px;

@@ -23,8 +23,9 @@ const Header = () => {
 
   useEffect(() => {
     document.body.classList.remove('light-mode', 'dark-mode', 'violet-mode');
-    setIsDropdownOpen(false);
+
     document.body.classList.add(`${theme}-mode`);
+    setIsDropdownOpen(false);
   }, [theme]);
 
   return (
