@@ -1,0 +1,99 @@
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.modalContent {
+  background-color: #fcfcfc;
+  padding: 24px;
+  border-radius: 8px;
+  width: 425px;
+  height: 221px;
+  border: none;
+  text-align: center;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.modalTitle {
+  font-weight: 500;
+  font-size: 18px;
+  letter-spacing: -0.02em;
+  color: #161616;
+  text-align: left;
+  padding-bottom: 15px;
+}
+
+.columnTitle {
+  font-weight: 500;
+  font-size: 18px;
+  letter-spacing: -0.02em;
+  color: #161616;
+  text-align: left;
+}
+
+.deleteBtns {
+  display: flex;
+  gap: 30px;
+  padding-top: 15px;
+}
+
+.yesBtn,
+.noBtn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 70px;
+  height: 40px;
+  border: none;
+  border-radius: 8px;
+  color: white;
+  font-weight: bold;
+  gap: 5px;
+  padding: 5px 10px;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.yesBtn {
+  background-color: #bedbb0;
+}
+
+.yesBtn:hover {
+  cursor: pointer;
+  background-color: #9dc888;
+  transform: scale(1.05);
+}
+
+.noBtn {
+  background-color: #e09cb5;
+}
+
+.noBtn:hover {
+  cursor: pointer;
+  background-color: #e083a5;
+  transform: scale(1.05);
+}
+
+.yesIcon {
+  width: 20px;
+  height: 20px;
+  fill: white;
+}
+
+.noIcon {
+  width: 20px;
+  height: 20px;
+  fill: white;
+  stroke: white;
+}

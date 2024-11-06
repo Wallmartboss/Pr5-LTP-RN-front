@@ -5,12 +5,21 @@ import AddColumnModal from '../../components/AddColumnModal/AddColumnModal';
 import BoardColumn from '../../components/BoardColumn/BoardColumn';
 import sprite from '../../icons/icons.svg';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectColumns, selectIsModalOpen } from '../../redux/boards/selectors';
+import {
+  selectColumns,
+  selectEditModalOpen,
+  selectIsDeleteModalOpen,
+  selectIsModalOpen,
+} from '../../redux/boards/selectors';
 import { addColumn, closeModal, openModal } from '../../redux/boards/slice';
+import EditColumnModal from '../../components/EditColumnModal/EditColumnModal';
+import DeleteColumnModal from '../../components/DeleteColumnModal/DeleteColumnModal';
 
 const ScreensPage = () => {
   const columns = useSelector(selectColumns);
   const isModalOpen = useSelector(selectIsModalOpen);
+  const isEdidModalOpen = useSelector(selectEditModalOpen);
+  const isDeleteModalOpen = useSelector(selectIsDeleteModalOpen);
   const dispatch = useDispatch();
 
   const handleOpenModal = () => {
@@ -34,8 +43,8 @@ const ScreensPage = () => {
           <FiltersDropDown />
         </div>
         <div className={s.columnsContainer}>
-          {columns.map((column, index) => (
-            <BoardColumn key={index} title={column.title} />
+          {columns.map(column => (
+            <BoardColumn key={column.id} column={column} />
           ))}
           <button className={s.addColumnBtn} onClick={handleOpenModal}>
             <svg className={s.plusIcon} width="24" height="24">
@@ -51,6 +60,8 @@ const ScreensPage = () => {
           onAddColumn={handleAddColumn}
         />
       )}
+      {isEdidModalOpen && <EditColumnModal />}
+      {isDeleteModalOpen && <DeleteColumnModal />}
     </div>
   );
 };

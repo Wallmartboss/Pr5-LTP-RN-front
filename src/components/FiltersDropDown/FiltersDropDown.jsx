@@ -3,6 +3,8 @@ import s from './FiltersDropDown.module.css';
 import sprite from '../../icons/icons.svg';
 import { useDispatch, useSelector } from 'react-redux';
 import {
+  selectEditModalOpen,
+  selectIsDeleteModalOpen,
   selectIsFiltersOpen,
   selectIsModalOpen,
   selectSelectedFilter,
@@ -17,6 +19,8 @@ const FiltersDropDown = () => {
   const selectedFilter = useSelector(selectSelectedFilter);
   const isOpen = useSelector(selectIsFiltersOpen);
   const isModalOpen = useSelector(selectIsModalOpen);
+  const isEditModalOpen = useSelector(selectEditModalOpen);
+  const isDeleteModalOpen = useSelector(selectIsDeleteModalOpen);
   const dispatch = useDispatch();
 
   const handleFilterChange = event => {
@@ -34,7 +38,12 @@ const FiltersDropDown = () => {
 
   useEffect(() => {
     const handleKeyDown = event => {
-      if (event.key === 'Escape' && !isModalOpen) {
+      if (
+        event.key === 'Escape' &&
+        !isModalOpen &&
+        !isEditModalOpen &&
+        !isDeleteModalOpen
+      ) {
         // додав перевірку на відкритість модального вікна бо закривання модалки через Esc автоматично відкривало фільтри
         dispatch(toggleFiltersOpen());
       }
@@ -44,7 +53,7 @@ const FiltersDropDown = () => {
     return () => {
       document.removeEventListener('keydown', handleKeyDown);
     };
-  }, [dispatch, isModalOpen]);
+  }, [dispatch, isModalOpen, isEditModalOpen, isDeleteModalOpen]);
 
   return (
     <div className={s.dropDown}>
