@@ -110,7 +110,7 @@
 .plusIcon {
   width: 28px;
   height: 28px;
-  background-color: var(--icon-color);
+  background-color: var(--columnPlus-bg-color);
   display: flex;
   justify-content: center;
   align-items: center;

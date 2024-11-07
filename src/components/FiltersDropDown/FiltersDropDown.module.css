@@ -34,7 +34,7 @@
   font-weight: 500;
   font-size: 14px;
   letter-spacing: -0.02em;
-  color: var(--main-text-color);
+  color: rgba(22, 22, 22, 0.8);
   width: 64px;
   height: 20px;
   display: flex;
