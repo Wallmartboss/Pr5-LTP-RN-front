@@ -12,7 +12,7 @@
 }
 
 .modalContent {
-  background-color: #fcfcfc;
+  background-color: var(--modal-bg-color);
   padding: 24px;
   border-radius: 8px;
   width: 425px;
@@ -30,7 +30,7 @@
   font-weight: 500;
   font-size: 18px;
   letter-spacing: -0.02em;
-  color: #161616;
+  color: var(--main-text-color);
   text-align: left;
   padding-bottom: 15px;
 }
@@ -39,7 +39,7 @@
   font-weight: 500;
   font-size: 18px;
   letter-spacing: -0.02em;
-  color: #161616;
+  color: var(--main-text-color);
   text-align: left;
 }
 
@@ -58,7 +58,7 @@
   height: 40px;
   border: none;
   border-radius: 8px;
-  color: white;
+  color: var(--white);
   font-weight: bold;
   gap: 5px;
   padding: 5px 10px;
@@ -66,17 +66,17 @@
 }
 
 .yesBtn {
-  background-color: #bedbb0;
+  background-color: var(--main-color);
 }
 
 .yesBtn:hover {
   cursor: pointer;
-  background-color: #9dc888;
+  background-color: var(--accent-color);
   transform: scale(1.05);
 }
 
 .noBtn {
-  background-color: #e09cb5;
+  background-color: var(--medium-priority-color);
 }
 
 .noBtn:hover {
@@ -88,12 +88,12 @@
 .yesIcon {
   width: 20px;
   height: 20px;
-  fill: white;
+  fill: var(--white);
 }
 
 .noIcon {
   width: 20px;
   height: 20px;
-  fill: white;
-  stroke: white;
+  fill: var(--white);
+  stroke: var(--white);
 }

@@ -8,6 +8,7 @@ import { selectUserTheme } from '../../redux/user/selectors.js';
 import sprite from '../../icons/icons.svg';
 import Burger from '../Burger/Burger.jsx';
 const Header = () => {
+
   const dispatch = useDispatch();
   const currentTheme = useSelector(selectUserTheme);
   const [theme, setTheme] = useState(currentTheme || 'light');
@@ -80,6 +81,7 @@ const Header = () => {
           <UserInfo />
         </div>
       </div>
+
     </header>
   );
 };
