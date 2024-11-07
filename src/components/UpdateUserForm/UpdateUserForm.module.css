@@ -75,14 +75,51 @@
   color: var(--main-text-color);
 }
 
-.field:nth-child(5) {
-  margin-bottom: 24px;
+.password {
+  margin-bottom: 0;
 }
 
 .field:active,
 .field:focus {
   opacity: 1;
   outline: 1px solid var(--main-color);
+}
+
+.error {
+  color: red;
+  margin-bottom: 14px;
+}
+
+.errorBorder {
+  margin-bottom: 8px;
+  outline: 1px solid red;
+  border: 1px solid red;
+}
+
+.errorBorder:active,
+.errorBorder:focus {
+  outline: 1px solid red;
+  border: 1px solid red;
+}
+
+.pass {
+  position: relative;
+  margin-bottom: 24px;
+}
+
+.errorPass {
+  margin-bottom: 0;
+}
+
+.icon {
+  width: 18px;
+  height: 18px;
+  stroke: rgba(255, 255, 255, 0.4);
+  position: absolute;
+  top: 50%;
+  right: 18px;
+  transform: translateY(-50%);
+  cursor: pointer;
 }
 
 .send_button {
