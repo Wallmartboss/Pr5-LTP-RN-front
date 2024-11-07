@@ -4,7 +4,7 @@
   flex-direction: column;
   flex: 0 0 335px;
   width: 335px;
-  background-color: #e5e5e5;
+  background-color: var(--main-bg-color);
   border-radius: 8px;
   overflow: hidden;
   margin-top: 40px;
@@ -30,7 +30,7 @@
   justify-content: space-between;
   height: 56px;
   padding: 20px;
-  background-color: #fff;
+  background-color: var(--white);
   border-radius: 8px;
 }
 
@@ -43,7 +43,7 @@
   font-weight: 500;
   font-size: 14px;
   letter-spacing: -0.02em;
-  color: #161616;
+  color: var(--black);
 }
 
 .columnContent {
@@ -64,7 +64,7 @@
 .testCard {
   width: 335px;
   height: 154px;
-  background-color: red;
+  background-color: var(--cards-bg-color);
   border-radius: 8px;
   flex-shrink: 0;
 }
@@ -88,12 +88,12 @@
   border-radius: 8px;
   width: 100%;
   height: 49px;
-  background-color: #bedbb0;
+  background-color: var(--main-color);
   border: none;
   font-weight: 500;
   font-size: 14px;
   letter-spacing: -0.02em;
-  color: #161616;
+  color: var(--black);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -104,16 +104,16 @@
 .addBtn:hover {
   cursor: pointer;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-  background-color: #9dc888;
+  background-color: var(--accent-color);
 }
 
 .plusIcon {
   width: 28px;
   height: 28px;
-  background-color: black;
+  background-color: var(--icon-color);
   display: flex;
   justify-content: center;
   align-items: center;
   border-radius: 6px;
-  stroke: #fff;
+  stroke: var(--main-iconPlus-color);
 }
