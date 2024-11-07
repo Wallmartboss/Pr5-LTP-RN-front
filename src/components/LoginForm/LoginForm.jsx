@@ -7,6 +7,8 @@ import toast from 'react-hot-toast';
 import { login } from '../../redux/auth/operations.js';
 import { Link } from 'react-router-dom';
 import sprite from '../../icons/icons.svg';
+import { useDispatch, useSelector } from 'react-redux';
+import Loader from '../Loader/Loader';
 
 const loginSchema = yup.object().shape({
   email: yup.string().email('Invalid email').required('Email is required'),
@@ -18,6 +20,9 @@ const loginSchema = yup.object().shape({
 });
 
 const LoginForm = ({ onSuccess }) => {
+  const dispatch = useDispatch();
+  const { isLoading } = useSelector(state => state.auth);
+
   const {
     register,
     handleSubmit,
@@ -26,24 +31,34 @@ const LoginForm = ({ onSuccess }) => {
     resolver: yupResolver(loginSchema),
   });
 
-  const [isLoading, setIsLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const onSubmit = async data => {
-    setIsLoading(true);
-    try {
-      await login(data);
+    setIsSubmitting(true);
+    const result = await dispatch(login(data));
+    if (login.fulfilled.match(result)) {
       toast.success('Login successful!');
       onSuccess();
-    } catch (error) {
-      toast.error('Login failed. Please check your credentials.');
-    } finally {
-      setIsLoading(false);
+    } else {
+      if (result.payload?.status === 401) {
+        toast.error('Login failed. Please try again.');
+      } else {
+        toast.error(
+          result.payload || 'Login failed. Please check your credentials.'
+        );
+      }
+      setIsSubmitting(false);
     }
   };
 
+  if (isSubmitting || isLoading) {
+    return <Loader />;
+  }
+
   return (
     <div className={s.container}>
+      {isLoading && <Loader />}
       <form className={s.loginForm} onSubmit={handleSubmit(onSubmit)}>
         <div className={s.formTitle}>
           <Link to="/auth/register" className={s.register}>
@@ -81,7 +96,7 @@ const LoginForm = ({ onSuccess }) => {
           <p className={s.errorMessage}>{errors.password.message}</p>
         )}
         <button className={s.loginButton} type="submit" disabled={isLoading}>
-          {isLoading ? 'Logging in...' : 'Log In Now'}
+          Log In Now
         </button>
       </form>
     </div>

@@ -1,0 +1,84 @@
+.profile {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  background-color: transparent;
+  border: none;
+  color: var(--main-text-color);
+}
+
+.avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+}
+
+.avatar_icon {
+  fill: var(--modal-bg-color);
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.avatar_wrapper {
+  overflow: hidden;
+  width: 32px;
+  height: 32px;
+  position: relative;
+  background-color: var(--main-bg-color);
+  border-radius: 8px;
+}
+
+.overlay {
+  opacity: 0;
+  background-color: rgba(21, 21, 21, 0.3);
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  transition: opacity 0.3s cubic-bezier(0.61, 0.41, 0.4, 1.37);
+}
+
+.overlay_show {
+  visibility: visible;
+  opacity: 1;
+}
+
+.modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: var(--modal-bg-color);
+  padding: 24px;
+  max-width: 335px;
+  min-width: 320px;
+  border-radius: 8px;
+  box-shadow: 0px 4px 16px 0px rgba(22, 22, 22, 0.05);
+}
+
+.title {
+  display: block;
+  margin-bottom: 24px;
+}
+
+.closeModal {
+  position: absolute;
+  cursor: pointer;
+  top: 14px;
+  right: 14px;
+  stroke: var(--main-text-color);
+  transition: 0.3s stroke cubic-bezier(0.075, 0.82, 0.165, 1);
+}
+.closeModal:hover {
+  stroke: var(--accent-color);
+}
+
+@media screen and (min-width: 768px) {
+  .modal {
+    width: 400px;
+    max-width: unset;
+  }
+}

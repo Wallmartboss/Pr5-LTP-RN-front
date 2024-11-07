@@ -1,0 +1,92 @@
+.help {
+  display: flex;
+  flex-direction: column;
+  background-color: #F6F6F7;
+  width: 197px;
+  height: 238px;
+  margin-left: 14px;
+margin-right: 14px;
+  margin-top: 40px;
+  border-radius: 8px;
+}
+.helpText {
+  font-family: Poppins;
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 16px;
+  letter-spacing: -0.02em;
+  text-align: left;
+  color: var(--text-color);
+  width: 168px;
+  height: 80px;
+  margin-top: 14px;
+  margin-left: 15px;
+}
+.helpCactusIcon {
+  margin-top: 14px;
+  margin-left: 14px;
+  width: 54px;
+  height: 78px;
+}
+
+.taskProSpan {
+  font-family: Poppins;
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 16px;
+  letter-spacing: -0.02em;
+  text-align: left;
+  color: var(--main-color);
+}
+
+.helpBtn {
+  display: flex;
+  background-color: #F6F6F7;
+  align-items: center;
+  margin-top: 18px;
+  margin-left: 14px;
+border: none;
+}
+
+.helpIcon {
+  stroke: var(--icon-done-color);
+  fill: transparent;
+}
+
+.helpBtnText {
+  font-family: Poppins;
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 18px;
+  letter-spacing: -0.02em;
+  text-align: left;
+  color: var(--text-color);
+  margin-left: 8px;
+}
+@media screen and (min-width: 768px) {
+  .help {
+    width: 212px;
+    height: 272px;
+    margin-left: 24px;
+  }
+  .helpCactusIcon {
+    margin-left: 20px;
+    margin-top: 20px;
+  }
+  .helpText {
+    font-size: 14px;
+    line-height: 20px;
+    width: 172px;
+    height: 102px;
+    margin-left: 20px;
+    margin-top: 14px;
+  }
+  .taskProSpan {
+    font-size: 14px;
+    line-height: 20px;
+  }
+  .helpBtn {
+    margin-left: 20px;
+    margin-top: 18px;
+  }
+}

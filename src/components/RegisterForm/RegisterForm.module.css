@@ -101,7 +101,7 @@ input:focus {
 }
 
 .errorInput:focus {
-  border: solid 1px red;
+  border-color: red;
 }
 
 .errorMessage {

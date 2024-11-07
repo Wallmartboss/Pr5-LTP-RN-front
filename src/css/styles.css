@@ -14,26 +14,53 @@
 }
 
 body {
-  margin: 0;
+  /* margin: 0;
   --text-color: black;
+  --secondary-text-color: #161616;
   --main-color: #bedbb0;
   --accent-color: #9dc888;
   --icon-color: rgba(22, 22, 22, 0.5);
   --active-icon-color: rgba(22, 22, 22, 1);
   color: var(--text-color);
-  transition: background-color 0.3s, color 0.3s;
-  min-width: 320px;
-
   --input-stroke-color: rgba(190, 219, 176, 0.4);
   --input-bg-color: #1f1f1f;
   --icon-inprogress-color: var(--main-color);
-  --icon-done-color: var(--black);
+  --icon-done-color: var(--black);*/
+  transition: background-color 0.3s, color 0.3s;
+  min-width: 320px;
+  background-color: var(--main-bg-color);
+  color: var(--main-text-color);
 
-  background-color: var(--white);
+  --main-bg-color: #f6f6f7; /*основний колір заднього фону, атакож колір заднього фону на іконці з зображенням при створенні дошки */
+  --modal-bg-color: #fcfcfc; /*колір заднього фону для всіх модалок (включаючи дропдаун) */
+  --header-bg-color: #fcfcfc; /*колір заднього фону для хедера */
+  --sideBar-bg-color: #fff; /*колір заднього фону дляс сайдбара */
+  --calendar-bg-color: #fff; /*колір заднього фону для календаря */
+  --icon-bg-color: #bedbb0; /*колір заднього фону для іконки "+" в хедері та сайдбарі */
+  --cards-bg-color: #fff; /* колір заднього фону карток та назви колонки */
+  --columnPlus-bg-color: #161616; /* колір заднього фону для іконки в кнопці "add another column" */
+
+  --scrollX-color: #e8e8e8; /* колір для скролу по горизонталі */
+  --scrollX-bg-color: #fff; /* колір заднього фону для скролу по вертикалі */
+  --scrollY-color: rgba(22, 22, 22, 0.1); /* колір для скролу по вертикалі */
+  --scrollY-bg-color: #e8e8e8; /* колір заднього фону для скролу по вертикалі */
+
+  --main-color: #bedbb0; /*основний колір, який використовується в кнопках, календарі, ховері на іконки та в тексті */
+  --accent-color: #9dc888; /*колір, який використовується в кнопках при ховері */
+
+  --main-text-color: #161616; /*основний колір текста (для сайдбару --sec-text-color)*/
+  --sec-text-color: #161616; /*колір тексту, який використовується в сайдбарі */
+  --btn-text-color: #161616; /*колір тексту, який використовується в кнопках та задньому фоні іконки кнопки */
+
+  --icon-color: rgba(22, 22, 22, 0.5); /*колір для іконок*/
+  --active-icon-color: rgba(22, 22, 22, 1); /*колір для активної іконки*/
+  --icon-done-color: var(--main-text-color); /*колір для іконки та тексту done*/
+  --main-iconPlus-color: #ffffff; /*колір для іконки "+", яка використовується в кнопках*/
+  --sec-iconPlus-color: #ffffff; /*колір для іконки "+", яка використовується в кнопкі "add another column"*/
 }
 
 body.dark-mode {
-  background-color: #121212;
+  /* background-color: #121212;
   --text-color-dark: white;
   --main-color-dark: #bedbb0;
   --accent-color-dark: #9dc888;
@@ -41,10 +68,39 @@ body.dark-mode {
   --active-icon-color-dark: rgba(255, 255, 255, 1);
   --input-stroke-color-dark: rgba(190, 219, 176, 0.4);
   --icon-inprogress-color-dark: var(--main-color);
-  --icon-done-color-dark: rgba(255, 255, 255, 0.5);
+  --icon-done-color-dark: rgba(255, 255, 255, 0.5); */
+
+  background-color: var(--main-bg-color);
+
+  --main-bg-color: #1f1f1f;
+  --modal-bg-color: #151515;
+  --header-bg-color: #161616;
+  --sideBar-bg-color: #121212;
+  --calendar-bg-color: #1f1f1f;
+  --icon-bg-color: #bedbb0;
+  --cards-bg-color: #121212;
+  --columnPlus-bg-color: #ffffff;
+
+  --scrollX-color: rgba(255, 255, 255, 0.1);
+  --scrollX-bg-color: #161616;
+  --scrollY-color: #121212;
+  --scrollY-bg-color: #121212;
+
+  --main-color: #bedbb0;
+  --accent-color: #9dc888;
+
+  --main-text-color: #fff;
+  --sec-text-color: #fff;
+  --btn-text-color: #161616;
+
+  --icon-color-dark: rgba(255, 255, 255, 0.5);
+  --active-icon-color: rgba(255, 255, 255, 1);
+  --icon-done-color: rgba(255, 255, 255, 0.5);
+  --main-iconPlus-color: #ffffff;
+  --sec-iconPlus-color: #121212;
 }
 body.violet-mode {
-  background-color: #d6d8ff;
+  /* background-color: #d6d8ff;
   --text-color-violet: black;
   --main-color-violet: #5255bc;
   --accent-color-violet: #7b7ede;
@@ -52,7 +108,36 @@ body.violet-mode {
   --active-icon-color-violet: rgba(22, 22, 22, 1);
   --input-stroke-color-violet: rgba(82, 85, 188, 0.4);
   --icon-inprogress-color-violet: var(--main-color-violet);
-  --icon-done-color-violet: var(--black);
+  --icon-done-color-violet: var(--black); */
+
+  background-color: var(--main-bg-color);
+
+  --main-bg-color: #ecedfd;
+  --modal-bg-color: #fcfcfc;
+  --header-bg-color: #fff;
+  --sideBar-bg-color: #5255bc;
+  --calendar-bg-color: #fff;
+  --icon-bg-color: #b8bcfd;
+  --cards-bg-color: #fff;
+  --columnPlus-bg-color: #5255bc;
+
+  --scrollX-color: #b8bcfd;
+  --scrollX-bg-color: #ffffff;
+  --scrollY-color: #b8bcfd;
+  --scrollY-bg-color: #ffffff;
+
+  --main-color: #5255bc;
+  --accent-color: #7b7ede;
+
+  --main-text-color: #161616;
+  --sec-text-color: #fff;
+  --btn-text-color: #ffffff;
+
+  --icon-color: rgba(22, 22, 22, 0.5);
+  --active-icon-color: rgba(22, 22, 22, 1);
+  --icon-done-color: var(--main-text-color);
+  --main-iconPlus-color: #161616;
+  --sec-iconPlus-color: #ffffff;
 }
 
 .visually-hidden {
