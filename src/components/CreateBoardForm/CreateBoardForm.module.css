@@ -1,0 +1,57 @@
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.input {
+  width: 100%;
+  padding: 8px;
+  font-size: 16px;
+  border: 1px solid #bedbb0;
+  border-radius: 8px;
+}
+
+.section {
+  margin-top: 10px;
+}
+
+.icons {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  fill: none;
+  stroke: #16161680;
+}
+
+.iconOption {
+  display: flex;
+  align-items: center;
+}
+
+.iconRadio {
+  display: none;
+}
+
+.icon {
+  width: 32px;
+  height: 32px;
+  cursor: pointer;
+  fill: #888;
+  transition: fill 0.3s ease, background-color 0.3s ease;
+}
+
+.activeIcon {
+  stroke: #161616;
+}
+
+.createButton {
+  width: 100%;
+  padding: 10px;
+  font-size: 16px;
+  color: #fff;
+  background-color: #bedbb0;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
