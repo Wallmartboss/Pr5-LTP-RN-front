@@ -41,6 +41,12 @@ const BoardColumn = ({ column }) => {
         <div className={s.testCard}></div>
         <div className={s.testCard}></div>
       </div>
+      <button className={s.addBtn}>
+        <svg className={s.plusIcon} width="14" height="14">
+          <use href={`${sprite}#plus-icon`} />
+        </svg>
+        Add another card
+      </button>
     </div>
   );
 };
