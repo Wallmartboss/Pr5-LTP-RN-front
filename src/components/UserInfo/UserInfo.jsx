@@ -4,14 +4,17 @@ import clsx from 'clsx';
 import sprite from '../../icons/icons.svg';
 import UpdateUserForm from '../UpdateUserForm/UpdateUserForm.jsx';
 import { useSelector } from 'react-redux';
+import Loader from '../Loader/Loader.jsx';
 import {
   selectUserAvatar,
+  selectUserLoading,
   selectUserName,
 } from '../../redux/user/selectors.js';
 
 const UserInfo = () => {
   const username = useSelector(selectUserName);
   const userAvatar = useSelector(selectUserAvatar);
+  const isLoading = useSelector(selectUserLoading);
   const [isOpen, setIsOpen] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
 
@@ -57,27 +60,34 @@ const UserInfo = () => {
           </div>
         )}
       </button>
-      <div
-        onClick={closeModal}
-        className={clsx(s.overlay, isOpen ? s.overlay_show : s.overlay_hidden)}
-        onTransitionEnd={() => {
-          if (!isOpen) setIsVisible(false);
-        }}
-        style={{ visibility: isVisible ? 'visible' : 'hidden' }}
-      >
-        <div className={s.modal}>
-          <span className={s.title}>Edit profile</span>
-          <span className={s.closeModal}>
-            <svg className={s.arrow_icon} width="18" height="18">
-              <use href={`${sprite}#x-close-icon`} />
-            </svg>
-          </span>
-          <UpdateUserForm
-            avatar={userAvatar}
-            closeModal={handleDirectCloseModal}
-          />
+      {isLoading ? (
+        <Loader />
+      ) : (
+        <div
+          onClick={closeModal}
+          className={clsx(
+            s.overlay,
+            isOpen ? s.overlay_show : s.overlay_hidden
+          )}
+          onTransitionEnd={() => {
+            if (!isOpen) setIsVisible(false);
+          }}
+          style={{ visibility: isVisible ? 'visible' : 'hidden' }}
+        >
+          <div className={s.modal}>
+            <span className={s.title}>Edit profile</span>
+            <span className={s.closeModal}>
+              <svg className={s.arrow_icon} width="18" height="18">
+                <use href={`${sprite}#x-close-icon`} />
+              </svg>
+            </span>
+            <UpdateUserForm
+              avatar={userAvatar}
+              closeModal={handleDirectCloseModal}
+            />
+          </div>
         </div>
-      </div>
+      )}
     </>
   );
 };

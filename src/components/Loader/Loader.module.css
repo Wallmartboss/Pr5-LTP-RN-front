@@ -7,7 +7,7 @@
     position: fixed;
     top: 0;
     left: 0;
-    background: linear-gradient(180deg, rgba(196, 196, 196, 0), #bedbb0);
+    background: linear-gradient(180deg, rgba(196, 196, 196, 0), var(--main-color));
 }
 
 .spinner {

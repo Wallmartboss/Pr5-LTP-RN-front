@@ -13,18 +13,16 @@ const updateUserSchema = yup.object().shape({
     .min(2, 'Name must be at least 2 characters')
     .max(32, 'Name can be up to 32 characters'),
   email: yup.string().email('Invalid email format'),
-  //   password: yup
-  //     .string()
-  //     .min(8, 'Password must be at least 8 characters')
-  //     .max(64, 'Password can be up to 64 characters'),
+    password: yup
+      .string()
+      .min(8, 'Password must be at least 8 characters')
+      .max(64, 'Password can be up to 64 characters'),
 });
 export default function UpdateUserForm({ avatar, closeModal }) {
   const userName = useSelector(selectUserName);
   const userEmail = useSelector(selectUserEmail);
-  // const userAvatar = useSelector(selectUserAvatar);
   const dispatch = useDispatch();
   const [image, setImage] = useState(avatar);
-  const [isLoading, setIsLoading] = useState(false);
 
   const handleImageUpload = (event, setFieldValue) => {
     const file = event.target.files[0];
@@ -40,14 +38,13 @@ export default function UpdateUserForm({ avatar, closeModal }) {
   };
 
   const handleSubmit = async values => {
-    setIsLoading(true);
     if (values.email.length == 0 && values.name.length == 0) {
       return;
     }
     const formData = new FormData();
     formData.append('name', values.name);
     formData.append('email', values.email);
-    // formData.append('password', values.password);
+    formData.append('password', values.password);
     console.log(values);
 
     if (values.avatar) {
@@ -60,8 +57,6 @@ export default function UpdateUserForm({ avatar, closeModal }) {
       handleClose();
     } catch (error) {
       toast.error('Error!');
-    } finally {
-      setIsLoading(false);
     }
   };
 
@@ -69,7 +64,7 @@ export default function UpdateUserForm({ avatar, closeModal }) {
     <>
       <Formik
         initialValues={{
-          avatar: '',
+          avatar: image,
           name: userName,
           email: userEmail,
           password: '',
@@ -144,19 +139,20 @@ export default function UpdateUserForm({ avatar, closeModal }) {
               name="email"
             />
             <ErrorMessage className={s.error} name="email" component="span" />
-            {/* <Field
+            <Field
             className={s.field}
             placeholder="ivetta1999.23"
             type="password"
             name="password"
           />
-          <ErrorMessage className={s.error} name="password" component="span" /> */}
+          <ErrorMessage className={s.error} name="password" component="span" />
             <button className={s.send_button} type="submit">
-              {isLoading ? 'Loading' : 'Send'}
+              Send
             </button>
           </Form>
         )}
       </Formik>
+
       {/* <Toaster /> */}
     </>
   );
