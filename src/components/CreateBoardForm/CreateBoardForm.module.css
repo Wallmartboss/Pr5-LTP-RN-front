@@ -8,8 +8,8 @@
   width: 100%;
   padding: 8px;
   font-size: 16px;
-  border: 1px solid #ddd;
-  border-radius: 4px;
+  border: 1px solid #bedbb0;
+  border-radius: 8px;
 }
 
 .section {
@@ -18,7 +18,7 @@
 
 .icons {
   display: flex;
-  gap: 10px;
+  gap: 8px;
   flex-wrap: wrap;
   fill: none;
   stroke: #16161680;
