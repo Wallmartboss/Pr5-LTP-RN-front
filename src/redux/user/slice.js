@@ -1,5 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { updateTheme, updateUser } from './operations';
+import { logout } from '../auth/operations.js';
 
 const initialState = {
   name: '',
@@ -31,18 +32,18 @@ const userSlice = createSlice({
 
         state.name = action.payload.data.name;
         state.email = action.payload.data.email;
-        state.theme = action.payload.data.theme;
         state.avatar = action.payload.data.avatar;
       })
       .addCase(updateUser.rejected, handleRejected)
-      .addCase(updateTheme.pending, handlePending)
+      .addCase(updateTheme.pending)
       .addCase(updateTheme.fulfilled, (state, action) => {
-        state.loading = false;
         state.error = null;
 
         state.theme = action.payload.data.theme;
       })
-      .addCase(updateTheme.rejected, handleRejected);
+      .addCase(updateTheme.rejected, handleRejected)
+      .addCase(logout.fulfilled, () => initialState);
   },
 });
+export const { setUserData } = userSlice.actions;
 export const userReducer = userSlice.reducer;
