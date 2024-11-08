@@ -62,7 +62,7 @@ export const login = createAsyncThunk(
       // Извлечение токена из правильного поля
       const token = res.data.data.accessToken;
       if (!token) {
-        console.error('Токен не найден в ответе:', res.data);
+        console.error('Token is missing in the response:', res.data);
         return thunkAPI.rejectWithValue('Token is missing in the response');
       }
 
@@ -70,7 +70,7 @@ export const login = createAsyncThunk(
       localStorage.setItem('token', token); // Сохранить токен в localStorage
       return res.data;
     } catch (error) {
-      console.error('Ошибка авторизации:', error.message);
+      console.error('Authorization error:', error.message);
       return thunkAPI.rejectWithValue(error.message);
     }
   }
