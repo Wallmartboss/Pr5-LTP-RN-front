@@ -5,6 +5,8 @@ import CreateBoardForm from '../CreateBoardForm/CreateBoardForm';
 import EditBoardForm from '../EditBoardForm/EditBoardForm';
 import s from './SideBar.module.css';
 import sprite from '../../icons/icons.svg';
+import NeedHelp from './NeedHelp/NeedHelp';
+import Logout from './Logout/Logout';
 
 const Sidebar = () => {
   const [isCreateModalOpen, setCreateModalOpen] = useState(false);
@@ -117,6 +119,12 @@ const Sidebar = () => {
           <use href={`${sprite}#menu-icon`} />
         </svg>
       </button>
+      <div className={s.need}>
+        <NeedHelp />
+      </div>
+      <div className={s.out}>
+        <Logout />
+      </div>
     </div>
   );
 };
