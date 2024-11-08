@@ -1,11 +1,11 @@
 .help {
   display: flex;
   flex-direction: column;
-  background-color: #F6F6F7;
+  background-color: var(--main-bg-color);
   width: 197px;
   height: 238px;
   margin-left: 14px;
-margin-right: 14px;
+  margin-right: 14px;
   margin-top: 40px;
   border-radius: 8px;
 }
@@ -41,11 +41,11 @@ margin-right: 14px;
 
 .helpBtn {
   display: flex;
-  background-color: #F6F6F7;
+  background-color: #f6f6f7;
   align-items: center;
   margin-top: 18px;
   margin-left: 14px;
-border: none;
+  border: none;
 }
 
 .helpIcon {
