@@ -12,3 +12,15 @@ export const addCard = createAsyncThunk(
     }
   },
 );
+
+export const editCard = createAsyncThunk(
+  'cards/editCard',
+  async ({ id, updatedCard }, thunkApi) => {
+    try {
+      const response = await instance.put(`/cards/${id}`, updatedCard);
+      return response.data;
+    } catch (error) {
+      return thunkApi.rejectWithValue(error.message);
+    }
+  },
+);
