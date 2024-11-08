@@ -15,7 +15,11 @@ import { authReducer } from './auth/slice';
 import { boardsReducer } from './boards/slice';
 import helpSliceReducer from './help/slice';
 import { setAuthHeader } from './auth/operations';
+
+import cardsReducer from './slices/cardsSlice';
+
 import { sidebarReducer } from './sidebarSlice/slice.js';
+
 // Persisting token field from auth slice to localstorage
 const persistedToken = localStorage.getItem('token');
 if (persistedToken) {
@@ -39,7 +43,11 @@ export const store = configureStore({
     boards: boardsReducer,
     help: helpSliceReducer,
     user: persistReducer(userPersistConfig, userReducer),
+
+    cards: cardsReducer,
+
     sidebar: sidebarReducer
+
   },
   middleware: getDefaultMiddleware =>
     getDefaultMiddleware({
