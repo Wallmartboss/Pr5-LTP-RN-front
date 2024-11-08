@@ -10,6 +10,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import sprite from '../../icons/icons.svg';
 import { Toaster } from 'react-hot-toast';
 import Loader from '../Loader/Loader';
+// import { getUser } from '../../redux/user/operations';
+import { login as loginUser } from '../../redux/auth/operations';
 
 const registerSchema = yup.object().shape({
   name: yup
@@ -41,14 +43,24 @@ const RegisterForm = ({ onSuccess }) => {
 
   const [showPassword, setShowPassword] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
-
   const onSubmit = async data => {
     setIsSubmitting(true);
+    console.log(data);
+    const userData = { email: data.email, password: data.password };
     const result = await dispatch(registerUser(data));
     console.log(result.payload);
     if (registerUser.fulfilled.match(result)) {
       toast.success('Registration successful! Logging in...');
-      onSuccess();
+      console.log(userData.email, userData.password);
+      const loginResult = await dispatch(loginUser(userData));
+      console.log(loginResult.payload);
+      if (loginUser.fulfilled.match(loginResult)) {
+        onSuccess();
+        toast.success('Login successful!');
+      } else {
+        toast.error('Login failed after registration.');
+      }
+      // await dispatch(getUser());
     } else {
       if (result.payload?.status === 409) {
         toast.error('Email is already in use. Please use a different email.');
@@ -103,6 +115,7 @@ const RegisterForm = ({ onSuccess }) => {
             type={showPassword ? 'text' : 'password'}
             placeholder="Create a password"
             className={errors.password ? s.errorInput : ''}
+            autoComplete="off"
           />
           <span
             className={s.passwordToggleIcon}

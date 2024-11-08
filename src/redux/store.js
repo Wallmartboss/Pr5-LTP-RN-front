@@ -28,7 +28,7 @@ if (persistedToken) {
 const authPersistConfig = {
   key: 'auth',
   storage,
-  whitelist: ['token'],
+  whitelist: ['token', 'user'],
 };
 
 const userPersistConfig = {
@@ -46,8 +46,7 @@ export const store = configureStore({
 
     cards: cardsReducer,
 
-    sidebar: sidebarReducer
-
+    sidebar: sidebarReducer,
   },
   middleware: getDefaultMiddleware =>
     getDefaultMiddleware({

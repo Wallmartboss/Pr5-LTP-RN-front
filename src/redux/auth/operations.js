@@ -24,8 +24,11 @@ export const register = createAsyncThunk(
     try {
       console.log('Sending registration data:', credentials);
       const res = await axios.post('/auth/register', credentials);
-      console.log('Registration response:', res.data);
+      // console.log('Registration response:', res.data);
+      // console.log('Received token:', res.data.data.accessToken);
+      // console.log('Received token v2:', res.data.accessToken);
       setAuthHeader(res.data.token);
+      console.log('You have successfully registered!');
       return res.data;
     } catch (error) {
       console.error('Registration error:', error);
@@ -40,35 +43,21 @@ export const register = createAsyncThunk(
  * POST @ /users/login
  * body: { email, password }
  */
-// export const login = createAsyncThunk(
-//   'auth/login',
-//   async (credentials, thunkAPI) => {
-//     try {
-//       const res = await axios.post('/auth/login', credentials);
-
-//       setAuthHeader(res.data.accessToken);
-//       localStorage.setItem('token', res.data.accessToken);
-//       return res.data;
-//     } catch (error) {
-//       return thunkAPI.rejectWithValue(error.message);
-//     }
-//   }
-// );
 export const login = createAsyncThunk(
   'auth/login',
   async (credentials, thunkAPI) => {
     try {
       const res = await axios.post('/auth/login', credentials);
 
-      // Извлечение токена из правильного поля
       const token = res.data.data.accessToken;
+      console.log('Received token:', token);
       if (!token) {
         console.error('Token is missing in the response:', res.data);
         return thunkAPI.rejectWithValue('Token is missing in the response');
       }
 
-      setAuthHeader(token); // Установить токен в заголовок
-      localStorage.setItem('token', token); // Сохранить токен в localStorage
+      setAuthHeader(token);
+      localStorage.setItem('token', token);
       return res.data;
     } catch (error) {
       console.error('Authorization error:', error.message);
