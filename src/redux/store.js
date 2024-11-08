@@ -16,7 +16,7 @@ import { boardsReducer } from './boards/slice';
 import helpSliceReducer from './help/slice';
 import { setAuthHeader } from './auth/operations';
 
-import cardsReducer from './slices/cardsSlice';
+import cardsReducer from './cards/cardsSlice';
 
 import { sidebarReducer } from './sidebarSlice/slice.js';
 
