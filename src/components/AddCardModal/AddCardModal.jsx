@@ -43,7 +43,7 @@ const AddCardModal = ({ onClose }) => {
             resetForm();
       }}
     >
-      {({ setFieldValue }) => (          
+      {({ values, setFieldValue }) => (          
           <Form className={s.modalForm}>
             <div>
               <Field type="text" name="title" placeholder="Title" className={s.input} />
