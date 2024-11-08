@@ -8,6 +8,7 @@ import toast from 'react-hot-toast';
 import { register as registerUser } from '../../redux/auth/operations.js';
 import { useDispatch, useSelector } from 'react-redux';
 import sprite from '../../icons/icons.svg';
+import { Toaster } from 'react-hot-toast';
 import Loader from '../Loader/Loader';
 
 const registerSchema = yup.object().shape({
@@ -44,16 +45,20 @@ const RegisterForm = ({ onSuccess }) => {
   const onSubmit = async data => {
     setIsSubmitting(true);
     const result = await dispatch(registerUser(data));
-
+    console.log(result.payload);
     if (registerUser.fulfilled.match(result)) {
       toast.success('Registration successful! Logging in...');
       onSuccess();
     } else {
-      if (result.payload?.status === 401) {
-        toast.error('Registration failed. Please try again.');
+      if (result.payload?.status === 409) {
+        toast.error('Email is already in use. Please use a different email.');
       } else {
-        toast.error(result.payload || 'Registration failed. Please try again.');
+        console.log('Error payload:', result.payload);
+        const errorMessage =
+          result.payload?.message || 'Registration failed. Please try again.';
+        toast.error(errorMessage);
       }
+
       setIsSubmitting(false);
     }
   };
@@ -64,6 +69,7 @@ const RegisterForm = ({ onSuccess }) => {
 
   return (
     <div className={s.container}>
+      <Toaster />
       {isLoading && <Loader />}
       <form className={s.registerForm} onSubmit={handleSubmit(onSubmit)}>
         <div className={s.formTitle}>

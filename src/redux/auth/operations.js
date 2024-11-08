@@ -1,7 +1,9 @@
 import axios from 'axios';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 
-axios.defaults.baseURL = 'https://pr5-ltp-rn-back.onrender.com';
+axios.defaults.baseURL = 'http://localhost:3000';
+//'https://pr5-ltp-rn-back.onrender.com';
+//'http://localhost:3000';
 
 // Utility to add JWT
 export const setAuthHeader = token => {
@@ -28,9 +30,9 @@ export const register = createAsyncThunk(
       return res.data;
     } catch (error) {
       console.error('Registration error:', error);
-      const errorMessage =
-        error.response?.data?.message || 'Registration failed';
-      return thunkAPI.rejectWithValue(errorMessage);
+      const status = error.response?.status || 409;
+      const message = error.response?.data?.message || 'Registration failed';
+      return thunkAPI.rejectWithValue({ status, message });
     }
   }
 );
