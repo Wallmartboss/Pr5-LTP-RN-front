@@ -1,8 +1,7 @@
 import axios from 'axios';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 
-axios.defaults.baseURL = 'http://localhost:3000';
-//'https://pr5-ltp-rn-back.onrender.com';
+axios.defaults.baseURL = 'https://pr5-ltp-rn-back.onrender.com';
 //'http://localhost:3000';
 
 // Utility to add JWT
