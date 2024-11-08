@@ -1,7 +1,9 @@
 import axios from 'axios';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 
-axios.defaults.baseURL = 'https://pr5-ltp-rn-back.onrender.com';
+axios.defaults.baseURL = 'http://localhost:3000';
+//'https://pr5-ltp-rn-back.onrender.com';
+//'http://localhost:3000';
 
 // Utility to add JWT
 export const setAuthHeader = token => {
@@ -28,9 +30,9 @@ export const register = createAsyncThunk(
       return res.data;
     } catch (error) {
       console.error('Registration error:', error);
-      const errorMessage =
-        error.response?.data?.message || 'Registration failed';
-      return thunkAPI.rejectWithValue(errorMessage);
+      const status = error.response?.status || 409;
+      const message = error.response?.data?.message || 'Registration failed';
+      return thunkAPI.rejectWithValue({ status, message });
     }
   }
 );
@@ -62,7 +64,7 @@ export const login = createAsyncThunk(
       // Извлечение токена из правильного поля
       const token = res.data.data.accessToken;
       if (!token) {
-        console.error('Токен не найден в ответе:', res.data);
+        console.error('Token is missing in the response:', res.data);
         return thunkAPI.rejectWithValue('Token is missing in the response');
       }
 
@@ -70,7 +72,7 @@ export const login = createAsyncThunk(
       localStorage.setItem('token', token); // Сохранить токен в localStorage
       return res.data;
     } catch (error) {
-      console.error('Ошибка авторизации:', error.message);
+      console.error('Authorization error:', error.message);
       return thunkAPI.rejectWithValue(error.message);
     }
   }

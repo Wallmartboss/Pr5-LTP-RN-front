@@ -24,7 +24,7 @@
 
 .mainDashboard {
   height: 100vh;
-  background-color: #e5e5e5;
+  background-color: var(--main-bg-color); /*#e5e5e5*/
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -52,13 +52,13 @@
   border-radius: 8px;
   width: 335px;
   height: 56px;
-  background-color: #fff;
+  background-color: var(--cards-bg-color);
   border: none;
   margin-top: 40px;
   font-weight: 500;
   font-size: 14px;
   letter-spacing: -0.02em;
-  color: #161616;
+  color: var(--columnPlus-bg-color); /*#161616*/
   display: flex;
   justify-content: center;
   align-items: center;
@@ -86,8 +86,8 @@
 .plus {
   width: 28px;
   height: 28px;
-  background-color: black;
-  color: #fff;
+  background-color: var(--columnPlus-bg-color);
+  color: var(--sec-iconPlus-color);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -107,7 +107,7 @@
 .plusIcon {
   width: 28px;
   height: 28px;
-  background-color: black;
+  background-color: var(--columnPlus-bg-color);
   display: flex;
   justify-content: center;
   align-items: center;

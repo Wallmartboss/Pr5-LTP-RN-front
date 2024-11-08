@@ -5,7 +5,7 @@
 
 .sidebar {
   width: 280px;
-  background-color: #f0e68c;
+  background-color: var(--sideBar-bg-color);
   /* padding: 10px; */
 }
 
@@ -17,7 +17,7 @@
 
 .header {
   height: 68px;
-  background-color: #66cdaa;
+  /* background-color: var(--header-bg-color); */
   display: flex;
   align-items: center;
   padding: 0;
@@ -27,6 +27,6 @@
 .screensPage {
   flex-grow: 1;
   padding: 0;
-  background-color: #b0e5f8;
+  /* background-color: var(--main-bg-color); */
   font-size: 24px;
 }

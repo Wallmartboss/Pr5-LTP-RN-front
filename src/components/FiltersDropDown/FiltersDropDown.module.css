@@ -7,7 +7,6 @@
   position: absolute;
   top: 100%;
   left: 0;
-  background-color: #fff;
   border: none;
   border-radius: 8px;
   padding: 24px;
@@ -15,7 +14,7 @@
   width: 100vw;
   max-width: 300px;
   height: 234px;
-  background-color: #fff;
+  background-color: var(--modal-bg-color);
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
   transform: translateX(-92%);
   margin-top: 10px;
@@ -56,14 +55,14 @@
   font-weight: 500;
   font-size: 18px;
   letter-spacing: -0.02em;
-  color: #161616;
+  color: var(--main-text-color);
 }
 
 .filtersName {
   font-weight: 500;
   font-size: 14px;
   letter-spacing: -0.02em;
-  color: #161616;
+  color: var(--main-text-color);
 }
 
 .filtersName::after {
@@ -131,7 +130,7 @@
 }
 
 .xCloseBtn {
-  stroke: black;
+  stroke: var(--black);
 }
 
 .checkmark {
@@ -144,19 +143,19 @@
 }
 
 .checkmarkNone {
-  background-color: rgba(22, 22, 22, 0.3);
+  background-color: var(--no-priopity-color);
 }
 
 .checkmarkLow {
-  background-color: #8fa1d0;
+  background-color: var(--low-priority-color);
 }
 
 .checkmarkMedium {
-  background-color: #e09cb5;
+  background-color: var(--medium-priority-color);
 }
 
 .checkmarkHigh {
-  background-color: #bedbb0;
+  background-color: var(--high-priority-color);
 }
 
 .checkmark:before {
@@ -174,19 +173,19 @@
 }
 
 .checkmarkNone:before {
-  border-color: rgba(22, 22, 22, 0.3);
+  border-color: var(--no-priopity-color);
 }
 
 .checkmarkLow:before {
-  border-color: #8fa1d0;
+  border-color: var(--low-priority-color);
 }
 
 .checkmarkMedium:before {
-  border-color: #e09cb5;
+  border-color: var(--medium-priority-color);
 }
 
 .checkmarkHigh:before {
-  border-color: #bedbb0;
+  border-color: var(--high-priority-color);
 }
 
 .prioItem input:checked + .checkmark {

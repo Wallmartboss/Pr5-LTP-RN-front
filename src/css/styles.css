@@ -21,11 +21,12 @@ body {
   --accent-color: #9dc888;
   --icon-color: rgba(22, 22, 22, 0.5);
   --active-icon-color: rgba(22, 22, 22, 1);
-  color: var(--text-color);
+  color: var(--text-color);*/
   --input-stroke-color: rgba(190, 219, 176, 0.4);
-  --input-bg-color: #1f1f1f;
+  /*--input-bg-color: #1f1f1f;
   --icon-inprogress-color: var(--main-color);
   --icon-done-color: var(--black);*/
+
   transition: background-color 0.3s, color 0.3s;
   min-width: 320px;
   background-color: var(--main-bg-color);

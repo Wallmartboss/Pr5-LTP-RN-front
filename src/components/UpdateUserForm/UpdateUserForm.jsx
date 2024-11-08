@@ -6,6 +6,8 @@ import { updateUser } from '../../redux/user/operations.js';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectUserEmail, selectUserName } from '../../redux/user/selectors.js';
 import toast from 'react-hot-toast';
+import sprite from '../../icons/icons.svg';
+import clsx from 'clsx';
 
 const updateUserSchema = yup.object().shape({
   name: yup
@@ -13,18 +15,17 @@ const updateUserSchema = yup.object().shape({
     .min(2, 'Name must be at least 2 characters')
     .max(32, 'Name can be up to 32 characters'),
   email: yup.string().email('Invalid email format'),
-  //   password: yup
-  //     .string()
-  //     .min(8, 'Password must be at least 8 characters')
-  //     .max(64, 'Password can be up to 64 characters'),
+  password: yup
+    .string()
+    .min(8, 'Password must be at least 8 characters')
+    .max(64, 'Password can be up to 64 characters'),
 });
 export default function UpdateUserForm({ avatar, closeModal }) {
   const userName = useSelector(selectUserName);
   const userEmail = useSelector(selectUserEmail);
-  // const userAvatar = useSelector(selectUserAvatar);
   const dispatch = useDispatch();
   const [image, setImage] = useState(avatar);
-  const [isLoading, setIsLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
 
   const handleImageUpload = (event, setFieldValue) => {
     const file = event.target.files[0];
@@ -40,14 +41,15 @@ export default function UpdateUserForm({ avatar, closeModal }) {
   };
 
   const handleSubmit = async values => {
-    setIsLoading(true);
     if (values.email.length == 0 && values.name.length == 0) {
       return;
     }
     const formData = new FormData();
     formData.append('name', values.name);
     formData.append('email', values.email);
-    // formData.append('password', values.password);
+    if (values.password) {
+      formData.append('password', values.password);
+    }
     console.log(values);
 
     if (values.avatar) {
@@ -60,8 +62,6 @@ export default function UpdateUserForm({ avatar, closeModal }) {
       handleClose();
     } catch (error) {
       toast.error('Error!');
-    } finally {
-      setIsLoading(false);
     }
   };
 
@@ -69,15 +69,17 @@ export default function UpdateUserForm({ avatar, closeModal }) {
     <>
       <Formik
         initialValues={{
-          avatar: '',
+          avatar: image,
           name: userName,
           email: userEmail,
           password: '',
         }}
+        validateOnChange={false}
+        validateOnBlur={true}
         onSubmit={handleSubmit}
         validationSchema={updateUserSchema}
       >
-        {({ setFieldValue }) => (
+        {({ setFieldValue, errors, touched }) => (
           <Form className={s.form}>
             <div className={s.img_wrapper}>
               {image ? (
@@ -131,7 +133,10 @@ export default function UpdateUserForm({ avatar, closeModal }) {
               />
             </div>
             <Field
-              className={s.field}
+              className={clsx(
+                s.field,
+                errors.name && touched.name ? s.errorBorder : ''
+              )}
               type="text"
               name="name"
               placeholder="Name"
@@ -139,24 +144,49 @@ export default function UpdateUserForm({ avatar, closeModal }) {
             <ErrorMessage className={s.error} name="name" component="span" />
             <Field
               placeholder="ivetta34@gmail.com"
-              className={s.field}
+              className={clsx(
+                s.field,
+                errors.email && touched.email ? s.errorBorder : ''
+              )}
               type="email"
               name="email"
             />
             <ErrorMessage className={s.error} name="email" component="span" />
-            {/* <Field
-            className={s.field}
-            placeholder="ivetta1999.23"
-            type="password"
-            name="password"
-          />
-          <ErrorMessage className={s.error} name="password" component="span" /> */}
+            <span
+              className={clsx(
+                s.pass,
+                errors.password && touched.password ? s.errorPass : ''
+              )}
+            >
+              <Field
+                className={clsx(
+                  s.field,
+                  s.password,
+                  errors.password ? s.errorBorder : ''
+                )}
+                placeholder="ivetta1999.23"
+                type={showPassword ? 'text' : 'password'}
+                name="password"
+              />
+              <svg
+                className={s.icon}
+                onClick={() => setShowPassword(!showPassword)}
+              >
+                <use href={`${sprite}#eye-icon`} />
+              </svg>
+            </span>
+            <ErrorMessage
+              className={s.error}
+              name="password"
+              component="span"
+            />
             <button className={s.send_button} type="submit">
-              {isLoading ? 'Loading' : 'Send'}
+              Send
             </button>
           </Form>
         )}
       </Formik>
+
       {/* <Toaster /> */}
     </>
   );
