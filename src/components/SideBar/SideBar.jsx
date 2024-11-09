@@ -15,8 +15,7 @@ import s from './SideBar.module.css';
 import sprite from '../../icons/icons.svg';
 import NeedHelp from './NeedHelp/NeedHelp';
 import Logout from './Logout/Logout';
-
-import { selectToken, selectUserId } from '../../redux/auth/selectors.js';
+import { selectUserId } from '../../redux/auth/selectors';
 
 const Sidebar = () => {
   const dispatch = useDispatch();
@@ -26,15 +25,15 @@ const Sidebar = () => {
   const [isSidebarOpen, setSidebarOpen] = useState(true);
   const [selectedBoard, setSelectedBoard] = useState(null);
   const userId = useSelector(selectUserId);
-  const token = localStorage.getItem('token'); /* || useSelector(selectToken);*/
+  const token = localStorage.getItem('token');
+
+  console.log(userId, token);
   useEffect(() => {
     console.log('User ID:', userId, 'Token:', token); // Проверьте значения здесь
     if (userId && token) {
       dispatch(fetchBoards({ userId, token }));
     }
   }, [dispatch, userId, token]);
-
-  console.log(userId, token);
 
   const handleCreateBoard = newBoard => {
     dispatch(addBoard({ userId, boardName: newBoard.title, token }));

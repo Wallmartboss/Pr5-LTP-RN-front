@@ -5,10 +5,14 @@ const authSlice = createSlice({
   name: 'auth',
   initialState: {
     user: {
+      _id: null,
+      token: null,
       name: null,
       email: null,
+      theme: 'light',
+      avatar: null,
     },
-    // token: null,
+
     isLoggedIn: false,
     isRefreshing: false,
   },
@@ -20,7 +24,13 @@ const authSlice = createSlice({
         state.isLoggedIn = true;
       })
       .addCase(login.fulfilled, (state, action) => {
-        state.user = action.payload.user;
+        state.user = {
+          name: action.payload.data.name,
+          email: action.payload.data.email,
+          theme: action.payload.data.theme,
+          avatar: action.payload.data.avatar,
+          userId: action.payload.data._id,
+        };
         state.token = action.payload.token;
         state.isLoggedIn = true;
       })
