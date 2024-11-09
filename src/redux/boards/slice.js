@@ -1,5 +1,11 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { fetchBoards, fetchBoardById } from './operations';
+import {
+  fetchBoards,
+  fetchBoardById,
+  updateBoard,
+  addBoard,
+  deleteBoard,
+} from './operations';
 
 const initialState = {
   items: [],
@@ -17,6 +23,7 @@ const initialState = {
   isDeleteModalOpen: false,
   columnToEdit: null,
   columnToDelete: null,
+  boardToDelete: null,
 };
 
 const boardsSlice = createSlice({
@@ -64,14 +71,34 @@ const boardsSlice = createSlice({
       state.isDeleteModalOpen = true;
       state.columnToDelete = action.payload;
     },
+    openDeleteBoardModal(state, action) {
+      state.isDeleteModalOpen = true;
+      state.boardToDelete = action.payload;
+    },
     closeDeleteModal(state, action) {
       state.isDeleteModalOpen = false;
       state.columnToDelete = null;
     },
+    closeDeleteBoardModal(state, action) {
+      state.isDeleteModalOpen = false;
+      state.boardToDelete = null;
+    },
+    // deleteColumn(state, action) {
+    //   state.columns = state.columns.filter(
+    //     column => column.id !== state.columnToDelete.id
+    //   );
+    //   state.isDeleteModalOpen = false;
+    //   state.columnToDelete = null;
+    // },
     deleteColumn(state, action) {
-      state.columns = state.columns.filter(
-        column => column.id !== state.columnToDelete.id
+      const board = state.items.find(
+        board => board._id === state.selectedBoard
       );
+      if (board) {
+        board.columns = board.columns.filter(
+          column => column._id !== state.columnToDelete._id
+        );
+      }
       state.isDeleteModalOpen = false;
       state.columnToDelete = null;
     },
@@ -79,20 +106,20 @@ const boardsSlice = createSlice({
     //   state.items = action.payload;
     //   state.loading = false;
     // },
-    addBoard(state, action) {
-      state.items.push(action.payload);
-    },
-    updateBoard(state, action) {
-      const index = state.items.findIndex(
-        board => board.id === action.payload.id
-      );
-      if (index !== -1) {
-        state.items[index] = action.payload;
-      }
-    },
-    deleteBoard(state, action) {
-      state.items = state.items.filter(board => board.id !== action.payload);
-    },
+    // addBoard(state, action) {
+    //   state.items.push(action.payload);
+    // },
+    // updateBoard(state, action) {
+    //   const index = state.items.findIndex(
+    //     board => board.id === action.payload.id
+    //   );
+    //   if (index !== -1) {
+    //     state.items[index] = action.payload;
+    //   }
+    // },
+    // deleteBoard(state, action) {
+    //   state.items = state.items.filter(board => board.id !== action.payload);
+    // },
     selectBoard(state, action) {
       state.selectedBoard = action.payload;
     },
@@ -124,7 +151,43 @@ const boardsSlice = createSlice({
       .addCase(fetchBoardById.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
+      })
+      .addCase(updateBoard.fulfilled, (state, action) => {
+        const updatedBoard = action.payload.data;
+        state.items = state.items.map(board =>
+          board._id === updatedBoard._id ? updatedBoard : board
+        );
+        if (
+          state.selectedBoard &&
+          state.selectedBoard._id === updatedBoard._id
+        ) {
+          state.selectedBoard = updatedBoard;
+        }
+      })
+      .addCase(updateBoard.rejected, (state, action) => {
+        console.error('Update board failed:', action.payload);
+      })
+      .addCase(addBoard.fulfilled, (state, action) => {
+        state.items.push(action.payload); // добавляем новую доску в массив
+      })
+      .addCase(addBoard.rejected, (state, action) => {
+        console.error('Add board failed:', action.payload);
+      })
+      .addCase(deleteBoard.fulfilled, (state, action) => {
+        state.items = state.items.filter(
+          board => board._id !== action.payload.boardId
+        );
+      })
+      .addCase(deleteBoard.rejected, (state, action) => {
+        console.error('Delete board failed:', action.payload);
       });
+    // .addCase(deleteColumn.fulfilled, (state, action) => {
+    //   const { boardId, columnId } = action.payload;
+    //   const board = state.items.find(board => board._id === boardId);
+    //   if (board) {
+    //     board.columns = board.columns.filter(col => col._id !== columnId);
+    //   }
+    // });
   },
 });
 
@@ -139,12 +202,14 @@ export const {
   closeEditModal,
   editColumnTitle,
   openDeleteModal,
+  openDeleteBoardModal,
+  closeDeleteBoardModal,
   closeDeleteModal,
   deleteColumn,
   // fetchBoards,
-  addBoard,
-  updateBoard,
-  deleteBoard,
+  // addBoard,
+  // updateBoard,
+  // deleteBoard,
   selectBoard,
 } = boardsSlice.actions;
 export const boardsReducer = boardsSlice.reducer;

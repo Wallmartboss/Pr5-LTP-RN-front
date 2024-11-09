@@ -38,6 +38,7 @@ const Sidebar = () => {
   }, [dispatch, userId, token]);
 
   const handleCreateBoard = newBoard => {
+    console.log('Creating new board:', newBoard);
     dispatch(addBoard({ userId, boardName: newBoard.title, token }));
     setCreateModalOpen(false);
   };
@@ -111,7 +112,7 @@ const Sidebar = () => {
                   </button>
                   <button
                     className={s.deleteButton}
-                    onClick={() => handleDeleteBoard(board.id)}
+                    onClick={() => handleDeleteBoard(board._id)}
                   >
                     <svg className={s.icon} width="16" height="16">
                       <use href={`${sprite}#trash-icon`} />

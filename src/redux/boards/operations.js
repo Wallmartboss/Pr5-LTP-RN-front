@@ -25,8 +25,8 @@ export const addBoard = createAsyncThunk(
   async ({ userId, boardName, token }, thunkAPI) => {
     try {
       const { data } = await axios.post(
-        `/boards?owner=${userId}`,
-        { title: boardName },
+        '/boards',
+        { title: boardName, owner: userId },
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -35,6 +35,7 @@ export const addBoard = createAsyncThunk(
       );
       return data;
     } catch (error) {
+      console.error('Error adding board:', error);
       return thunkAPI.rejectWithValue(error.message);
     }
   }
@@ -53,8 +54,10 @@ export const updateBoard = createAsyncThunk(
           },
         }
       );
+      console.log('Server response after update:', data);
       return data;
     } catch (error) {
+      console.error('Error while updating board:', error);
       return thunkAPI.rejectWithValue(error.message);
     }
   }
@@ -68,7 +71,7 @@ export const deleteBoard = createAsyncThunk(
           Authorization: `Bearer ${token}`,
         },
       });
-      return boardId;
+      return { boardId };
     } catch (error) {
       return thunkAPI.rejectWithValue(error.message);
     }
