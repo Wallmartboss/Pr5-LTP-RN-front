@@ -2,8 +2,9 @@ import React, { useEffect, useState } from 'react';
 import s from './EditColumnModal.module.css';
 import sprite from '../../icons/icons.svg';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectColumnToEdit } from '../../redux/boards/selectors';
-import { closeEditModal, editColumnTitle } from '../../redux/boards/slice';
+import { selectColumnToEdit } from '../../redux/columns/selectors';
+import { closeEditModal } from '../../redux/columns/slice';
+import { editColumnTitle } from '../../redux/columns/operations';
 
 const EditColumnModal = () => {
   const dispatch = useDispatch();
@@ -18,12 +19,12 @@ const EditColumnModal = () => {
     setTitle(event.target.value);
   };
 
-  const handleEditClick = () => {
+  const handleEditClick = async () => {
     if (title.trim() && columnToEdit) {
-      dispatch(editColumnTitle({ id: columnToEdit.id, newTitle: title }));
-      dispatch(closeEditModal());
+      await dispatch(editColumnTitle({ id: columnToEdit.id, newTitle: title }));
+      handleClose();
     } else {
-      console.log('Need title');
+      alert('Please provide a title');
     }
   };
 
@@ -33,7 +34,7 @@ const EditColumnModal = () => {
 
   useEffect(() => {
     const handleKeyDown = event => {
-      if (event.key === 'Escape' && columnToEdit) {
+      if (event.key === 'Escape') {
         handleClose();
       }
     };
@@ -41,7 +42,7 @@ const EditColumnModal = () => {
     return () => {
       document.removeEventListener('keydown', handleKeyDown);
     };
-  }, [handleClose, columnToEdit]);
+  }, [handleClose]);
 
   return (
     <div
@@ -54,13 +55,14 @@ const EditColumnModal = () => {
             <use href={`${sprite}#x-close-icon`} />
           </svg>
         </button>
-        <h2 className={s.modalTitle}> Edit Column</h2>
+        <h2 className={s.modalTitle}>Edit Column</h2>
         <input
           className={s.inputField}
           type="text"
           placeholder="Title"
           value={title}
           onChange={handleInputChange}
+          autoFocus
         />
         <button className={s.editBtn} onClick={handleEditClick}>
           <svg className={s.checkIcon} width="12" height="12">

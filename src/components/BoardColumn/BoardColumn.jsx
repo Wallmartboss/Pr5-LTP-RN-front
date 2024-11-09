@@ -2,7 +2,7 @@ import React from 'react';
 import s from './BoardColumn.module.css';
 import sprite from '../../icons/icons.svg';
 import { useDispatch } from 'react-redux';
-import { openDeleteModal, openEditModal } from '../../redux/boards/slice';
+import { openDeleteModal, openEditModal } from '../../redux/columns/slice';
 
 const BoardColumn = ({ column }) => {
   const dispatch = useDispatch();
@@ -14,6 +14,7 @@ const BoardColumn = ({ column }) => {
   const handleDeleteClick = () => {
     dispatch(openDeleteModal(column));
   };
+
   return (
     <div className={s.column}>
       <div className={s.columnHeader}>
@@ -24,7 +25,6 @@ const BoardColumn = ({ column }) => {
               <use href={`${sprite}#pencil-icon`} />
             </svg>
           </button>
-
           <button className={s.columnHeaderBtn} onClick={handleDeleteClick}>
             <svg className={s.trashIcon} width="16" height="16">
               <use href={`${sprite}#trash-icon`} />
@@ -33,13 +33,10 @@ const BoardColumn = ({ column }) => {
         </div>
       </div>
       <div className={s.columnContent}>
-        <div className={s.testCard}></div>
-        <div className={s.testCard}></div>
-        <div className={s.testCard}></div>
-        <div className={s.testCard}></div>
-        <div className={s.testCard}></div>
-        <div className={s.testCard}></div>
-        <div className={s.testCard}></div>
+        {/* Приклад тестових карток у колонці */}
+        {[...Array(7)].map((_, index) => (
+          <div key={index} className={s.testCard}></div>
+        ))}
       </div>
       <button className={s.addBtn}>
         <svg className={s.plusIcon} width="14" height="14">
