@@ -12,10 +12,10 @@ import {
   selectIsError,
   selectIsLoading,
   selectIsModalOpen,
-  selectSelectedBoard,
-} from '../../redux/boards/selectors';
+} from '../../redux/columns/selectors';
+import { selectSelectedBoard } from '../../redux/boards/selectors';
 import { fetchBoardById } from '../../redux/boards/operations';
-import { addColumn, closeModal, openModal } from '../../redux/boards/slice';
+// import { addColumn, closeModal, openModal } from '../../redux/boards/slice';
 import EditColumnModal from '../EditColumnModal/EditColumnModal';
 import DeleteColumnModal from '../DeleteColumnModal/DeleteColumnModal';
 import { fetchColumns, addColumn } from '../../redux/columns/operations';

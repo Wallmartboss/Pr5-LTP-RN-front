@@ -30,6 +30,7 @@ const Sidebar = () => {
   const token = localStorage.getItem('token');
 
   console.log(userId, token);
+
   useEffect(() => {
     console.log('User ID:', userId, 'Token:', token);
     if (userId && token) {

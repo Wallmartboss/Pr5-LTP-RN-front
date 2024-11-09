@@ -24,6 +24,8 @@ const initialState = {
   columnToEdit: null,
   columnToDelete: null,
   boardToDelete: null,
+  loading: false,
+  error: null,
 };
 
 const boardsSlice = createSlice({
