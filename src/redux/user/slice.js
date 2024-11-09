@@ -3,6 +3,7 @@ import { updateTheme, updateUser } from './operations';
 import { logout } from '../auth/operations.js';
 
 const initialState = {
+  _id: '',
   name: '',
   email: '',
   theme: null,
@@ -27,9 +28,10 @@ const userSlice = createSlice({
     builder
       .addCase(updateUser.pending, handlePending)
       .addCase(updateUser.fulfilled, (state, action) => {
+        console.log(action);
         state.loading = false;
         state.error = null;
-
+        state._id = action.payload.data._id;
         state.name = action.payload.data.name;
         state.email = action.payload.data.email;
         state.avatar = action.payload.data.avatar;

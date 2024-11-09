@@ -12,13 +12,16 @@ import {
   selectIsError,
   selectIsLoading,
   selectIsModalOpen,
-} from '../../redux/columns/selectors';
+  selectSelectedBoard,
+} from '../../redux/boards/selectors';
+import { fetchBoardById } from '../../redux/boards/operations';
+import { addColumn, closeModal, openModal } from '../../redux/boards/slice';
 import EditColumnModal from '../EditColumnModal/EditColumnModal';
 import DeleteColumnModal from '../DeleteColumnModal/DeleteColumnModal';
 import { fetchColumns, addColumn } from '../../redux/columns/operations';
 import { openModal, closeModal } from '../../redux/columns/slice';
-
 const ScreensPage = () => {
+  const selectedBoard = useSelector(selectSelectedBoard);
   const dispatch = useDispatch();
   const columns = useSelector(selectColumns);
   const isModalOpen = useSelector(selectIsModalOpen);
@@ -43,6 +46,15 @@ const ScreensPage = () => {
     await dispatch(addColumn(columnTitle));
     handleCloseModal();
   };
+  const token = localStorage.getItem('token');
+  useEffect(() => {
+    if (selectedBoard) {
+      dispatch(fetchBoardById({ boardId: selectedBoard._id, token }));
+    }
+  }, [dispatch, selectedBoard, token]);
+  useEffect(() => {
+    console.log('Columns in selected board:', columns);
+  }, [columns]);
 
   if (isLoading) {
     return <p>Loading...</p>;
@@ -52,17 +64,21 @@ const ScreensPage = () => {
     return <p>{toString(isError)}</p>;
   }
 
-  return (
+  return selectedBoard ? (
     <div className={s.mainDashboard}>
       <div className={s.container}>
         <div className={s.boardHeader}>
-          <p>Project board</p>
+          <p>{selectedBoard.title}</p>
           <FiltersDropDown />
         </div>
         <div className={s.columnsContainer}>
-          {columns.map(column => (
-            <BoardColumn key={column.id} column={column} />
-          ))}
+          {selectedBoard.columns && selectedBoard.columns.length > 0 ? (
+            selectedBoard.columns.map(column => (
+              <BoardColumn key={column.id} column={column} />
+            ))
+          ) : (
+            <p>No columns available for this board</p>
+          )}
           <button className={s.addColumnBtn} onClick={handleOpenModal}>
             <svg className={s.plusIcon} width="24" height="24">
               <use href={`${sprite}#plus-icon`} />
@@ -80,6 +96,8 @@ const ScreensPage = () => {
       {isEdidModalOpen && <EditColumnModal />}
       {isDeleteModalOpen && <DeleteColumnModal />}
     </div>
+  ) : (
+    <p>Select a board to view its details</p>
   );
 };
 
