@@ -2,7 +2,7 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import instance from '../../instance';
 import axios from 'axios';
 
-
+axios.defaults.baseURL = 'https://pr5-ltp-rn-back.onrender.com';
 
 export const addCard = createAsyncThunk(
   'cards/addCard',
@@ -13,7 +13,7 @@ export const addCard = createAsyncThunk(
     } catch (error) {
       return thunkApi.rejectWithValue(error.message);
     }
-  },
+  }
 );
 
 export const editCard = createAsyncThunk(
@@ -25,7 +25,7 @@ export const editCard = createAsyncThunk(
     } catch (error) {
       return thunkApi.rejectWithValue(error.message);
     }
-  },
+  }
 );
 
 // ======================
@@ -37,7 +37,9 @@ export const fetchCards = createAsyncThunk(
       const response = await axios.get(`/cards/${boardId}`);
       return response.data;
     } catch (error) {
-      return thunkAPI.rejectWithValue(error.response?.data?.message || error.message);
+      return thunkAPI.rejectWithValue(
+        error.response?.data?.message || error.message
+      );
     }
   }
 );

@@ -15,7 +15,7 @@ import { authReducer } from './auth/slice';
 import { columnsReducer } from './columns/slice.js';
 import helpSliceReducer from './help/slice';
 import { setAuthHeader } from './auth/operations';
-
+import { boardsReducer } from './boards/slice.js';
 import cardsReducer from './cards/cardsSlice';
 
 import { sidebarReducer } from './sidebarSlice/slice.js';
@@ -43,9 +43,8 @@ export const store = configureStore({
     columns: columnsReducer,
     help: helpSliceReducer,
     user: persistReducer(userPersistConfig, userReducer),
-
+    boards: boardsReducer,
     cards: cardsReducer,
-
     sidebar: sidebarReducer,
   },
   middleware: getDefaultMiddleware =>

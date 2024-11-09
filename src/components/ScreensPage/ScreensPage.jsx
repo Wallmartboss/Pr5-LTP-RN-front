@@ -9,17 +9,17 @@ import {
   selectColumns,
   selectEditModalOpen,
   selectIsDeleteModalOpen,
+  selectIsModalOpen,
   selectIsError,
   selectIsLoading,
-  selectIsModalOpen,
 } from '../../redux/columns/selectors';
 import { selectSelectedBoard } from '../../redux/boards/selectors';
 import { fetchBoardById } from '../../redux/boards/operations';
-// import { addColumn, closeModal, openModal } from '../../redux/boards/slice';
+import { addColumn, closeModal, openModal } from '../../redux/boards/slice';
 import EditColumnModal from '../EditColumnModal/EditColumnModal';
 import DeleteColumnModal from '../DeleteColumnModal/DeleteColumnModal';
-import { fetchColumns, addColumn } from '../../redux/columns/operations';
-import { openModal, closeModal } from '../../redux/columns/slice';
+import { fetchColumns } from '../../redux/columns/operations';
+// import { openModal, closeModal } from '../../redux/columns/slice';
 const ScreensPage = () => {
   const selectedBoard = useSelector(selectSelectedBoard);
   const dispatch = useDispatch();

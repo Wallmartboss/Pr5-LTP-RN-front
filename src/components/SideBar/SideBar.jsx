@@ -21,11 +21,10 @@ import { selectUserId } from '../../redux/user/selectors';
 
 const Sidebar = () => {
   const dispatch = useDispatch();
-  const boards = useSelector(selectBoards) || [];
   const [isCreateModalOpen, setCreateModalOpen] = useState(false);
   const [isEditModalOpen, setEditModalOpen] = useState(false);
   const [isSidebarOpen, setSidebarOpen] = useState(true);
-  const [selectedBoard, setSelectedBoard] = useState(null);
+
   const userId = useSelector(selectUserId);
   const token = localStorage.getItem('token');
 
@@ -37,6 +36,10 @@ const Sidebar = () => {
       dispatch(fetchBoards({ userId, token }));
     }
   }, [dispatch, userId, token]);
+
+  const boards = useSelector(selectBoards) || [];
+  console.log('Boards from Redux:', boards);
+  const [selectedBoard, setSelectedBoard] = useState(null);
 
   const handleCreateBoard = newBoard => {
     console.log('Creating new board:', newBoard);

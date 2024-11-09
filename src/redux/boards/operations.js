@@ -12,7 +12,7 @@ export const fetchBoards = createAsyncThunk(
           Authorization: `Bearer ${token}`,
         },
       });
-      console.log(data);
+      console.log('Fetched data:', data);
       return data;
     } catch (e) {
       return thunkAPI.rejectWithValue(e.message);

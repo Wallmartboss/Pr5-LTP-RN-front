@@ -133,6 +133,7 @@ const boardsSlice = createSlice({
         state.error = null;
       })
       .addCase(fetchBoards.fulfilled, (state, action) => {
+        console.log('Data received in reducer:', action.payload);
         state.items = action.payload;
         state.loading = false;
       })
