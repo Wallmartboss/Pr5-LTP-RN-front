@@ -15,7 +15,7 @@ const AddColumnModal = ({ onClose, onAddColumn }) => {
       setTitle('');
       onClose();
     } else {
-      alert('Please add title');
+      alert('Please add a title');
     }
   };
 
@@ -45,13 +45,14 @@ const AddColumnModal = ({ onClose, onAddColumn }) => {
             <use href={`${sprite}#x-close-icon`} />
           </svg>
         </button>
-        <h2 className={s.modalTitle}>Add column</h2>
+        <h2 className={s.modalTitle}>Add Column</h2>
         <input
           className={s.inputField}
           type="text"
           placeholder="Title"
           value={title}
           onChange={handleInputChange}
+          autoFocus
         />
         <button className={s.addBtn} onClick={handleAddClick}>
           <svg className={s.plusIcon} width="14" height="14">

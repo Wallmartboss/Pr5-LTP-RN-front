@@ -1,6 +1,7 @@
 
 import s from './BoardColumn.module.css';
 import sprite from '../../icons/icons.svg';
+
 import { useDispatch, useSelector } from 'react-redux';
 import { openDeleteModal, openEditModal } from '../../redux/boards/slice';
 import CardList from '../CardList/CardList.jsx';
@@ -8,6 +9,7 @@ import { selectIsAddModalOpen, selectSelectedBoard } from '../../redux/cards/sel
 import { closeAddModal, openAddModal } from '../../redux/cards/cardsSlice.js';
 import { addCard, fetchCards } from '../../redux/cards/operations.js';
 import AddCardModal from '../AddCardModal/AddCardModal.jsx';
+
 
 const BoardColumn = ({ column, columnId }) => {
   const dispatch = useDispatch();
@@ -45,6 +47,7 @@ const BoardColumn = ({ column, columnId }) => {
   const handleDeleteClick = () => {
     dispatch(openDeleteModal(column));
   };
+
   return (
     <div className={s.column}>
       <div className={s.columnHeader}>
@@ -55,7 +58,6 @@ const BoardColumn = ({ column, columnId }) => {
               <use href={`${sprite}#pencil-icon`} />
             </svg>
           </button>
-
           <button className={s.columnHeaderBtn} onClick={handleDeleteClick}>
             <svg className={s.trashIcon} width="16" height="16">
               <use href={`${sprite}#trash-icon`} />
@@ -63,6 +65,7 @@ const BoardColumn = ({ column, columnId }) => {
           </button>
         </div>
       </div>
+
 
       <CardList columnId={columnId} />
       {isAddModalOpen && (
@@ -72,6 +75,7 @@ const BoardColumn = ({ column, columnId }) => {
         />
       )}
       <button className={s.addBtn} onClick={handleOpenAddModal}>
+
         <svg className={s.plusIcon} width="14" height="14">
           <use href={`${sprite}#plus-icon`} />
         </svg>

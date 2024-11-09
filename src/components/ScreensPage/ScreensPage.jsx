@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import s from './ScreensPage.module.css';
 import FiltersDropDown from '../FiltersDropDown/FiltersDropDown';
 import AddColumnModal from '../AddColumnModal/AddColumnModal';
@@ -9,18 +9,27 @@ import {
   selectColumns,
   selectEditModalOpen,
   selectIsDeleteModalOpen,
+  selectIsError,
+  selectIsLoading,
   selectIsModalOpen,
-} from '../../redux/boards/selectors';
-import { addColumn, closeModal, openModal } from '../../redux/boards/slice';
+} from '../../redux/columns/selectors';
 import EditColumnModal from '../EditColumnModal/EditColumnModal';
 import DeleteColumnModal from '../DeleteColumnModal/DeleteColumnModal';
+import { fetchColumns, addColumn } from '../../redux/columns/operations';
+import { openModal, closeModal } from '../../redux/columns/slice';
 
 const ScreensPage = () => {
+  const dispatch = useDispatch();
   const columns = useSelector(selectColumns);
   const isModalOpen = useSelector(selectIsModalOpen);
   const isEdidModalOpen = useSelector(selectEditModalOpen);
   const isDeleteModalOpen = useSelector(selectIsDeleteModalOpen);
-  const dispatch = useDispatch();
+  const isLoading = useSelector(selectIsLoading);
+  const isError = useSelector(selectIsError);
+
+  useEffect(() => {
+    dispatch(fetchColumns());
+  }, [dispatch]);
 
   const handleOpenModal = () => {
     dispatch(openModal());
@@ -30,10 +39,18 @@ const ScreensPage = () => {
     dispatch(closeModal());
   };
 
-  const handleAddColumn = columnTitle => {
-    dispatch(addColumn(columnTitle));
+  const handleAddColumn = async columnTitle => {
+    await dispatch(addColumn(columnTitle));
     handleCloseModal();
   };
+
+  if (isLoading) {
+    return <p>Loading...</p>;
+  }
+
+  if (isError) {
+    return <p>{toString(isError)}</p>;
+  }
 
   return (
     <div className={s.mainDashboard}>
