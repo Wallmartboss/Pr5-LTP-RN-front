@@ -2,9 +2,11 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   fetchBoards,
+  fetchBoardById,
   addBoard,
   updateBoard,
   deleteBoard,
+  // selectBoard,
 } from '../../redux/boards/operations';
 import { selectBoards } from '../../redux/boards/selectors';
 import LogoComponent from '../LogoComponent/LogoComponent';
@@ -15,7 +17,7 @@ import s from './SideBar.module.css';
 import sprite from '../../icons/icons.svg';
 import NeedHelp from './NeedHelp/NeedHelp';
 import Logout from './Logout/Logout';
-import { selectUserId } from '../../redux/auth/selectors';
+import { selectUserId } from '../../redux/user/selectors';
 
 const Sidebar = () => {
   const dispatch = useDispatch();
@@ -29,7 +31,7 @@ const Sidebar = () => {
 
   console.log(userId, token);
   useEffect(() => {
-    console.log('User ID:', userId, 'Token:', token); // Проверьте значения здесь
+    console.log('User ID:', userId, 'Token:', token);
     if (userId && token) {
       dispatch(fetchBoards({ userId, token }));
     }
@@ -46,18 +48,24 @@ const Sidebar = () => {
 
   const handleEditBoardClick = board => {
     setSelectedBoard(board);
+    console.log(selectedBoard);
     setEditModalOpen(true);
   };
 
   const handleEditBoard = updatedBoard => {
+    console.log('Updated board data:', updatedBoard);
     dispatch(
       updateBoard({
-        boardId: updatedBoard.id,
+        boardId: updatedBoard._id,
         updatedTitle: updatedBoard.title,
         token,
       })
     );
     setEditModalOpen(false);
+  };
+  const handleBoardClick = board => {
+    dispatch(fetchBoardById({ boardId: board._id, token }));
+    // navigate(`/boards/${board._id}`);
   };
 
   return (
@@ -86,8 +94,12 @@ const Sidebar = () => {
         <div className={s.boardList}>
           {boards && boards.length > 0 ? (
             boards.map(board => (
-              <div key={board.id} className={s.boardItem}>
-                <span>{board.name}</span>
+              <div
+                key={board._id}
+                className={s.boardItem}
+                onClick={() => handleBoardClick(board)}
+              >
+                <span>{board.title}</span>
                 <div className={s.actions}>
                   <button
                     className={s.editButton}

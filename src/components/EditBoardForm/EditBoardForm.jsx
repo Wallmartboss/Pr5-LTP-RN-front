@@ -14,7 +14,7 @@ const icons = [
 ];
 
 const EditBoardForm = ({ board, onSave }) => {
-  const [title, setTitle] = useState(board.name);
+  const [title, setTitle] = useState(board.title);
   const [icon, setIcon] = useState(board.icon || 'project-icon');
   const [background, setBackground] = useState(board.background || '');
 

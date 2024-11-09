@@ -1,11 +1,14 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { fetchBoards, fetchBoardById } from './operations';
 
 const initialState = {
+  items: [],
+  selectedBoard: null,
   columns: [],
   isModalOpen: false,
   isFiltersOpen: false,
   selectedFilter: {
-    none: false,
+    none: true,
     low: false,
     medium: false,
     high: false,
@@ -72,10 +75,10 @@ const boardsSlice = createSlice({
       state.isDeleteModalOpen = false;
       state.columnToDelete = null;
     },
-    fetchBoards(state, action) {
-      state.items = action.payload;
-      state.loading = false;
-    },
+    // fetchBoards(state, action) {
+    //   state.items = action.payload;
+    //   state.loading = false;
+    // },
     addBoard(state, action) {
       state.items.push(action.payload);
     },
@@ -90,6 +93,38 @@ const boardsSlice = createSlice({
     deleteBoard(state, action) {
       state.items = state.items.filter(board => board.id !== action.payload);
     },
+    selectBoard(state, action) {
+      state.selectedBoard = action.payload;
+    },
+  },
+  extraReducers: builder => {
+    builder
+      .addCase(fetchBoards.pending, state => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(fetchBoards.fulfilled, (state, action) => {
+        state.items = action.payload;
+        state.loading = false;
+      })
+      .addCase(fetchBoards.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.error.message;
+      })
+      .addCase(fetchBoardById.pending, state => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(fetchBoardById.fulfilled, (state, action) => {
+        state.loading = false;
+        if (state.selectedBoard?._id !== action.payload._id) {
+          state.selectedBoard = action.payload;
+        }
+      })
+      .addCase(fetchBoardById.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      });
   },
 });
 
@@ -106,9 +141,10 @@ export const {
   openDeleteModal,
   closeDeleteModal,
   deleteColumn,
-  fetchBoards,
+  // fetchBoards,
   addBoard,
   updateBoard,
   deleteBoard,
+  selectBoard,
 } = boardsSlice.actions;
 export const boardsReducer = boardsSlice.reducer;

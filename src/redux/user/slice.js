@@ -31,7 +31,7 @@ const userSlice = createSlice({
         console.log(action);
         state.loading = false;
         state.error = null;
-        state.userId = action.payload.data._id;
+        state._id = action.payload.data._id;
         state.name = action.payload.data.name;
         state.email = action.payload.data.email;
         state.avatar = action.payload.data.avatar;

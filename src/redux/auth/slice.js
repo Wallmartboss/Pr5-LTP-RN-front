@@ -29,7 +29,7 @@ const authSlice = createSlice({
           email: action.payload.data.email,
           theme: action.payload.data.theme,
           avatar: action.payload.data.avatar,
-          userId: action.payload.data._id,
+          _id: action.payload.data._id,
         };
         state.token = action.payload.token;
         state.isLoggedIn = true;

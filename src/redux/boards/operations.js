@@ -12,7 +12,7 @@ export const fetchBoards = createAsyncThunk(
           Authorization: `Bearer ${token}`,
         },
       });
-
+      console.log(data);
       return data;
     } catch (e) {
       return thunkAPI.rejectWithValue(e.message);
@@ -43,6 +43,7 @@ export const updateBoard = createAsyncThunk(
   'boards/updateBoard',
   async ({ boardId, updatedTitle, token }, thunkAPI) => {
     try {
+      console.log('boardId:', boardId, 'updatedTitle:', updatedTitle);
       const { data } = await axios.patch(
         `/boards/${boardId}`,
         { title: updatedTitle },
@@ -69,6 +70,28 @@ export const deleteBoard = createAsyncThunk(
       });
       return boardId;
     } catch (error) {
+      return thunkAPI.rejectWithValue(error.message);
+    }
+  }
+);
+export const fetchBoardById = createAsyncThunk(
+  'boards/fetchBoardById',
+  async ({ boardId, token }, thunkAPI) => {
+    try {
+      if (!token) {
+        throw new Error('Token is missing');
+      }
+      console.log('Fetching board with token:', token);
+
+      const response = await axios.get(`/boards/${boardId}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      return response.data;
+    } catch (error) {
+      console.error('Fetch board error:', error.message);
       return thunkAPI.rejectWithValue(error.message);
     }
   }

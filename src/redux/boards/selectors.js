@@ -7,3 +7,4 @@ export const selectColumnToEdit = state => state.boards.columnToEdit;
 export const selectIsDeleteModalOpen = state => state.boards.isDeleteModalOpen;
 export const selectColumnToDelete = state => state.boards.columnToDelete;
 export const selectBoards = state => state.boards.items;
+export const selectSelectedBoard = state => state.boards.selectedBoard;
