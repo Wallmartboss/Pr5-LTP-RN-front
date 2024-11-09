@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import s from './DeleteColumnModal.module.css';
 import sprite from '../../icons/icons.svg';
 import { useDispatch, useSelector } from 'react-redux';
