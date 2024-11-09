@@ -12,7 +12,7 @@ import {
 import storage from 'redux-persist/lib/storage';
 import { userReducer } from './user/slice';
 import { authReducer } from './auth/slice';
-import { boardsReducer } from './boards/slice';
+import { columnsReducer } from './columns/slice.js';
 import helpSliceReducer from './help/slice';
 import { setAuthHeader } from './auth/operations';
 
@@ -40,7 +40,7 @@ const userPersistConfig = {
 export const store = configureStore({
   reducer: {
     auth: persistReducer(authPersistConfig, authReducer),
-    boards: boardsReducer,
+    columns: columnsReducer,
     help: helpSliceReducer,
     user: persistReducer(userPersistConfig, userReducer),
 
