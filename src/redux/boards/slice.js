@@ -72,6 +72,24 @@ const boardsSlice = createSlice({
       state.isDeleteModalOpen = false;
       state.columnToDelete = null;
     },
+    fetchBoards(state, action) {
+      state.items = action.payload;
+      state.loading = false;
+    },
+    addBoard(state, action) {
+      state.items.push(action.payload);
+    },
+    updateBoard(state, action) {
+      const index = state.items.findIndex(
+        board => board.id === action.payload.id
+      );
+      if (index !== -1) {
+        state.items[index] = action.payload;
+      }
+    },
+    deleteBoard(state, action) {
+      state.items = state.items.filter(board => board.id !== action.payload);
+    },
   },
 });
 
@@ -88,5 +106,9 @@ export const {
   openDeleteModal,
   closeDeleteModal,
   deleteColumn,
+  fetchBoards,
+  addBoard,
+  updateBoard,
+  deleteBoard,
 } = boardsSlice.actions;
 export const boardsReducer = boardsSlice.reducer;
