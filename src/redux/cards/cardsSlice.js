@@ -1,6 +1,11 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { addCard, deleteCard, editCard, fetchCards, moveCard } from './operations.js';
-
+import {
+  addCard,
+  deleteCard,
+  editCard,
+  fetchCards,
+  moveCard,
+} from './operations.js';
 
 const cardsSlice = createSlice({
   name: 'cards',
@@ -10,30 +15,34 @@ const cardsSlice = createSlice({
     error: null,
     isAddModalOpen: false,
     openDropdowns: {},
-    today: new Date(),
+    today: new Date().toISOString(),
     expandedCardId: null,
     isModalOpen: false,
   },
   reducers: {
-    openAddModal: (state) => {
+    openAddModal: state => {
       state.isAddModalOpen = true;
     },
-    closeAddModal: (state) => {
+    closeAddModal: state => {
       state.isAddModalOpen = false;
     },
     toggleDropdown: (state, action) => {
       const cardId = action.payload;
-      state.openDropdowns = Object.keys(state.openDropdowns).reduce((acc, key) => {
-        acc[key] = false;
-        return acc;
-      }, {});
+      state.openDropdowns = Object.keys(state.openDropdowns).reduce(
+        (acc, key) => {
+          acc[key] = false;
+          return acc;
+        },
+        {}
+      );
       state.openDropdowns[cardId] = !state.openDropdowns[cardId];
     },
-    updateToday: (state) => {
+    updateToday: state => {
       state.today = new Date();
     },
     toggleDescription(state, action) {
-      state.expandedCardId = state.expandedCardId === action.payload ? null : action.payload;
+      state.expandedCardId =
+        state.expandedCardId === action.payload ? null : action.payload;
     },
     openModal(state) {
       state.isModalOpen = true;
@@ -45,24 +54,28 @@ const cardsSlice = createSlice({
       const cardId = action.payload;
       state.openDropdowns[cardId] = false;
     },
-
   },
-  extraReducers: (builder) => {
+  extraReducers: builder => {
     builder
       .addCase(fetchCards.fulfilled, (state, action) => {
         state.loading = false;
         const newCards = action.payload.data;
 
-
-        state.items = [...state.items, ...newCards.filter(
-          newCard => !state.items.some(existingCard => existingCard._id === newCard._id)
-        )];
+        state.items = [
+          ...state.items,
+          ...newCards.filter(
+            newCard =>
+              !state.items.some(
+                existingCard => existingCard._id === newCard._id
+              )
+          ),
+        ];
       })
       .addCase(fetchCards.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
       })
-      .addCase(addCard.pending, (state) => {
+      .addCase(addCard.pending, state => {
         state.isLoading = true;
         state.error = null;
       })
@@ -74,20 +87,22 @@ const cardsSlice = createSlice({
         state.isLoading = false;
         state.error = action.payload;
       })
-      .addCase(editCard.pending, (state) => {
+      .addCase(editCard.pending, state => {
         state.isLoading = true;
         state.error = null;
       })
       .addCase(editCard.fulfilled, (state, action) => {
         state.isLoading = false;
-        const index = state.items.findIndex(card => card.id === action.payload.id);
+        const index = state.items.findIndex(
+          card => card.id === action.payload.id
+        );
         if (index !== -1) state.items[index] = action.payload;
       })
       .addCase(editCard.rejected, (state, action) => {
         state.isLoading = false;
         state.error = action.payload;
       })
-      .addCase(deleteCard.pending, (state) => {
+      .addCase(deleteCard.pending, state => {
         state.loading = true;
         state.error = null;
       })
@@ -100,7 +115,7 @@ const cardsSlice = createSlice({
         state.loading = false;
         state.error = action.payload;
       })
-      .addCase(moveCard.pending, (state) => {
+      .addCase(moveCard.pending, state => {
         state.status = 'loading';
       })
       .addCase(moveCard.fulfilled, (state, action) => {
@@ -118,6 +133,15 @@ const cardsSlice = createSlice({
   },
 });
 
-export const { openAddModal, closeAddModal, toggleDropdown, updateToday, toggleDescription, openModal, closeModal, closeDropdown } = cardsSlice.actions;
+export const {
+  openAddModal,
+  closeAddModal,
+  toggleDropdown,
+  updateToday,
+  toggleDescription,
+  openModal,
+  closeModal,
+  closeDropdown,
+} = cardsSlice.actions;
 
 export default cardsSlice.reducer;

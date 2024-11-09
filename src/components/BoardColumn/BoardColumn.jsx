@@ -1,15 +1,16 @@
-
 import s from './BoardColumn.module.css';
 import sprite from '../../icons/icons.svg';
 
 import { useDispatch, useSelector } from 'react-redux';
-import { openDeleteModal, openEditModal } from '../../redux/boards/slice';
+import { openDeleteModal, openEditModal } from '../../redux/columns/slice';
 import CardList from '../CardList/CardList.jsx';
-import { selectIsAddModalOpen, selectSelectedBoard } from '../../redux/cards/selectors.js';
+import {
+  selectIsAddModalOpen,
+  selectSelectedBoard,
+} from '../../redux/cards/selectors.js';
 import { closeAddModal, openAddModal } from '../../redux/cards/cardsSlice.js';
 import { addCard, fetchCards } from '../../redux/cards/operations.js';
 import AddCardModal from '../AddCardModal/AddCardModal.jsx';
-
 
 const BoardColumn = ({ column, columnId }) => {
   const dispatch = useDispatch();
@@ -26,19 +27,19 @@ const BoardColumn = ({ column, columnId }) => {
     dispatch(closeAddModal());
   };
 
-  const handleAddCard = (taskData) => {
-    dispatch(addCard({
-      ...taskData,
-      columnId,
-      boardId
-    })).then(() => {
+  const handleAddCard = taskData => {
+    dispatch(
+      addCard({
+        ...taskData,
+        columnId,
+        boardId,
+      })
+    ).then(() => {
       dispatch(fetchCards({ boardId }));
     });
 
     handleCloseAddModal();
   };
-
-
 
   const handleEditClick = () => {
     dispatch(openEditModal(column));
@@ -66,16 +67,11 @@ const BoardColumn = ({ column, columnId }) => {
         </div>
       </div>
 
-
       <CardList columnId={columnId} />
       {isAddModalOpen && (
-        <AddCardModal
-          onAdd={handleAddCard}
-          onClose={handleCloseAddModal}
-        />
+        <AddCardModal onAdd={handleAddCard} onClose={handleCloseAddModal} />
       )}
       <button className={s.addBtn} onClick={handleOpenAddModal}>
-
         <svg className={s.plusIcon} width="14" height="14">
           <use href={`${sprite}#plus-icon`} />
         </svg>
