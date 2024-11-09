@@ -2,8 +2,8 @@ import axios from 'axios';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { createAction } from '@reduxjs/toolkit';
 
-axios.defaults.baseURL = 'https://pr5-ltp-rn-back.onrender.com';
-//'http://localhost:3000';
+// axios.defaults.baseURL = 'https://pr5-ltp-rn-back.onrender.com';
+
 
 export const sendHelpRequest = createAsyncThunk(
   'help/sendHelpRequest',

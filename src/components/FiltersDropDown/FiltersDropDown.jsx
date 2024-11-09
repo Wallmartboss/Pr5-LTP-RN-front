@@ -8,12 +8,12 @@ import {
   selectIsFiltersOpen,
   selectIsModalOpen,
   selectSelectedFilter,
-} from '../../redux/boards/selectors';
+} from '../../redux/columns/selectors';
 import {
   selectAllFilters,
   toggleFilter,
   toggleFiltersOpen,
-} from '../../redux/boards/slice';
+} from '../../redux/columns/slice';
 
 const FiltersDropDown = () => {
   const selectedFilter = useSelector(selectSelectedFilter);

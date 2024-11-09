@@ -1,9 +1,10 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import s from './DeleteColumnModal.module.css';
 import sprite from '../../icons/icons.svg';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectColumnToDelete } from '../../redux/boards/selectors';
-import { closeDeleteModal, deleteColumn } from '../../redux/boards/slice';
+import { selectColumnToDelete } from '../../redux/columns/selectors';
+import { closeDeleteModal } from '../../redux/columns/slice';
+import { deleteColumn } from '../../redux/columns/operations';
 
 const DeleteColumnModal = () => {
   const dispatch = useDispatch();
@@ -13,8 +14,11 @@ const DeleteColumnModal = () => {
     dispatch(closeDeleteModal());
   };
 
-  const handleDelete = () => {
-    dispatch(deleteColumn());
+  const handleDelete = async () => {
+    if (columnToDelete?.id) {
+      await dispatch(deleteColumn(columnToDelete.id));
+      handleClose();
+    }
   };
 
   useEffect(() => {

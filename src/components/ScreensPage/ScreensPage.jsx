@@ -9,6 +9,8 @@ import {
   selectColumns,
   selectEditModalOpen,
   selectIsDeleteModalOpen,
+  selectIsError,
+  selectIsLoading,
   selectIsModalOpen,
   selectSelectedBoard,
 } from '../../redux/boards/selectors';
@@ -16,14 +18,21 @@ import { fetchBoardById } from '../../redux/boards/operations';
 import { addColumn, closeModal, openModal } from '../../redux/boards/slice';
 import EditColumnModal from '../EditColumnModal/EditColumnModal';
 import DeleteColumnModal from '../DeleteColumnModal/DeleteColumnModal';
-
+import { fetchColumns, addColumn } from '../../redux/columns/operations';
+import { openModal, closeModal } from '../../redux/columns/slice';
 const ScreensPage = () => {
   const selectedBoard = useSelector(selectSelectedBoard);
+  const dispatch = useDispatch();
   const columns = useSelector(selectColumns);
   const isModalOpen = useSelector(selectIsModalOpen);
   const isEdidModalOpen = useSelector(selectEditModalOpen);
   const isDeleteModalOpen = useSelector(selectIsDeleteModalOpen);
-  const dispatch = useDispatch();
+  const isLoading = useSelector(selectIsLoading);
+  const isError = useSelector(selectIsError);
+
+  useEffect(() => {
+    dispatch(fetchColumns());
+  }, [dispatch]);
 
   const handleOpenModal = () => {
     dispatch(openModal());
@@ -33,8 +42,8 @@ const ScreensPage = () => {
     dispatch(closeModal());
   };
 
-  const handleAddColumn = columnTitle => {
-    dispatch(addColumn(columnTitle));
+  const handleAddColumn = async columnTitle => {
+    await dispatch(addColumn(columnTitle));
     handleCloseModal();
   };
   const token = localStorage.getItem('token');
@@ -46,6 +55,14 @@ const ScreensPage = () => {
   useEffect(() => {
     console.log('Columns in selected board:', columns);
   }, [columns]);
+
+  if (isLoading) {
+    return <p>Loading...</p>;
+  }
+
+  if (isError) {
+    return <p>{toString(isError)}</p>;
+  }
 
   return selectedBoard ? (
     <div className={s.mainDashboard}>

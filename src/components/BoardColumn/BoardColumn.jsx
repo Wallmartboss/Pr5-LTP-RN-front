@@ -1,11 +1,45 @@
-import React from 'react';
 import s from './BoardColumn.module.css';
 import sprite from '../../icons/icons.svg';
-import { useDispatch } from 'react-redux';
-import { openDeleteModal, openEditModal } from '../../redux/boards/slice';
 
-const BoardColumn = ({ column }) => {
+import { useDispatch, useSelector } from 'react-redux';
+import { openDeleteModal, openEditModal } from '../../redux/columns/slice';
+import CardList from '../CardList/CardList.jsx';
+import {
+  selectIsAddModalOpen,
+  selectSelectedBoard,
+} from '../../redux/cards/selectors.js';
+import { closeAddModal, openAddModal } from '../../redux/cards/cardsSlice.js';
+import { addCard, fetchCards } from '../../redux/cards/operations.js';
+import AddCardModal from '../AddCardModal/AddCardModal.jsx';
+
+const BoardColumn = ({ column, columnId }) => {
   const dispatch = useDispatch();
+
+  const isAddModalOpen = useSelector(selectIsAddModalOpen);
+  const selectedBoard = useSelector(selectSelectedBoard);
+  const boardId = selectedBoard?._id;
+
+  const handleOpenAddModal = () => {
+    dispatch(openAddModal());
+  };
+
+  const handleCloseAddModal = () => {
+    dispatch(closeAddModal());
+  };
+
+  const handleAddCard = taskData => {
+    dispatch(
+      addCard({
+        ...taskData,
+        columnId,
+        boardId,
+      })
+    ).then(() => {
+      dispatch(fetchCards({ boardId }));
+    });
+
+    handleCloseAddModal();
+  };
 
   const handleEditClick = () => {
     dispatch(openEditModal(column));
@@ -14,6 +48,7 @@ const BoardColumn = ({ column }) => {
   const handleDeleteClick = () => {
     dispatch(openDeleteModal(column));
   };
+
   return (
     <div className={s.column}>
       <div className={s.columnHeader}>
@@ -24,7 +59,6 @@ const BoardColumn = ({ column }) => {
               <use href={`${sprite}#pencil-icon`} />
             </svg>
           </button>
-
           <button className={s.columnHeaderBtn} onClick={handleDeleteClick}>
             <svg className={s.trashIcon} width="16" height="16">
               <use href={`${sprite}#trash-icon`} />
@@ -32,16 +66,12 @@ const BoardColumn = ({ column }) => {
           </button>
         </div>
       </div>
-      <div className={s.columnContent}>
-        <div className={s.testCard}></div>
-        <div className={s.testCard}></div>
-        <div className={s.testCard}></div>
-        <div className={s.testCard}></div>
-        <div className={s.testCard}></div>
-        <div className={s.testCard}></div>
-        <div className={s.testCard}></div>
-      </div>
-      <button className={s.addBtn}>
+
+      <CardList columnId={columnId} />
+      {isAddModalOpen && (
+        <AddCardModal onAdd={handleAddCard} onClose={handleCloseAddModal} />
+      )}
+      <button className={s.addBtn} onClick={handleOpenAddModal}>
         <svg className={s.plusIcon} width="14" height="14">
           <use href={`${sprite}#plus-icon`} />
         </svg>
