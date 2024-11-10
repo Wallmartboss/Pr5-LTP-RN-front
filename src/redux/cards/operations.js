@@ -6,10 +6,10 @@ axios.defaults.baseURL = 'https://pr5-ltp-rn-back.onrender.com';
 
 export const addCard = createAsyncThunk(
   'cards/addCard',
-  async ({ newCard, token }, thunkApi) => {
+  async ({ newCard }, thunkApi) => {
     try {
-
       const response = await axios.post('/cards', newCard);
+      console.log(response.data); 
 
       return response.data;
     } catch (error) {
