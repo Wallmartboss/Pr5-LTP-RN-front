@@ -7,19 +7,18 @@ import {
     toggleDescription,
     openModal,
     closeModal,
-    toggleDropdown,
-    closeDropdown,
+ 
 } from '../../redux/cards/cardsSlice.js';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectExpandedCardId, selectIsModalOpen, selectOpenDropdowns } from '../../redux/cards/selectors.js';
+import { selectExpandedCardId, selectIsModalOpen} from '../../redux/cards/selectors.js';
+import { useState } from 'react';
 
 const Card = ({ card, handleMoveCard, handleDelete, isDeadlineToday, filteredColumns }) => {
     const dispatch = useDispatch();
     const expandedCardId = useSelector(selectExpandedCardId);
     const isModalOpen = useSelector(selectIsModalOpen);
-    const openDropdowns = useSelector(selectOpenDropdowns);
     const { _id, priority, title, description, deadline } = card;
-
+    const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
 
     const toggleDescriptionHandler = () => {
@@ -41,13 +40,12 @@ const Card = ({ card, handleMoveCard, handleDelete, isDeadlineToday, filteredCol
 
     const handleMoveCardClick = (columnId) => {
         handleMoveCard(columnId, _id);
-        dispatch(closeDropdown(_id));
+        setIsDropdownOpen(false);
     };
 
     const toggleDropdownHandler = () => {
-        dispatch(toggleDropdown(_id));
+        setIsDropdownOpen((prevState) => !prevState);
     };
-
 
     const getPriorityColor = (priority) => {
         switch (priority) {
@@ -89,7 +87,7 @@ const Card = ({ card, handleMoveCard, handleDelete, isDeadlineToday, filteredCol
                             </svg>
                         </div>
                     )}
-                    <button className={s.move} onClick={toggleDropdownHandler} disabled={filteredColumns.length === 0}>
+                    <button className={s.move} onClick={toggleDropdownHandler} >
                         <svg className={s.icon} width="16" height="16">
                             <use href={`${sprite}#arrow-circle-icon`} />
                         </svg>
@@ -107,13 +105,14 @@ const Card = ({ card, handleMoveCard, handleDelete, isDeadlineToday, filteredCol
                 </div>
             </div>
 
-            <Dropdown
-                cardId={card._id}
-                filteredColumns={filteredColumns}
-                handleMoveCard={handleMoveCardClick}
-                openDropdown={openDropdowns[_id]}
-                closeDropdown={() => dispatch(closeDropdown(_id))}
-            />
+            {isDropdownOpen && (
+                <Dropdown
+                    cardId={_id}
+                    filteredColumns={filteredColumns}
+                    handleMoveCard={handleMoveCardClick}
+                    openDropdown={isDropdownOpen} 
+                />
+            )}
             <ModalDeleteCard
                 isOpen={isModalOpen}
                 onClose={handleCancelDelete}

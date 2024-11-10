@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from 'react-redux';
-
+import { useMemo } from 'react';
 import s from './CardList.module.css';
 import {
   selectCardsByColumnId,
@@ -10,7 +10,6 @@ import { useEffect } from 'react';
 import { deleteCard, moveCard } from '../../redux/cards/operations.js';
 import Card from '../Card/Card.jsx';
 import { toggleDropdown, updateToday } from '../../redux/cards/cardsSlice.js';
-import { useMemo } from 'react';
 
 const CardList = ({ columnId }) => {
   const dispatch = useDispatch();

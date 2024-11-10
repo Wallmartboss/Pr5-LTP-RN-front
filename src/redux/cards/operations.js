@@ -8,12 +8,9 @@ export const addCard = createAsyncThunk(
   'cards/addCard',
   async ({ newCard, token }, thunkApi) => {
     try {
-      const response = await instance.post('/cards', newCard, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      console.log('Server response after adding card:', response.data);
+
+      const response = await axios.post('/cards', newCard);
+
       return response.data;
     } catch (error) {
       console.error('API call failed:', error);

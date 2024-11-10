@@ -16,8 +16,10 @@ export const selectCardsByBoardId = (state, boardId) => {
   return state.cards.items.filter(card => card.boardId === boardId);
 };
 
+
 export const selectCardsByColumnId = (state, columnId) =>
   state.cards.items.filter(card => card.columnId === columnId);
+
 
 // ============
 
@@ -33,6 +35,10 @@ export const selectColumnsByBoardId = (state, boardId) => {
 
 export const selectIsAddModalOpen = state => state.cards.isAddModalOpen;
 
+
+export const selectIsModalOpen = (state) => state.cards.isModalOpen;
+export const selectCardsByColumnId = (state, columnId) =>
+    state.cards.items.filter(card => card.columnId === columnId);
 export const selectExpandedCardId = state => state.cards.expandedCardId;
 export const selectIsModalOpen = state => state.cards.isModalOpen;
 export const selectOpenDropdowns = state => state.cards.openDropdowns;
