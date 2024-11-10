@@ -16,7 +16,7 @@
   line-height: 16px;
   letter-spacing: -0.02em;
   text-align: left;
-  color: var(--text-color);
+  color: var(var(--main-text-color));
   width: 168px;
   height: 80px;
   margin-top: 14px;
@@ -41,15 +41,15 @@
 
 .helpBtn {
   display: flex;
-  background-color: #f6f6f7;
+  background-color: transparent;
   align-items: center;
-  margin-top: 18px;
+  margin-top: 19px;
   margin-left: 14px;
   border: none;
 }
 
 .helpIcon {
-  stroke: var(--icon-done-color);
+  stroke: var(--main-text-color);
   fill: transparent;
 }
 
@@ -60,10 +60,10 @@
   line-height: 18px;
   letter-spacing: -0.02em;
   text-align: left;
-  color: var(--text-color);
+  color: var(--main-text-color);
   margin-left: 8px;
 }
-@media screen and (min-width: 768px) {
+ @media (min-width: 768px) and (max-width: 1439px){
   .help {
     width: 212px;
     height: 272px;
