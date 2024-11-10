@@ -123,10 +123,18 @@ const columnsSlice = createSlice({
         //   ) {
         //     state.selectedColumn = updatedColumn;
         //   }
+        // })  второй вариант
+        //   const { id, title } = action.payload;
+        //   const column = state.columns.find(column => column.id === id);
+        //   if (column) column.title = title;
+        //   state.isLoading = false;
         // })
-        const { id, title } = action.payload;
-        const column = state.columns.find(column => column.id === id);
-        if (column) column.title = title;
+        const updatedColumn = state.columns.find(
+          column => column.id === action.payload.id
+        );
+        if (updatedColumn) {
+          updatedColumn.title = action.payload.title; // обновляем название колонки
+        }
         state.isLoading = false;
       })
       .addCase(editColumnTitle.rejected, (state, action) => {
