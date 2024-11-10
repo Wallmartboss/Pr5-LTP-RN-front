@@ -28,7 +28,7 @@ const ScreensPage = () => {
   const isEdidModalOpen = useSelector(selectEditModalOpen);
   const isDeleteModalOpen = useSelector(selectIsDeleteModalOpen);
   const isLoading = useSelector(selectIsLoading);
-  const isError = useSelector(selectIsError);
+  // const isError = useSelector(selectIsError);
 
   useEffect(() => {
     dispatch(fetchColumns());
@@ -68,15 +68,15 @@ const ScreensPage = () => {
     return <p>Loading...</p>;
   }
 
-  if (isError) {
-    return <p>{toString(isError)}</p>;
-  }
+  // if (isError) {
+  //   return <p>{toString(isError)}</p>;
+  // }
 
   return selectedBoard ? (
     <div className={s.mainDashboard}>
       <div className={s.container}>
         <div className={s.boardHeader}>
-          <p>{selectedBoard.title}</p>
+          <p className={s.boardTitle}>{selectedBoard.title}</p>
           <FiltersDropDown />
         </div>
         <div className={s.columnsContainer}>
