@@ -170,7 +170,7 @@ const AddCardModal = ({ onClose, columnId, boardId }) => {
               </div>
 
               <div className={s.formGroupLabelColor}>
-                <label>Priority</label>
+                <label>Label color</label>
                 <div className={s.labelColors}>
                   {['low', 'medium', 'high', 'without'].map(color => (
                     <label
