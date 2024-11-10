@@ -15,8 +15,8 @@ const DeleteColumnModal = () => {
   };
 
   const handleDelete = async () => {
-    if (columnToDelete?.id) {
-      await dispatch(deleteColumn(columnToDelete.id));
+    if (columnToDelete?._id) {
+      await dispatch(deleteColumn(columnToDelete._id));
       handleClose();
     }
   };
