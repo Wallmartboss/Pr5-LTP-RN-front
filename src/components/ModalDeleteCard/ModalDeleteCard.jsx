@@ -1,6 +1,7 @@
 import s from './ModalDeleteCard.module.css'
 import sprite from '../../icons/icons.svg';
 const ModalDeleteCard = ({ isOpen, onClose, onConfirm }) => {
+    
     if (!isOpen) return null;
 
     return (

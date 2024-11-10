@@ -15,7 +15,7 @@ import AddCardModal from '../AddCardModal/AddCardModal.jsx';
 import { useState } from 'react';
 // import AddCardModal from '../AddCardModal/AddCardModal.jsx';
 
-import { selectToken } from '../../redux/auth/selectors.js';
+// import { selectToken } from '../../redux/auth/selectors.js';
 
 const BoardColumn = ({ column }) => {
   const dispatch = useDispatch();

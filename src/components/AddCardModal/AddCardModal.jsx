@@ -120,14 +120,16 @@ const AddCardModal = ({ onClose, columnId, boardId }) => {
     console.log(boardId, columnId);
     const newCard = {
       ...values,
-      date: values.date.toISOString(), 
+      // date: values.date.toISOString(), 
+      date: values.date,
       priority,
       columnId,
       boardId
     };
     console.log(newCard); 
-    dispatch(addCard(newCard));
+    dispatch(addCard({ newCard }));
     dispatch(fetchCards({ boardId }));
+
     onClose();
   };
 
