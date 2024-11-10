@@ -11,6 +11,7 @@ import {
 import { closeAddModal, openAddModal } from '../../redux/cards/cardsSlice.js';
 import { addCard, fetchCards } from '../../redux/cards/operations.js';
 import AddCardModal from '../AddCardModal/AddCardModal.jsx';
+import { selectToken } from '../../redux/auth/selectors.js';
 
 const BoardColumn = ({ column, columnId }) => {
   const dispatch = useDispatch();
@@ -26,17 +27,43 @@ const BoardColumn = ({ column, columnId }) => {
   const handleCloseAddModal = () => {
     dispatch(closeAddModal());
   };
+  const token = localStorage.getItem('token');
+  console.log('token:', token);
 
-  const handleAddCard = async taskData => {
-    await dispatch(
+  const handleAddCard = taskData => {
+    console.log('Creating new card:', taskData);
+    dispatch(
       addCard({
-        ...taskData,
-        columnId,
-        boardId,
+        newCard: {
+          ...taskData,
+          columnId,
+          boardId,
+        },
+        token,
       })
-    ).then(() => {
-      dispatch(fetchCards({ boardId }));
-    });
+    );
+    // await dispatch(
+    //   addCard({
+    //     newCard: {
+    //       ...taskData,
+    //       columnId,
+    //       boardId,
+    //     },
+    //     token,
+    //   })
+    // ).then(() => {
+    //   console.log(
+    //     'newcard:',
+    //     taskData,
+    //     'columnId:',
+    //     columnId,
+    //     'boardId:',
+    //     boardId,
+    //     'token:',
+    //     token
+    //   );
+    //   dispatch(fetchCards({ boardId }));
+    // });
 
     handleCloseAddModal();
   };
@@ -67,7 +94,7 @@ const BoardColumn = ({ column, columnId }) => {
         </div>
       </div>
 
-      {/* <CardList columnId={columnId} /> */}
+      <CardList columnId={columnId} />
       {isAddModalOpen && (
         <AddCardModal onAdd={handleAddCard} onClose={handleCloseAddModal} />
       )}

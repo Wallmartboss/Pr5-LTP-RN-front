@@ -13,8 +13,10 @@ export const addCard = createAsyncThunk(
           Authorization: `Bearer ${token}`,
         },
       });
+      console.log('Server response after adding card:', response.data);
       return response.data;
     } catch (error) {
+      console.error('API call failed:', error);
       return thunkApi.rejectWithValue(error.message);
     }
   }
