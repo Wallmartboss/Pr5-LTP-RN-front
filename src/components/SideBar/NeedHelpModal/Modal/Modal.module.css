@@ -18,9 +18,9 @@
   margin: 0;
   position: relative;
   border-radius: 8px;
-  background: #fcfcfc;
+  background: var(--modal-bg-color);
   box-shadow: 0 4px 16px 0 var(--icon-color);
-  max-width: 350px;
+  /* max-width: 350px; */
   /* width: 100%; */
 }
 
@@ -28,7 +28,7 @@
   font-size: 18px;
   letter-spacing: -0.02em;
   font-weight: 500;
-  color: var(--text-color);
+  color: var(--main-text-color);
   margin-bottom: 24px;
 }
 
