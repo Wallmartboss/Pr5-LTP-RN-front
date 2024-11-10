@@ -12,7 +12,7 @@ export const fetchBoards = createAsyncThunk(
           Authorization: `Bearer ${token}`,
         },
       });
-      console.log('Fetched data:', data);
+      // console.log('Fetched data:', data);
       return data;
     } catch (e) {
       return thunkAPI.rejectWithValue(e.message);
@@ -33,6 +33,7 @@ export const addBoard = createAsyncThunk(
           },
         }
       );
+      console.log('Adding board :', data);
       return data;
     } catch (error) {
       console.error('Error adding board:', error);
@@ -91,7 +92,7 @@ export const fetchBoardById = createAsyncThunk(
           Authorization: `Bearer ${token}`,
         },
       });
-
+      console.log('Fetched board:', response.data);
       return response.data;
     } catch (error) {
       console.error('Fetch board error:', error.message);

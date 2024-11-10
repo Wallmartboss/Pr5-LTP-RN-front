@@ -47,11 +47,19 @@ const ScreensPage = () => {
     handleCloseModal();
   };
   const token = localStorage.getItem('token');
+  // useEffect(() => {
+  //   if (selectedBoard) {
+  //     dispatch(fetchBoardById({ boardId: selectedBoard._id, token }));
+  //   }
+  // }, [dispatch, selectedBoard, token]);
   useEffect(() => {
-    if (selectedBoard) {
+    if (selectedBoard?._id) {
       dispatch(fetchBoardById({ boardId: selectedBoard._id, token }));
     }
-  }, [dispatch, selectedBoard, token]);
+  }, [dispatch, selectedBoard?._id, token]);
+  console.log('Selected board:', selectedBoard);
+  console.log('Selected board title:', selectedBoard.title);
+
   useEffect(() => {
     console.log('Columns in selected board:', columns);
   }, [columns]);
