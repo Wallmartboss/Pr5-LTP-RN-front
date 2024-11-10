@@ -26,5 +26,4 @@ export const selectColumnsByBoardId = (state, boardId) => {
 export const selectIsAddModalOpen = state => state.cards.isAddModalOpen;
 export const selectIsModalOpen = (state) => state.cards.isModalOpen;
 export const selectExpandedCardId = state => state.cards.expandedCardId;
-export const selectIsModalOpen = state => state.cards.isModalOpen;
 export const selectOpenDropdowns = state => state.cards.openDropdowns;
