@@ -58,7 +58,7 @@ const ScreensPage = () => {
     }
   }, [dispatch, selectedBoard?._id, token]);
   console.log('Selected board:', selectedBoard);
-  console.log('Selected board title:', selectedBoard.title);
+  // console.log('Selected board title:', selectedBoard.title);
 
   useEffect(() => {
     console.log('Columns in selected board:', columns);

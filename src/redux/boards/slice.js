@@ -157,6 +157,7 @@ const boardsSlice = createSlice({
       })
       .addCase(updateBoard.fulfilled, (state, action) => {
         const updatedBoard = action.payload.data;
+        console.log('Updated board:', updatedBoard);
         state.items = state.items.map(board =>
           board._id === updatedBoard._id ? updatedBoard : board
         );
