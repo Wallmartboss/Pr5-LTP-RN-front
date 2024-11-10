@@ -3,9 +3,20 @@
   align-items: center;
   gap: 8px;
   margin-top: 14px;
+  margin-left: 14px;
+  width: 104px;
+  @media screen and (min-width: 375px) {
+    margin-top: 24px;
+    margin-left: 24px;
+    margin-bottom: 70px;
+  }
+  @media screen and (min-width: 768px) {
+    margin-bottom: 60px;
+  }
 }
 
 .icon {
+  stroke: var(--logo-bg-color);
 }
 
 .text {
@@ -17,4 +28,7 @@
   line-height: normal;
   letter-spacing: -0.64px;
   margin: 0;
+  color: var(--sec-text-color);
+  font-size: 16px;
+  font-weight: 600;
 }

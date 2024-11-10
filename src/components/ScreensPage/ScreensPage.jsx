@@ -10,30 +10,35 @@ import {
   selectEditModalOpen,
   selectIsDeleteModalOpen,
   selectIsModalOpen,
-  selectIsError,
+  // selectIsError,
   selectIsLoading,
 } from '../../redux/columns/selectors';
 import { selectSelectedBoard } from '../../redux/boards/selectors';
 import { fetchBoardById } from '../../redux/boards/operations';
-import { addColumn, closeModal, openModal } from '../../redux/boards/slice';
+// import { closeModal, openModal } from '../../redux/boards/slice';
 import EditColumnModal from '../EditColumnModal/EditColumnModal';
 import DeleteColumnModal from '../DeleteColumnModal/DeleteColumnModal';
-import { fetchColumns } from '../../redux/columns/operations';
-// import { openModal, closeModal } from '../../redux/columns/slice';
+import { fetchColumns, addColumn } from '../../redux/columns/operations';
+import { openModal, closeModal } from '../../redux/columns/slice';
 const ScreensPage = () => {
   const selectedBoard = useSelector(selectSelectedBoard);
   const dispatch = useDispatch();
   const columns = useSelector(selectColumns);
   const isModalOpen = useSelector(selectIsModalOpen);
-  const isEdidModalOpen = useSelector(selectEditModalOpen);
+  const isEditModalOpen = useSelector(selectEditModalOpen);
   const isDeleteModalOpen = useSelector(selectIsDeleteModalOpen);
   const isLoading = useSelector(selectIsLoading);
   // const isError = useSelector(selectIsError);
-
+  const token = localStorage.getItem('token');
+  // useEffect(() => {
+  //   dispatch(fetchColumns());
+  // }, [dispatch]);
   useEffect(() => {
-    dispatch(fetchColumns());
-  }, [dispatch]);
-
+    console.log('Selected board ID:', selectedBoard?._id);
+    if (selectedBoard?._id) {
+      dispatch(fetchColumns(selectedBoard._id));
+    }
+  }, [dispatch, selectedBoard?._id]);
   const handleOpenModal = () => {
     dispatch(openModal());
   };
@@ -41,12 +46,19 @@ const ScreensPage = () => {
   const handleCloseModal = () => {
     dispatch(closeModal());
   };
-
   const handleAddColumn = async columnTitle => {
-    await dispatch(addColumn(columnTitle));
+    await dispatch(
+      addColumn({ boardId: selectedBoard._id, title: columnTitle, token })
+    );
+    console.log('Selected board ID:', selectedBoard._id);
+    dispatch(fetchColumns(selectedBoard._id));
     handleCloseModal();
   };
-  const token = localStorage.getItem('token');
+  // const handleAddColumn = async columnTitle => {
+  //   await dispatch(addColumn(columnTitle));
+  //   handleCloseModal();
+  // };
+
   // useEffect(() => {
   //   if (selectedBoard) {
   //     dispatch(fetchBoardById({ boardId: selectedBoard._id, token }));
@@ -57,7 +69,9 @@ const ScreensPage = () => {
       dispatch(fetchBoardById({ boardId: selectedBoard._id, token }));
     }
   }, [dispatch, selectedBoard?._id, token]);
-  console.log('Selected board:', selectedBoard);
+  useEffect(() => {
+    console.log('Selected board:', selectedBoard);
+  }, [selectedBoard]);
   // console.log('Selected board title:', selectedBoard.title);
 
   useEffect(() => {
@@ -82,7 +96,7 @@ const ScreensPage = () => {
         <div className={s.columnsContainer}>
           {selectedBoard.columns && selectedBoard.columns.length > 0 ? (
             selectedBoard.columns.map(column => (
-              <BoardColumn key={column.id} column={column} />
+              <BoardColumn key={column._id} column={column} />
             ))
           ) : (
             <p>No columns available for this board</p>
@@ -101,7 +115,7 @@ const ScreensPage = () => {
           onAddColumn={handleAddColumn}
         />
       )}
-      {isEdidModalOpen && <EditColumnModal />}
+      {isEditModalOpen && <EditColumnModal />}
       {isDeleteModalOpen && <DeleteColumnModal />}
     </div>
   ) : (

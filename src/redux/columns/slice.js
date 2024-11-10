@@ -34,6 +34,7 @@ const columnsSlice = createSlice({
     closeModal(state, action) {
       state.isModalOpen = false;
     },
+
     toggleFilter(state, action) {
       const { value, checked } = action.payload;
       state.selectedFilter[value] = checked;
@@ -104,6 +105,25 @@ const columnsSlice = createSlice({
         state.isError = null;
       })
       .addCase(editColumnTitle.fulfilled, (state, action) => {
+        //   const updatedColumn = action.payload; // Используем action.payload напрямую
+        //   console.log('Updated column:', updatedColumn); // Логируем обновленную колонку
+
+        //   if (!updatedColumn) {
+        //     console.error('No updated column data found!');
+        //     return;
+        //   }
+
+        //   state.items = state.items.map(column =>
+        //     column._id === updatedColumn._id ? updatedColumn : column
+        //   );
+
+        //   if (
+        //     selectColumnToEdit &&
+        //     state.selectedColumn._id === updatedColumn._id
+        //   ) {
+        //     state.selectedColumn = updatedColumn;
+        //   }
+        // })
         const { id, title } = action.payload;
         const column = state.columns.find(column => column.id === id);
         if (column) column.title = title;

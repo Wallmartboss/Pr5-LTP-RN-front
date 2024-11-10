@@ -27,8 +27,8 @@ const BoardColumn = ({ column, columnId }) => {
     dispatch(closeAddModal());
   };
 
-  const handleAddCard = taskData => {
-    dispatch(
+  const handleAddCard = async taskData => {
+    await dispatch(
       addCard({
         ...taskData,
         columnId,
@@ -67,7 +67,7 @@ const BoardColumn = ({ column, columnId }) => {
         </div>
       </div>
 
-      <CardList columnId={columnId} />
+      {/* <CardList columnId={columnId} /> */}
       {isAddModalOpen && (
         <AddCardModal onAdd={handleAddCard} onClose={handleCloseAddModal} />
       )}
