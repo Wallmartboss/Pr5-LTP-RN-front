@@ -1,4 +1,4 @@
-.form {
+/* .form {
   display: flex;
   flex-direction: column;
   gap: 16px;
@@ -20,7 +20,7 @@
   display: flex;
   gap: 8px;
   flex-wrap: wrap;
-  fill: none;
+  fill: transparent;
   stroke: #16161680;
 }
 
@@ -54,4 +54,116 @@
   border: none;
   border-radius: 6px;
   cursor: pointer;
+} */
+
+/* Загальні стилі для форми */
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* Стилі для поля введення заголовка */
+.input {
+  width: 100%;
+  padding: 8px;
+  font-size: 16px;
+  border: 1px solid #bedbb0;
+  border-radius: 8px;
+}
+
+/* Стилі для секцій (ікон та фону) */
+.section {
+  margin-top: 10px;
+}
+
+/* Стилі для іконок */
+.icons {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  fill: transparent;
+  stroke: #16161680;
+}
+
+.iconOption {
+  display: flex;
+  align-items: center;
+}
+
+.iconRadio {
+  display: none;
+}
+
+.icon {
+  width: 32px;
+  height: 32px;
+  cursor: pointer;
+  fill: #888;
+  transition: fill 0.3s ease, background-color 0.3s ease;
+}
+
+.activeIcon {
+  stroke: #161616;
+}
+
+/* Стилі для кнопки створення */
+.createButton {
+  width: 100%;
+  padding: 10px;
+  font-size: 16px;
+  color: #fff;
+  background-color: #bedbb0;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+/* Стилі для фонових зображень */
+.backgrounds {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+/* Стилі для кожної опції фону */
+.bgOption {
+  display: inline-block;
+  margin: 8px;
+  cursor: pointer;
+  border-radius: 8px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.bgOption input {
+  display: none; /* Ховаємо саму радіокнопку */
+}
+
+.bgOption img {
+  width: 28px; /* Розмір зображення на радіокнопці */
+  height: 28px; /* Розмір зображення на радіокнопці */
+  border-radius: 8px;
+  object-fit: cover;
+  box-shadow: 0 0 0 2px transparent;
+  transition: box-shadow 0.3s ease, transform 0.3s ease;
+}
+
+/* Коли фон вибрано (підсвічування вибраного) */
+.bgOption input:checked + label img {
+  box-shadow: 0 0 0 2px #bedbb0; /* Підсвічування вибраного фону */
+  transform: scale(1.05); /* Легке збільшення */
+}
+
+/* Стилі для картинок на фон */
+.bgImage {
+  width: 100%;
+  height: 100%;
+  border-radius: 8px;
+  object-fit: cover;
+}
+
+/* Стилі для картинок на фон, що виділяються при натисканні */
+.bgOption:hover img {
+  transform: scale(1.1);
+  box-shadow: 0 0 0 3px #bedbb0;
 }

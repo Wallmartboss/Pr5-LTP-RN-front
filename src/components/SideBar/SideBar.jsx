@@ -81,8 +81,8 @@ const Sidebar = () => {
         <hr className={s.separator} />
 
         <div className={s.createBoardContainer}>
-          <div className={s.createBoardText}>
-            <span>Create a new board</span>
+          <div>
+            <span className={s.createBoardText}>Create a new board</span>
           </div>
           <button
             className={s.createButton}

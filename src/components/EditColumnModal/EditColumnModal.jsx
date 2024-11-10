@@ -11,6 +11,7 @@ const EditColumnModal = () => {
   const columnToEdit = useSelector(selectColumnToEdit);
   const [title, setTitle] = useState(columnToEdit?.title || '');
 
+  const token = localStorage.getItem('token');
   useEffect(() => {
     setTitle(columnToEdit?.title || '');
   }, [columnToEdit]);
@@ -20,8 +21,11 @@ const EditColumnModal = () => {
   };
 
   const handleEditClick = async () => {
+    console.log('title:', title, 'columnToEdit:', columnToEdit._id);
     if (title.trim() && columnToEdit) {
-      await dispatch(editColumnTitle({ id: columnToEdit.id, newTitle: title }));
+      await dispatch(
+        editColumnTitle({ columnId: columnToEdit._id, newTitle: title, token })
+      );
       handleClose();
     } else {
       alert('Please provide a title');

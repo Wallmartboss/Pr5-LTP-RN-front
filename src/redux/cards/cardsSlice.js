@@ -34,7 +34,7 @@ const cardsSlice = createSlice({
       state.openDropdowns[cardId] = !state.openDropdowns[cardId];
     },
     updateToday: state => {
-      state.today = new Date();
+      state.today = new Date().toISOString();
     },
     toggleDescription(state, action) {
       state.expandedCardId =

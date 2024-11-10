@@ -4,7 +4,7 @@
 }
 
 .logoutBtn {
-  margin-top: 24px;
+  margin-top: 28px;
   gap: 14px;
   display: flex;
   align-items: center;
@@ -13,14 +13,14 @@
   padding: 0;
 }
 .logoutIcon {
-  stroke: var(--icon-inprogress-color);
+  stroke: var(--icon-bg-color);
   fill: transparent;
   transition: stroke 0.25s ease;
 }
 
 .logoutText {
+  color: var(--main-text-color);
   font-family: 'Poppins';
-  color: var(--text-color);
   font-weight: 500;
   font-size: 14px;
 }
@@ -33,13 +33,5 @@
 .logoutBtn:focus {
   transform: translateX(5px);
 }
-
-/* .theme_light .logoutText {
-  color: var(--logout-text-color-light);
-}
-
-.theme_dark .logoutText {
-  color: var(--logout-text-color-dark);
-} */
 
 

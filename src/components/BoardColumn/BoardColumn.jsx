@@ -11,8 +11,11 @@ import {
 
 import { addCard, fetchCards } from '../../redux/cards/operations.js';
 import AddCardModal from '../AddCardModal/AddCardModal.jsx';
+
 import { useState } from 'react';
 // import AddCardModal from '../AddCardModal/AddCardModal.jsx';
+
+import { selectToken } from '../../redux/auth/selectors.js';
 
 const BoardColumn = ({ column }) => {
   const dispatch = useDispatch();
@@ -26,9 +29,50 @@ const handleOpenAddModal = () => {
 };
 
 
+
 const handleCloseAddModal = () => {
   setIsAddModalOpen(false);
 };
+ // const handleCloseAddModal = () => {
+//    dispatch(closeAddModal());
+//  };
+ // const token = localStorage.getItem('token');
+//  console.log('token:', token);
+
+// const handleAddCard = taskData => {
+   // console.log('Creating new card:', taskData);
+  //  dispatch(
+ //     addCard({
+ //       newCard: {
+ //         ...taskData,
+ //         columnId,
+//          boardId,
+ //       token,
+ //     })
+ //   );
+  // ---------------------------------------
+    // await dispatch(
+    //   addCard({
+    //     newCard: {
+    //       ...taskData,
+    //       columnId,
+    //       boardId,
+    //     },
+    //     token,
+    //   })
+    // ).then(() => {
+    //   console.log(
+    //     'newcard:',
+    //     taskData,
+    //     'columnId:',
+    //     columnId,
+    //     'boardId:',
+    //     boardId,
+    //     'token:',
+    //     token
+    //   );
+    //   dispatch(fetchCards({ boardId }));
+    // });
 
 const handleAddCard = (taskData) => {
   dispatch(addCard({
