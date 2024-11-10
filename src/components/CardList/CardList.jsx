@@ -12,6 +12,7 @@ import { toggleDropdown, updateToday } from '../../redux/cards/cardsSlice.js';
 const CardList = ({ columnId }) => {
     const dispatch = useDispatch();
     const cards = useSelector((state) => selectCardsByColumnId(state, columnId));
+    console.log('Cards for column', columnId, cards);
     const selectedBoard = useSelector(selectSelectedBoard);
     const boardId = selectedBoard?._id;
     const columns = useSelector(state => {

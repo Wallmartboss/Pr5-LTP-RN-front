@@ -13,16 +13,12 @@ const cardsSlice = createSlice({
     items: [],
     isLoading: false,
     error: null,
-    isAddModalOpen: false,
     openDropdowns: {},
     today: new Date().toISOString(),
     expandedCardId: null,
     isModalOpen: false,
   },
   reducers: {
-    openAddModal: state => {
-      state.isAddModalOpen = true;
-    },
     closeAddModal: state => {
       state.isAddModalOpen = false;
     },
@@ -82,10 +78,7 @@ const cardsSlice = createSlice({
       .addCase(addCard.fulfilled, (state, action) => {
         state.isLoading = false;
         state.items.push(action.payload);
-      })
-      .addCase(addCard.rejected, (state, action) => {
-        state.isLoading = false;
-        state.error = action.payload;
+        console.log('Updated Cards:', state.items); // Логування оновленого масиву карток
       })
       .addCase(editCard.pending, state => {
         state.isLoading = true;

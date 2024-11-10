@@ -3,7 +3,7 @@ import sprite from '../../icons/icons.svg';
 
 
 const Dropdown = ({ filteredColumns, openDropdown, handleMoveCard, cardId }) => {
-
+    console.log(openDropdown);
     if (!openDropdown) {
         return null;
     }

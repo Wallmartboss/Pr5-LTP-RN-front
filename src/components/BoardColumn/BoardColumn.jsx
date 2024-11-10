@@ -5,41 +5,42 @@ import { useDispatch, useSelector } from 'react-redux';
 import { openDeleteModal, openEditModal } from '../../redux/columns/slice';
 import CardList from '../CardList/CardList.jsx';
 import {
-  selectIsAddModalOpen,
+
   selectSelectedBoard,
 } from '../../redux/cards/selectors.js';
-import { closeAddModal, openAddModal } from '../../redux/cards/cardsSlice.js';
+
 import { addCard, fetchCards } from '../../redux/cards/operations.js';
 import AddCardModal from '../AddCardModal/AddCardModal.jsx';
+import { useState } from 'react';
+// import AddCardModal from '../AddCardModal/AddCardModal.jsx';
 
-const BoardColumn = ({ column, columnId }) => {
+const BoardColumn = ({ column }) => {
   const dispatch = useDispatch();
-
-  const isAddModalOpen = useSelector(selectIsAddModalOpen);
+  const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const selectedBoard = useSelector(selectSelectedBoard);
   const boardId = selectedBoard?._id;
+const columnId = column._id; 
 
-  const handleOpenAddModal = () => {
-    dispatch(openAddModal());
-  };
+const handleOpenAddModal = () => {
+  setIsAddModalOpen(true);
+};
 
-  const handleCloseAddModal = () => {
-    dispatch(closeAddModal());
-  };
 
-  const handleAddCard = taskData => {
-    dispatch(
-      addCard({
-        ...taskData,
-        columnId,
-        boardId,
-      })
-    ).then(() => {
-      dispatch(fetchCards({ boardId }));
-    });
+const handleCloseAddModal = () => {
+  setIsAddModalOpen(false);
+};
 
-    handleCloseAddModal();
-  };
+const handleAddCard = (taskData) => {
+  dispatch(addCard({
+    ...taskData,
+    columnId,
+    boardId,
+  })).then(() => {
+    dispatch(fetchCards({ boardId })); 
+  });
+
+  handleCloseAddModal();
+};
 
   const handleEditClick = () => {
     dispatch(openEditModal(column));
@@ -69,7 +70,7 @@ const BoardColumn = ({ column, columnId }) => {
 
       <CardList columnId={columnId} />
       {isAddModalOpen && (
-        <AddCardModal onAdd={handleAddCard} onClose={handleCloseAddModal} />
+        <AddCardModal onAdd={handleAddCard} onClose={handleCloseAddModal} boardId={boardId} columnId={columnId}/>
       )}
       <button className={s.addBtn} onClick={handleOpenAddModal}>
         <svg className={s.plusIcon} width="14" height="14">
