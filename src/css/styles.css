@@ -40,7 +40,7 @@ body {
   --icon-bg-color: #bedbb0; /*колір заднього фону для іконки "+" в хедері та сайдбарі */
   --cards-bg-color: #fff; /* колір заднього фону карток та назви колонки */
   --columnPlus-bg-color: #161616; /* колір заднього фону для іконки в кнопці "add another column" */
-
+  --logo-fill-color: #ffffff;
   --scrollX-color: #e8e8e8; /* колір для скролу по горизонталі */
   --scrollX-bg-color: #fff; /* колір заднього фону для скролу по вертикалі */
   --scrollY-color: rgba(22, 22, 22, 0.1); /* колір для скролу по вертикалі */
@@ -82,7 +82,7 @@ body.dark-mode {
   --icon-bg-color: #bedbb0;
   --cards-bg-color: #121212;
   --columnPlus-bg-color: #ffffff;
-
+  --logo-fill-color: #ffffff;
   --scrollX-color: rgba(255, 255, 255, 0.1);
   --scrollX-bg-color: #161616;
   --scrollY-color: #121212;
@@ -123,7 +123,7 @@ body.violet-mode {
   --icon-bg-color: #b8bcfd;
   --cards-bg-color: #fff;
   --columnPlus-bg-color: #5255bc;
-
+  --logo-fill-color: #5255bc;
   --scrollX-color: #b8bcfd;
   --scrollX-bg-color: #ffffff;
   --scrollY-color: #b8bcfd;

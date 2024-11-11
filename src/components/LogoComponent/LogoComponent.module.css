@@ -14,9 +14,20 @@
     margin-bottom: 60px;
   }
 }
-
+.iconFrame {
+  width: 32px;
+  height: 32px;
+  background-color: var(--logo-bg-color);
+  position: relative;
+  border-radius: 8px;
+}
 .icon {
-  stroke: var(--logo-bg-color);
+  stroke: none;
+  fill: var(--logo-fill-color);
+  position: absolute;
+  top: 25%;
+  left: 28%;
+  flex-shrink: 0;
 }
 
 .text {
