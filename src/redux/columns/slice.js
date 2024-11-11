@@ -28,18 +28,17 @@ const columnsSlice = createSlice({
   name: 'columns',
   initialState,
   reducers: {
-    openModal(state, action) {
+    openModal(state) {
       state.isModalOpen = true;
     },
-    closeModal(state, action) {
+    closeModal(state) {
       state.isModalOpen = false;
     },
-
     toggleFilter(state, action) {
       const { value, checked } = action.payload;
       state.selectedFilter[value] = checked;
     },
-    selectAllFilters(state, action) {
+    selectAllFilters(state) {
       state.selectedFilter = {
         none: true,
         low: true,
@@ -47,14 +46,14 @@ const columnsSlice = createSlice({
         high: true,
       };
     },
-    toggleFiltersOpen(state, action) {
+    toggleFiltersOpen(state) {
       state.isFiltersOpen = !state.isFiltersOpen;
     },
     openEditModal(state, action) {
       state.isEditModalOpen = true;
       state.columnToEdit = action.payload;
     },
-    closeEditModal(state, action) {
+    closeEditModal(state) {
       state.isEditModalOpen = false;
       state.columnToEdit = null;
     },
@@ -62,21 +61,20 @@ const columnsSlice = createSlice({
       state.isDeleteModalOpen = true;
       state.columnToDelete = action.payload;
     },
-    closeDeleteModal(state, action) {
+    closeDeleteModal(state) {
       state.isDeleteModalOpen = false;
       state.columnToDelete = null;
     },
-    deleteColumn(state, action) {
+    // Новий екшен для видалення колонки зі списку у Redux
+    removeColumnFromList(state, action) {
       state.columns = state.columns.filter(
-        column => column.id !== state.columnToDelete.id
+        column => column._id !== action.payload
       );
-      state.isDeleteModalOpen = false;
-      state.columnToDelete = null;
     },
   },
   extraReducers: builder => {
     builder
-      .addCase(fetchColumns.pending, (state, action) => {
+      .addCase(fetchColumns.pending, (state) => {
         state.isLoading = true;
         state.isError = null;
       })
@@ -88,7 +86,7 @@ const columnsSlice = createSlice({
         state.isLoading = false;
         state.isError = action.payload || 'Error fetching columns';
       })
-      .addCase(addColumn.pending, (state, action) => {
+      .addCase(addColumn.pending, (state) => {
         state.isLoading = true;
         state.isError = null;
       })
@@ -100,54 +98,33 @@ const columnsSlice = createSlice({
         state.isLoading = false;
         state.isError = action.payload || 'Error adding column';
       })
-      .addCase(editColumnTitle.pending, (state, action) => {
+      .addCase(editColumnTitle.pending, (state) => {
         state.isLoading = true;
         state.isError = null;
       })
       .addCase(editColumnTitle.fulfilled, (state, action) => {
         const updatedColumn = action.payload;
-        console.log('Updated column:', updatedColumn);
-        if (!updatedColumn) {
-          console.error('No updated column data found!');
-          return;
-        }
-
-        // Обновляем колонку в массиве items внутри columns
-        state.columns.items = state.columns.items.map(column =>
+        state.columns = state.columns.map((column) =>
           column._id === updatedColumn._id ? updatedColumn : column
         );
-
-        // Если колонка была выбрана, обновляем выбранную колонку
-        if (
-          state.columns.columnToEdit &&
-          state.columns.columnToEdit._id === updatedColumn._id
-        ) {
-          state.columns.columnToEdit = updatedColumn;
-        }
-
-        // Дополнительно, если существует state.selectedColumn, обновляем её
-        if (
-          state.selectedColumn &&
-          state.selectedColumn._id === updatedColumn._id
-        ) {
-          state.selectedColumn = updatedColumn;
-        }
+        state.isLoading = false;
       })
       .addCase(editColumnTitle.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = action.payload || 'Error editing column';
       })
-      .addCase(deleteColumn.pending, (state, action) => {
+      .addCase(deleteColumn.pending, state => {
         state.isLoading = true;
-        state.isError = null;
       })
       .addCase(deleteColumn.fulfilled, (state, action) => {
-        state.columns.filter(column => column.id !== action.payload.id);
         state.isLoading = false;
+        // Видаляємо колонку зі списку в Redux після успішного видалення з бази даних
+        state.columns = state.columns.filter(column => column._id !== action.payload._id);
       })
       .addCase(deleteColumn.rejected, (state, action) => {
         state.isLoading = false;
-        state.isError = action.payload || 'Error deleting column';
+        state.isError = true;
+        // Обробка помилки
       });
   },
 });
@@ -162,5 +139,7 @@ export const {
   closeEditModal,
   openDeleteModal,
   closeDeleteModal,
+  removeColumnFromList, // Експорт нового екшену
 } = columnsSlice.actions;
+
 export const columnsReducer = columnsSlice.reducer;

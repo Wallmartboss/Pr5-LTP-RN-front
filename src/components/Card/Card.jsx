@@ -13,12 +13,12 @@ import {
  
 } from '../../redux/cards/cardsSlice.js';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectExpandedCardId, selectIsModalOpen, selectOpenDropdowns} from '../../redux/cards/selectors.js';
+import { selectCardById, selectExpandedCardId, selectIsModalOpen, selectOpenDropdowns} from '../../redux/cards/selectors.js';
 import { useEffect, useState } from 'react';
 import { deleteCard } from '../../redux/cards/operations.js';
 
 const Card = ({ card, handleMoveCard, filteredColumns }) => {
-    const cardIdToDelete = useSelector(selectCardIdToDelete);
+    const cardIdToDelete = useSelector(selectCardById);
     const dispatch = useDispatch();
     const expandedCardId = useSelector(selectExpandedCardId);
     const isModalOpen = useSelector(selectIsModalOpen);
@@ -48,6 +48,7 @@ const Card = ({ card, handleMoveCard, filteredColumns }) => {
     };
 
     const openDeleteModal  = () => {
+        console.log( { cardId: _id })
         dispatch(openModal({ cardId: _id }));     
     };
 
@@ -68,16 +69,6 @@ const Card = ({ card, handleMoveCard, filteredColumns }) => {
     const toggleDropdownHandler = () => {
         dispatch(toggleDropdown(_id));
     };
-
-
-    // const handleToggleDropdown = () => {
-    //     dispatch(toggleDropdown(card._id));
-    //   };
-    
-    //   const handleMove = (columnId) => {
-    //     handleMoveCard(columnId, card._id);
-    //     dispatch(closeDropdown(card._id)); 
-    //   };
     const getPriorityColor = (priority) => {
         switch (priority) {
             case 'low':
@@ -150,6 +141,7 @@ const Card = ({ card, handleMoveCard, filteredColumns }) => {
                 isOpen={isModalOpen}
                 onClose={handleCancelDelete}
                 onConfirm={handleConfirmDelete}
+                cardId={card._id}
             />
         </div>
     );

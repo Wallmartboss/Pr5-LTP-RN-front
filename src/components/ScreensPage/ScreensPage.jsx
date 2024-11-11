@@ -1,8 +1,8 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import s from './ScreensPage.module.css';
 import FiltersDropDown from '../FiltersDropDown/FiltersDropDown';
 import AddColumnModal from '../AddColumnModal/AddColumnModal';
-import BoardColumn from '../BoardColumn/BoardColumn';
+import CardList from '../CardList/CardList.jsx';
 import sprite from '../../icons/icons.svg';
 import { useDispatch, useSelector } from 'react-redux';
 import {
@@ -10,16 +10,16 @@ import {
   selectEditModalOpen,
   selectIsDeleteModalOpen,
   selectIsModalOpen,
-  // selectIsError,
   selectIsLoading,
 } from '../../redux/columns/selectors';
 import { selectSelectedBoard } from '../../redux/boards/selectors';
 import { fetchBoardById } from '../../redux/boards/operations';
-// import { closeModal, openModal } from '../../redux/boards/slice';
+import { fetchColumns, addColumn } from '../../redux/columns/operations';
+import { openModal, closeModal, openEditModal, openDeleteModal } from '../../redux/columns/slice';
 import EditColumnModal from '../EditColumnModal/EditColumnModal';
 import DeleteColumnModal from '../DeleteColumnModal/DeleteColumnModal';
-import { fetchColumns, addColumn } from '../../redux/columns/operations';
-import { openModal, closeModal } from '../../redux/columns/slice';
+import AddCardModal from '../AddCardModal/AddCardModal'; // Import AddCardModal
+
 const ScreensPage = () => {
   const selectedBoard = useSelector(selectSelectedBoard);
   const dispatch = useDispatch();
@@ -28,17 +28,18 @@ const ScreensPage = () => {
   const isEditModalOpen = useSelector(selectEditModalOpen);
   const isDeleteModalOpen = useSelector(selectIsDeleteModalOpen);
   const isLoading = useSelector(selectIsLoading);
-  // const isError = useSelector(selectIsError);
   const token = localStorage.getItem('token');
-  // useEffect(() => {
-  //   dispatch(fetchColumns());
-  // }, [dispatch]);
+
+  const [isAddCardModalOpen, setIsAddCardModalOpen] = useState(false);
+  const [currentColumnId, setCurrentColumnId] = useState(null);
+
   useEffect(() => {
-    console.log('Selected board ID:', selectedBoard?._id);
     if (selectedBoard?._id) {
       dispatch(fetchColumns(selectedBoard._id));
+      dispatch(fetchBoardById({ boardId: selectedBoard._id, token }));
     }
-  }, [dispatch, selectedBoard?._id]);
+  }, [dispatch, selectedBoard?._id, token]);
+
   const handleOpenModal = () => {
     dispatch(openModal());
   };
@@ -46,32 +47,39 @@ const ScreensPage = () => {
   const handleCloseModal = () => {
     dispatch(closeModal());
   };
+
   const handleAddColumn = async columnTitle => {
-    await dispatch(
-      addColumn({ boardId: selectedBoard._id, title: columnTitle, token })
-    );
-    console.log('Selected board ID:', selectedBoard._id);
-    dispatch(fetchColumns(selectedBoard._id));
+    await dispatch(addColumn({ boardId: selectedBoard._id, title: columnTitle, token }));
     handleCloseModal();
   };
-  // const handleAddColumn = async columnTitle => {
-  //   await dispatch(addColumn(columnTitle));
-  //   handleCloseModal();
-  // };
 
+<<<<<<< Updated upstream
+=======
+<<<<<<< HEAD
+  const openAddCardModal = columnId => {
+    setCurrentColumnId(columnId);
+    setIsAddCardModalOpen(true);
+  };
+
+  const closeAddCardModal = () => {
+    setIsAddCardModalOpen(false);
+    setCurrentColumnId(null);
+  };
+=======
+>>>>>>> Stashed changes
   useEffect(() => {
     if (selectedBoard?._id) {
       dispatch(fetchBoardById({ boardId: selectedBoard._id, token }));
     }
   }, [dispatch, selectedBoard?._id, token]);
+<<<<<<< Updated upstream
+=======
+>>>>>>> 9ccce22de781316e0d24f00bfe1e14c795a057c8
+>>>>>>> Stashed changes
 
   if (isLoading) {
     return <p>Loading...</p>;
   }
-
-  // if (isError) {
-  //   return <p>{toString(isError)}</p>;
-  // }
 
   return selectedBoard ? (
     <div className={s.mainDashboard}>
@@ -81,9 +89,41 @@ const ScreensPage = () => {
           <FiltersDropDown />
         </div>
         <div className={s.columnsContainer}>
-          {selectedBoard.columns && selectedBoard.columns.length > 0 ? (
-            selectedBoard.columns.map(column => (
-              <BoardColumn key={column._id} column={column} />
+          {columns.length > 0 ? (
+            columns.map(column => (
+              <div className={s.column} key={column._id}>
+                <div className={s.columnHeader}>
+                  <h3 className={s.columnTitle}>{column.title}</h3>
+                  <div className={s.icons}>
+                    <button
+                      className={s.columnHeaderBtn}
+                      onClick={() => dispatch(openEditModal(column))}
+                    >
+                      <svg className={s.pencilIcon} width="16" height="16">
+                        <use href={`${sprite}#pencil-icon`} />
+                      </svg>
+                    </button>
+                    <button
+                      className={s.columnHeaderBtn}
+                      onClick={() => dispatch(openDeleteModal(column))}
+                    >
+                      <svg className={s.trashIcon} width="16" height="16">
+                        <use href={`${sprite}#trash-icon`} />
+                      </svg>
+                    </button>
+                  </div>
+                </div>
+                <CardList columnId={column._id} />
+                <button
+                  className={s.addBtn}
+                  onClick={() => openAddCardModal(column._id)}
+                >
+                  <svg className={s.plusIcon} width="14" height="14">
+                    <use href={`${sprite}#plus-icon`} />
+                  </svg>
+                  Add another card
+                </button>
+              </div>
             ))
           ) : (
             <p>No columns available for this board</p>
@@ -104,6 +144,13 @@ const ScreensPage = () => {
       )}
       {isEditModalOpen && <EditColumnModal />}
       {isDeleteModalOpen && <DeleteColumnModal />}
+      {isAddCardModalOpen && (
+        <AddCardModal
+          onClose={closeAddCardModal}
+          columnId={currentColumnId}
+          boardId={selectedBoard._id}
+        />
+      )}
     </div>
   ) : (
     <p>Select a board to view its details</p>

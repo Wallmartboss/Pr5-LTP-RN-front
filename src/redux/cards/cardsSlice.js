@@ -97,9 +97,8 @@ const cardsSlice = createSlice({
         state.error = null;
       })
       .addCase(deleteCard.fulfilled, (state, action) => {
-        const cardId = action.meta.arg.cardId;
-        state.items = state.items.filter(card => card._id !== cardId);
-        state.loading = false;
+        
+        state.cards = state.cards.filter(card => card._id !== action.payload);
       })
       .addCase(deleteCard.rejected, (state, action) => {
         state.loading = false;
