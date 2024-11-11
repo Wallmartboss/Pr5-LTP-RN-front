@@ -3,11 +3,14 @@
   flex-direction: column;
   background-color: var(--need-bg-color);
   height: 238px;
+  width: 197px;
   margin-left: 14px;
   margin-right: 14px;
   margin-top: 40px;
   border-radius: 8px;
-  @media screen and (min-width: 1440px) {
+  @media screen and (min-width: 768px) {
+    height: 272px;
+    width: 212px;
   }
 }
 .helpText {
