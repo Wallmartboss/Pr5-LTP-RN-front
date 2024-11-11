@@ -57,11 +57,11 @@ const BoardColumn = ({ column }) => {
   return (
     <div className={s.column}>
       <div className={s.columnHeader}>
-        <h3 className={s.columnTitle}>{column.title}</h3>
         {/* {columns.map(column => (
-          <column key={column._id} column={column} />
-        ))} */}
-
+          <div  <column key={column._id} column={column} /> */}
+        <h3 className={s.columnTitle}>{column.title}</h3>
+        {/* </div> */}
+        {/* ))} */}
         <div className={s.icons}>
           <button className={s.columnHeaderBtn} onClick={handleEditClick}>
             <svg className={s.pencilIcon} width="16" height="16">

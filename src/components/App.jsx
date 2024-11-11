@@ -12,9 +12,16 @@ function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<Navigate to="/welcome" />} />
+        <Route
+          // path="/"
+          // element={<Navigate to={isLoggedIn ? '/home' : '/welcome'} />}
+
+          path="/"
+          element={<Navigate to="/welcome" />}
+        />
         <Route path="/welcome" element={<WelcomePage />} />
         <Route path="/auth/:id" element={<AuthPage />} />
+        {/* <Route path=":boardId" element={<ScreensPage />} /> */}
         <Route path="/home/*" element={<HomePage />} />
       </Routes>
     </Router>
