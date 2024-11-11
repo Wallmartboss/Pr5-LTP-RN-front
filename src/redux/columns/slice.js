@@ -105,37 +105,33 @@ const columnsSlice = createSlice({
         state.isError = null;
       })
       .addCase(editColumnTitle.fulfilled, (state, action) => {
-        //   const updatedColumn = action.payload; // Используем action.payload напрямую
-        //   console.log('Updated column:', updatedColumn); // Логируем обновленную колонку
-
-        //   if (!updatedColumn) {
-        //     console.error('No updated column data found!');
-        //     return;
-        //   }
-
-        //   state.items = state.items.map(column =>
-        //     column._id === updatedColumn._id ? updatedColumn : column
-        //   );
-
-        //   if (
-        //     selectColumnToEdit &&
-        //     state.selectedColumn._id === updatedColumn._id
-        //   ) {
-        //     state.selectedColumn = updatedColumn;
-        //   }
-        // })  второй вариант
-        //   const { id, title } = action.payload;
-        //   const column = state.columns.find(column => column.id === id);
-        //   if (column) column.title = title;
-        //   state.isLoading = false;
-        // })
-        const updatedColumn = state.columns.find(
-          column => column.id === action.payload.id
-        );
-        if (updatedColumn) {
-          updatedColumn.title = action.payload.title; // обновляем название колонки
+        const updatedColumn = action.payload;
+        console.log('Updated column:', updatedColumn);
+        if (!updatedColumn) {
+          console.error('No updated column data found!');
+          return;
         }
-        state.isLoading = false;
+
+        // Обновляем колонку в массиве items внутри columns
+        state.columns.items = state.columns.items.map(column =>
+          column._id === updatedColumn._id ? updatedColumn : column
+        );
+
+        // Если колонка была выбрана, обновляем выбранную колонку
+        if (
+          state.columns.columnToEdit &&
+          state.columns.columnToEdit._id === updatedColumn._id
+        ) {
+          state.columns.columnToEdit = updatedColumn;
+        }
+
+        // Дополнительно, если существует state.selectedColumn, обновляем её
+        if (
+          state.selectedColumn &&
+          state.selectedColumn._id === updatedColumn._id
+        ) {
+          state.selectedColumn = updatedColumn;
+        }
       })
       .addCase(editColumnTitle.rejected, (state, action) => {
         state.isLoading = false;

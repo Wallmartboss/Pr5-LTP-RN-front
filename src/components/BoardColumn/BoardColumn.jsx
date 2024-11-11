@@ -3,11 +3,9 @@ import sprite from '../../icons/icons.svg';
 
 import { useDispatch, useSelector } from 'react-redux';
 import { openDeleteModal, openEditModal } from '../../redux/columns/slice';
+import { openEditModalBoard } from '../../redux/boards/slice';
 import CardList from '../CardList/CardList.jsx';
-import {
-
-  selectSelectedBoard,
-} from '../../redux/cards/selectors.js';
+import { selectSelectedBoard } from '../../redux/cards/selectors.js';
 
 import { addCard, fetchCards } from '../../redux/cards/operations.js';
 import AddCardModal from '../AddCardModal/AddCardModal.jsx';
@@ -22,72 +20,73 @@ const BoardColumn = ({ column }) => {
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const selectedBoard = useSelector(selectSelectedBoard);
   const boardId = selectedBoard?._id;
-const columnId = column._id; 
+  const columnId = column._id;
 
-const handleOpenAddModal = () => {
-  setIsAddModalOpen(true);
-};
+  const handleOpenAddModal = () => {
+    setIsAddModalOpen(true);
+  };
 
+  const handleCloseAddModal = () => {
+    setIsAddModalOpen(false);
+  };
+  // const handleCloseAddModal = () => {
+  //    dispatch(closeAddModal());
+  //  };
+  // const token = localStorage.getItem('token');
+  //  console.log('token:', token);
 
-
-const handleCloseAddModal = () => {
-  setIsAddModalOpen(false);
-};
- // const handleCloseAddModal = () => {
-//    dispatch(closeAddModal());
-//  };
- // const token = localStorage.getItem('token');
-//  console.log('token:', token);
-
-// const handleAddCard = taskData => {
-   // console.log('Creating new card:', taskData);
+  // const handleAddCard = taskData => {
+  // console.log('Creating new card:', taskData);
   //  dispatch(
- //     addCard({
- //       newCard: {
- //         ...taskData,
- //         columnId,
-//          boardId,
- //       token,
- //     })
- //   );
+  //     addCard({
+  //       newCard: {
+  //         ...taskData,
+  //         columnId,
+  //          boardId,
+  //       token,
+  //     })
+  //   );
   // ---------------------------------------
-    // await dispatch(
-    //   addCard({
-    //     newCard: {
-    //       ...taskData,
-    //       columnId,
-    //       boardId,
-    //     },
-    //     token,
-    //   })
-    // ).then(() => {
-    //   console.log(
-    //     'newcard:',
-    //     taskData,
-    //     'columnId:',
-    //     columnId,
-    //     'boardId:',
-    //     boardId,
-    //     'token:',
-    //     token
-    //   );
-    //   dispatch(fetchCards({ boardId }));
-    // });
+  // await dispatch(
+  //   addCard({
+  //     newCard: {
+  //       ...taskData,
+  //       columnId,
+  //       boardId,
+  //     },
+  //     token,
+  //   })
+  // ).then(() => {
+  //   console.log(
+  //     'newcard:',
+  //     taskData,
+  //     'columnId:',
+  //     columnId,
+  //     'boardId:',
+  //     boardId,
+  //     'token:',
+  //     token
+  //   );
+  //   dispatch(fetchCards({ boardId }));
+  // });
 
-const handleAddCard = (taskData) => {
-  dispatch(addCard({
-    ...taskData,
-    columnId,
-    boardId,
-  })).then(() => {
-    dispatch(fetchCards({ boardId })); 
-  });
+  const handleAddCard = taskData => {
+    dispatch(
+      addCard({
+        ...taskData,
+        columnId,
+        boardId,
+      })
+    ).then(() => {
+      dispatch(fetchCards({ boardId }));
+    });
 
-  handleCloseAddModal();
-};
+    handleCloseAddModal();
+  };
 
   const handleEditClick = () => {
     dispatch(openEditModal(column));
+    dispatch(openEditModalBoard(column));
   };
 
   const handleDeleteClick = () => {
@@ -114,7 +113,12 @@ const handleAddCard = (taskData) => {
 
       <CardList columnId={columnId} />
       {isAddModalOpen && (
-        <AddCardModal onAdd={handleAddCard} onClose={handleCloseAddModal} boardId={boardId} columnId={columnId}/>
+        <AddCardModal
+          onAdd={handleAddCard}
+          onClose={handleCloseAddModal}
+          boardId={boardId}
+          columnId={columnId}
+        />
       )}
       <button className={s.addBtn} onClick={handleOpenAddModal}>
         <svg className={s.plusIcon} width="14" height="14">

@@ -5,6 +5,7 @@ import {
   updateBoard,
   addBoard,
   deleteBoard,
+  editColumnTitle,
 } from './operations';
 
 const initialState = {
@@ -56,7 +57,7 @@ const boardsSlice = createSlice({
     toggleFiltersOpen(state, action) {
       state.isFiltersOpen = !state.isFiltersOpen;
     },
-    openEditModal(state, action) {
+    openEditModalBoard(state, action) {
       state.isEditModalOpen = true;
       state.columnToEdit = action.payload;
     },
@@ -64,11 +65,11 @@ const boardsSlice = createSlice({
       state.isEditModalOpen = false;
       state.columnToEdit = null;
     },
-    editColumnTitle(state, action) {
-      const { id, newTitle } = action.payload;
-      const column = state.columns.find(column => column.id === id);
-      if (column) column.title = newTitle;
-    },
+    // editColumnTitle(state, action) {
+    //   const { id, newTitle } = action.payload;
+    //   const column = state.columns.find(column => column.id === id);
+    //   if (column) column.title = newTitle;
+    // },
     openDeleteModal(state, action) {
       state.isDeleteModalOpen = true;
       state.columnToDelete = action.payload;
@@ -185,6 +186,23 @@ const boardsSlice = createSlice({
       .addCase(deleteBoard.rejected, (state, action) => {
         console.error('Delete board failed:', action.payload);
       });
+    // .addCase(editColumnTitle.fulfilled, (state, action) => {
+    //   const updatedColumn = action.payload;
+    //   const board = state.boards.items.find(
+    //     board => board._id === state.boards.selectedBoard._id
+    //   );
+    //   if (board) {
+    //     board.columns = board.columns.map(column =>
+    //       column._id === updatedColumn._id ? updatedColumn : column
+    //     );
+    //   }
+    //   state.boards.columnToEdit = null;
+    //   state.boards.isEditModalOpen = false;
+    // })
+    // .addCase(editColumnTitle.rejected, (state, action) => {
+    //   console.error('Error editing column:', action.payload);
+    //   state.boards.error = action.payload;
+    // });
     // .addCase(deleteColumn.fulfilled, (state, action) => {
     //   const { boardId, columnId } = action.payload;
     //   const board = state.items.find(board => board._id === boardId);
@@ -202,9 +220,9 @@ export const {
   toggleFilter,
   selectAllFilters,
   toggleFiltersOpen,
-  openEditModal,
+  openEditModalBoard,
   closeEditModal,
-  editColumnTitle,
+  // editColumnTitle,
   openDeleteModal,
   openDeleteBoardModal,
   closeDeleteBoardModal,

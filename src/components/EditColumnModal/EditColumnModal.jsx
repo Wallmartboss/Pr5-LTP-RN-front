@@ -6,12 +6,26 @@ import { selectColumnToEdit } from '../../redux/columns/selectors';
 import { closeEditModal } from '../../redux/columns/slice';
 import { editColumnTitle } from '../../redux/columns/operations';
 
+// const EditColumnModal = () => {
+//   const dispatch = useDispatch();
+//   const columnToEdit = useSelector(selectColumnToEdit);
+//   const [title, setTitle] = useState(columnToEdit?.title || '');
+
+//   const token = localStorage.getItem('token');
+//   useEffect(() => {
+//     setTitle(columnToEdit?.title || '');
+//   }, [columnToEdit]);
+
+//   const handleInputChange = event => {
+//     setTitle(event.target.value);
+//   };
 const EditColumnModal = () => {
   const dispatch = useDispatch();
-  const columnToEdit = useSelector(selectColumnToEdit);
+  const columnToEdit = useSelector(state => state.boards.columnToEdit);
   const [title, setTitle] = useState(columnToEdit?.title || '');
 
   const token = localStorage.getItem('token');
+
   useEffect(() => {
     setTitle(columnToEdit?.title || '');
   }, [columnToEdit]);
@@ -19,7 +33,6 @@ const EditColumnModal = () => {
   const handleInputChange = event => {
     setTitle(event.target.value);
   };
-
   const handleEditClick = async () => {
     console.log('title:', title, 'columnToEdit:', columnToEdit._id);
     if (title.trim() && columnToEdit) {

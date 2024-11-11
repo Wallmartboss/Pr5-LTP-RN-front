@@ -100,3 +100,26 @@ export const fetchBoardById = createAsyncThunk(
     }
   }
 );
+export const editColumnTitle = createAsyncThunk(
+  'boards/columns/editColumnTitle',
+  async ({ columnId, newTitle, token }, thunkAPI) => {
+    try {
+      const response = await axios.patch(
+        `/columns/${columnId}`,
+        { title: newTitle },
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      console.log('Server response after editing column:', response.data);
+      return response.data;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(
+        error.response?.data.message || 'Failed to edit the column'
+      );
+    }
+  }
+);
