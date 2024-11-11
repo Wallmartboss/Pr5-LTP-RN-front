@@ -14,19 +14,6 @@
 }
 
 body {
-  /* margin: 0;
-  --text-color: black;
-  --secondary-text-color: #161616;
-  --main-color: #bedbb0;
-  --accent-color: #9dc888;
-  --icon-color: rgba(22, 22, 22, 0.5);
-  --active-icon-color: rgba(22, 22, 22, 1);
-  color: var(--text-color);*/
-  --input-stroke-color: rgba(190, 219, 176, 0.4);
-  /*--input-bg-color: #1f1f1f;
-  --icon-inprogress-color: var(--main-color);
-  --icon-done-color: var(--black);*/
-
   transition: background-color 0.3s, color 0.3s;
   min-width: 320px;
   background-color: var(--main-bg-color);
@@ -59,19 +46,13 @@ body {
   --main-iconPlus-color: #ffffff; /*колір для іконки "+", яка використовується в кнопках*/
   --sec-iconPlus-color: #ffffff; /*колір для іконки "+", яка використовується в кнопкі "add another column"*/
   --logo-bg-color: #1f1f1f; /*колір для логотипу*/
+  --create-plus-color: #121212;
+  --need-bg-color: #f6f6f7;
+  --side-icon-color: rgba(22, 22, 22, 0.5);
+  --logout-color: #bedbb0;
 }
 
 body.dark-mode {
-  /* background-color: #121212;
-  --text-color-dark: white;
-  --main-color-dark: #bedbb0;
-  --accent-color-dark: #9dc888;
-  --icon-color-dark: rgba(255, 255, 255, 0.5);
-  --active-icon-color-dark: rgba(255, 255, 255, 1);
-  --input-stroke-color-dark: rgba(190, 219, 176, 0.4);
-  --icon-inprogress-color-dark: var(--main-color);
-  --icon-done-color-dark: rgba(255, 255, 255, 0.5); */
-
   background-color: var(--main-bg-color);
 
   --main-bg-color: #1f1f1f;
@@ -95,28 +76,23 @@ body.dark-mode {
   --sec-text-color: #fff;
   --btn-text-color: #161616;
 
-  --icon-color-dark: rgba(255, 255, 255, 0.5);
+  --icon-color: rgba(255, 255, 255, 0.5);
   --active-icon-color: rgba(255, 255, 255, 1);
   --icon-done-color: rgba(255, 255, 255, 0.5);
   --main-iconPlus-color: #ffffff;
   --sec-iconPlus-color: #121212;
   --logo-bg-color: #1f1f1f;
+  --create-plus-color: #121212;
+  --need-bg-color: #1f1f1f;
+  --side-icon-color: rgba(255, 255, 255, 0.5);
+  --logout-color: #bedbb0;
 }
-body.violet-mode {
-  /* background-color: #d6d8ff;
-  --text-color-violet: black;
-  --main-color-violet: #5255bc;
-  --accent-color-violet: #7b7ede;
-  --icon-color-violet: rgba(22, 22, 22, 0.5);
-  --active-icon-color-violet: rgba(22, 22, 22, 1);
-  --input-stroke-color-violet: rgba(82, 85, 188, 0.4);
-  --icon-inprogress-color-violet: var(--main-color-violet);
-  --icon-done-color-violet: var(--black); */
 
+body.violet-mode {
   background-color: var(--main-bg-color);
 
   --main-bg-color: #ecedfd;
-  --modal-bg-color: #fcfcfc;
+  --modal-bg-color: #a41313;
   --header-bg-color: #fff;
   --sideBar-bg-color: #5255bc;
   --calendar-bg-color: #fff;
@@ -128,20 +104,22 @@ body.violet-mode {
   --scrollX-bg-color: #ffffff;
   --scrollY-color: #b8bcfd;
   --scrollY-bg-color: #ffffff;
-
+--side-icon-color: rgba(255, 255, 255, 0.5)
   --main-color: #5255bc;
   --accent-color: #7b7ede;
 
   --main-text-color: #161616;
   --sec-text-color: #fff;
   --btn-text-color: #ffffff;
-
+  --need-bg-color: rgba(236, 237, 253, 0.4);
   --icon-color: rgba(22, 22, 22, 0.5);
   --active-icon-color: rgba(22, 22, 22, 1);
   --icon-done-color: var(--main-text-color);
   --main-iconPlus-color: #161616;
   --sec-iconPlus-color: #ffffff;
   --logo-bg-color: #ecedfd;
+  --create-plus-color: #ffffff;
+  --logout-color: #ffffff;
 }
 
 .visually-hidden {

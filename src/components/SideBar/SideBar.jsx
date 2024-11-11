@@ -116,7 +116,7 @@ const Sidebar = () => {
                     className={s.editButton}
                     onClick={() => handleEditBoardClick(board)}
                   >
-                    <svg className={s.icon} width="16" height="16">
+                    <svg className={s.iconAction} width="16" height="16">
                       <use href={`${sprite}#pencil-icon`} />
                     </svg>
                   </button>
@@ -124,7 +124,7 @@ const Sidebar = () => {
                     className={s.deleteButton}
                     onClick={() => handleDeleteBoard(board._id)}
                   >
-                    <svg className={s.icon} width="16" height="16">
+                    <svg className={s.iconAction} width="16" height="16">
                       <use href={`${sprite}#trash-icon`} />
                     </svg>
                   </button>
