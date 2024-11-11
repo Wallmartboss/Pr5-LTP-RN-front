@@ -43,12 +43,12 @@ export const addBoard = createAsyncThunk(
 );
 export const updateBoard = createAsyncThunk(
   'boards/updateBoard',
-  async ({ boardId, updatedTitle, token }, thunkAPI) => {
+  async ({ boardId, editedBoardObject, token }, thunkAPI) => {
     try {
-      console.log('boardId:', boardId, 'updatedTitle:', updatedTitle);
+      console.log('boardId:', boardId, 'editedBoardObject:', editedBoardObject);
       const { data } = await axios.patch(
         `/boards/${boardId}`,
-        { title: updatedTitle },
+        editedBoardObject,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -97,6 +97,29 @@ export const fetchBoardById = createAsyncThunk(
     } catch (error) {
       console.error('Fetch board error:', error.message);
       return thunkAPI.rejectWithValue(error.message);
+    }
+  }
+);
+export const editColumnTitle = createAsyncThunk(
+  'boards/columns/editColumnTitle',
+  async ({ columnId, newTitle, token }, thunkAPI) => {
+    try {
+      const response = await axios.patch(
+        `/columns/${columnId}`,
+        { title: newTitle },
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      console.log('Server response after editing column:', response.data);
+      return response.data;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(
+        error.response?.data.message || 'Failed to edit the column'
+      );
     }
   }
 );

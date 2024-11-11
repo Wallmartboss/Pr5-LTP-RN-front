@@ -57,12 +57,18 @@ const Sidebar = () => {
     setEditModalOpen(true);
   };
 
+  // const editedBoardObject = {
+  //   title: updatedBoard.title,
+  //   icon: iconsSelected,
+  //   background: backgroundSelected,
+  // };
+
   const handleEditBoard = updatedBoard => {
     console.log('Updated board data:', updatedBoard);
     dispatch(
       updateBoard({
         boardId: updatedBoard._id,
-        updatedTitle: updatedBoard.title,
+        editedBoardObject: updatedBoard.editedBoardObject,
         token,
       })
     );

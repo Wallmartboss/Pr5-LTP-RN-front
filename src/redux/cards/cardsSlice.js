@@ -10,27 +10,30 @@ import {
 const cardsSlice = createSlice({
   name: 'cards',
   initialState: {
-    items: [],
+    // items: [],
     isLoading: false,
     error: null,
     openDropdowns: {},
     expandedCardId: null,
     isModalOpen: false,
-    cardIdToDelete: null, 
+    cardIdToDelete: null,
   },
   reducers: {
     toggleDropdown: (state, action) => {
       const cardId = action.payload;
-      state.openDropdowns = Object.keys(state.openDropdowns).reduce((acc, key) => {
+      state.openDropdowns = Object.keys(state.openDropdowns).reduce(
+        (acc, key) => {
           acc[key] = false;
           return acc;
-      }, {});
+        },
+        {}
+      );
       state.openDropdowns[cardId] = !state.openDropdowns[cardId];
-  },
-  closeDropdown(state, action) {
-    const cardId = action.payload;
-    state.openDropdowns[cardId] = false;
-},
+    },
+    closeDropdown(state, action) {
+      const cardId = action.payload;
+      state.openDropdowns[cardId] = false;
+    },
 
     toggleDescription(state, action) {
       state.expandedCardId =
@@ -42,7 +45,7 @@ const cardsSlice = createSlice({
     },
     closeModal(state) {
       state.isModalOpen = false;
-      state.cardIdToDelete = null; 
+      state.cardIdToDelete = null;
     },
   },
   extraReducers: builder => {
@@ -121,7 +124,6 @@ const cardsSlice = createSlice({
 });
 
 export const {
-
   toggleDropdown,
   toggleDescription,
   openModal,
@@ -129,6 +131,6 @@ export const {
   closeDropdown,
 } = cardsSlice.actions;
 
-export const selectCardIdToDelete = (state) => state.cards.cardIdToDelete;  
+export const selectCardIdToDelete = state => state.cards.cardIdToDelete;
 
 export default cardsSlice.reducer;
