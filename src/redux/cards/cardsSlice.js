@@ -21,12 +21,16 @@ const cardsSlice = createSlice({
   reducers: {
     toggleDropdown: (state, action) => {
       const cardId = action.payload;
-      if (state.openDropdowns[cardId]) {
-        delete state.openDropdowns[cardId];
-      } else {
-        state.openDropdowns[cardId] = true;
-      }
-    },
+      state.openDropdowns = Object.keys(state.openDropdowns).reduce((acc, key) => {
+          acc[key] = false;
+          return acc;
+      }, {});
+      state.openDropdowns[cardId] = !state.openDropdowns[cardId];
+  },
+  closeDropdown(state, action) {
+    const cardId = action.payload;
+    state.openDropdowns[cardId] = false;
+},
 
     toggleDescription(state, action) {
       state.expandedCardId =
@@ -39,11 +43,6 @@ const cardsSlice = createSlice({
     closeModal(state) {
       state.isModalOpen = false;
       state.cardIdToDelete = null; 
-    },
-
-    closeDropdown(state, action) {
-      const cardId = action.payload;
-      delete state.openDropdowns[cardId];
     },
   },
   extraReducers: builder => {

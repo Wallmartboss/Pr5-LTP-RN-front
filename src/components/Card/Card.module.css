@@ -15,11 +15,17 @@
     width: 335px;
     height: 154px;
     border-radius: 8px;
-    background-color: var(--whine);
+
+    background-color: var( --cards-bg-color);
     padding: 14px;
 
 
 
+}
+.desWrap{
+    height: 38px;
+    padding-top: 3px;
+    padding-bottom: 3px;
 }
 
 .description {
@@ -31,7 +37,7 @@
     font-size: 12px;
     line-height: 16px;
     letter-spacing: -0.24px;
-    margin-bottom: 18px;
+    margin-bottom: 14px;
     display: -webkit-box;
     -webkit-box-orient: vertical;
     -webkit-line-clamp: 2;
@@ -54,7 +60,7 @@
     font-weight: 600;
     line-height: normal;
     letter-spacing: -0.28px;
-    margin-bottom: 11px;
+    margin-bottom: 8px;
 }
 
 .line {
@@ -87,7 +93,8 @@
 }
 
 .deadline {
-    color: var(--icon-color);
+    color: black;
+    /* color: var(--icon-color); */
     font-size: 8px;
     font-weight: 400;
     line-height: normal;

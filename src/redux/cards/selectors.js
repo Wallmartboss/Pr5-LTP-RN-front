@@ -4,6 +4,7 @@ export const selectCardById = (state, cardId) =>
   state.cards.items.find(card => card._id === cardId);
 export const selectCardsLoading = state => state.cards.loading;
 export const selectCardsError = state => state.cards.error;
+
 const selectBoardCards = state => state.cards;
 
 export const selectCards = createSelector([selectBoardCards], cards => {
@@ -38,3 +39,5 @@ export const selectCardsByColumnId = (state, columnId) =>
 export const selectExpandedCardId = state => state.cards.expandedCardId;
 export const selectIsModalOpen = state => state.cards.isModalOpen;
 export const selectOpenDropdowns = state => state.cards.openDropdowns;
+
+

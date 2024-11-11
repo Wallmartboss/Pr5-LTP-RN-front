@@ -13,7 +13,7 @@ import {
  
 } from '../../redux/cards/cardsSlice.js';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectExpandedCardId, selectIsModalOpen} from '../../redux/cards/selectors.js';
+import { selectExpandedCardId, selectIsModalOpen, selectOpenDropdowns} from '../../redux/cards/selectors.js';
 import { useEffect, useState } from 'react';
 import { deleteCard } from '../../redux/cards/operations.js';
 
@@ -22,8 +22,9 @@ const Card = ({ card, handleMoveCard, filteredColumns }) => {
     const dispatch = useDispatch();
     const expandedCardId = useSelector(selectExpandedCardId);
     const isModalOpen = useSelector(selectIsModalOpen);
+    // const isDropdownOpen = useSelector((state) => state.cards.openDropdowns[card._id]);
+    const openDropdowns = useSelector(selectOpenDropdowns);
     const { _id, priority, title, description, deadline } = card;
-    const isDropdownOpen = useSelector((state) => state.cards.openDropdowns[card._id]);
     const [isToday, setIsToday] = useState(false);
 
     const isDeadlineToday = (deadline) => {
@@ -59,16 +60,24 @@ const Card = ({ card, handleMoveCard, filteredColumns }) => {
     const handleCancelDelete = () => {
         dispatch(closeModal());
     };
+    const handleMoveCardClick = (columnId) => {
+        handleMoveCard(columnId, _id);
+        dispatch(closeDropdown(_id));
+    };
+
+    const toggleDropdownHandler = () => {
+        dispatch(toggleDropdown(_id));
+    };
 
 
-    const handleToggleDropdown = () => {
-        dispatch(toggleDropdown(card._id));
-      };
+    // const handleToggleDropdown = () => {
+    //     dispatch(toggleDropdown(card._id));
+    //   };
     
-      const handleMove = (columnId) => {
-        handleMoveCard(columnId, card._id);
-        dispatch(closeDropdown(card._id)); 
-      };
+    //   const handleMove = (columnId) => {
+    //     handleMoveCard(columnId, card._id);
+    //     dispatch(closeDropdown(card._id)); 
+    //   };
     const getPriorityColor = (priority) => {
         switch (priority) {
             case 'low':
@@ -87,11 +96,13 @@ const Card = ({ card, handleMoveCard, filteredColumns }) => {
         <div className={s.card} style={{ '--card-color': getPriorityColor(priority) }}>
             <h5 className={s.title}>{title}</h5>
 
-            <p
+           <div className={s.desWrap}>
+           <p
                 className={`${s.description} ${expandedCardId === _id ? s.expanded : ''}`}
                 onClick={toggleDescriptionHandler}
             >{description}</p>
 
+           </div>
             <span className={s.line}></span>
             <div className={s.bottom}>
                 <div className={s.action}>
@@ -109,7 +120,7 @@ const Card = ({ card, handleMoveCard, filteredColumns }) => {
               </svg>
             </div>
           )}
-                    <button className={s.move}  onClick={handleToggleDropdown} disabled={filteredColumns.length === 0} >
+                    <button className={s.move}  onClick={toggleDropdownHandler} disabled={filteredColumns.length === 0} >
                         <svg className={s.icon} width="16" height="16">
                             <use href={`${sprite}#arrow-circle-icon`} />
                         </svg>
@@ -127,13 +138,14 @@ const Card = ({ card, handleMoveCard, filteredColumns }) => {
                 </div>
             </div>
 
-            {isDropdownOpen  && (
                 <Dropdown
-                cardId={card._id}
-                filteredColumns={filteredColumns}
-                handleMoveCard={handleMove}
+                 cardId={card._id}
+                 filteredColumns={filteredColumns}
+                 handleMoveCard={handleMoveCardClick}
+                 openDropdown={openDropdowns[_id]}
+                 closeDropdown={() => dispatch(closeDropdown(_id))}
                 />
-            )}
+          
             <ModalDeleteCard
                 isOpen={isModalOpen}
                 onClose={handleCancelDelete}

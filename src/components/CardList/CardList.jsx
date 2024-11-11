@@ -1,5 +1,4 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { useMemo } from 'react';
 import s from './CardList.module.css';
 import {
   selectCardsByColumnId,
@@ -15,12 +14,11 @@ const CardList = ({ columnId }) => {
   const cards = useSelector(state => selectCardsByColumnId(state, columnId));
   const selectedBoard = useSelector(selectSelectedBoard);
   const boardId = selectedBoard?._id;
-  const columns = useSelector(state => selectColumnsByBoardId(state, boardId));
-  //   const filteredColumns = columns.filter(column => column._id !== columnId);
-  const filteredColumns = useMemo(() => {
-    return columns.filter(column => column._id !== columnId);
-  }, [columns, columnId]);
- 
+  const columns = useSelector(state => {
+    return selectColumnsByBoardId(state, boardId);
+});
+    const filteredColumns = columns.filter(column => column._id !== columnId);
+    const openDropdowns = useSelector(state => state.cards.openDropdowns);
 
   const handleMoveCard = (newColumnId, cardId) => {
     if (cardId && newColumnId && newColumnId !== columnId) {
@@ -28,6 +26,11 @@ const CardList = ({ columnId }) => {
       dispatch(toggleDropdown(cardId));
     }
   };
+
+  const toggleDropdownHandler = (cardId) => {
+    dispatch(toggleDropdown(cardId));
+};
+
 
   return (
     <div className={s.cardsContainer}>
@@ -39,8 +42,10 @@ const CardList = ({ columnId }) => {
             key={card._id}
             card={card}
             columnId={columnId}
-            handleMoveCard={handleMoveCard}   
+            handleMoveCard={handleMoveCard}  
+            openDropdowns={openDropdowns} 
             filteredColumns={filteredColumns}
+            toggleDropdown={toggleDropdownHandler}
           />
         ))
       )}
