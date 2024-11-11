@@ -5,8 +5,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { openDeleteModal, openEditModal } from '../../redux/columns/slice';
 import { openEditModalBoard } from '../../redux/boards/slice';
 import CardList from '../CardList/CardList.jsx';
-import { selectSelectedBoard } from '../../redux/cards/selectors.js';
-
+import { selectSelectedBoard } from '../../redux/boards/selectors.js';
+import { selectColumns } from '../../redux/columns/selectors.js';
 import { addCard, fetchCards } from '../../redux/cards/operations.js';
 import AddCardModal from '../AddCardModal/AddCardModal.jsx';
 
@@ -19,6 +19,7 @@ const BoardColumn = ({ column }) => {
   const dispatch = useDispatch();
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const selectedBoard = useSelector(selectSelectedBoard);
+  const columns = useSelector(selectColumns);
   const boardId = selectedBoard?._id;
   const columnId = column._id;
 
@@ -29,46 +30,6 @@ const BoardColumn = ({ column }) => {
   const handleCloseAddModal = () => {
     setIsAddModalOpen(false);
   };
-  // const handleCloseAddModal = () => {
-  //    dispatch(closeAddModal());
-  //  };
-  // const token = localStorage.getItem('token');
-  //  console.log('token:', token);
-
-  // const handleAddCard = taskData => {
-  // console.log('Creating new card:', taskData);
-  //  dispatch(
-  //     addCard({
-  //       newCard: {
-  //         ...taskData,
-  //         columnId,
-  //          boardId,
-  //       token,
-  //     })
-  //   );
-  // ---------------------------------------
-  // await dispatch(
-  //   addCard({
-  //     newCard: {
-  //       ...taskData,
-  //       columnId,
-  //       boardId,
-  //     },
-  //     token,
-  //   })
-  // ).then(() => {
-  //   console.log(
-  //     'newcard:',
-  //     taskData,
-  //     'columnId:',
-  //     columnId,
-  //     'boardId:',
-  //     boardId,
-  //     'token:',
-  //     token
-  //   );
-  //   dispatch(fetchCards({ boardId }));
-  // });
 
   const handleAddCard = taskData => {
     dispatch(
@@ -97,6 +58,10 @@ const BoardColumn = ({ column }) => {
     <div className={s.column}>
       <div className={s.columnHeader}>
         <h3 className={s.columnTitle}>{column.title}</h3>
+        {/* {columns.map(column => (
+          <column key={column._id} column={column} />
+        ))} */}
+
         <div className={s.icons}>
           <button className={s.columnHeaderBtn} onClick={handleEditClick}>
             <svg className={s.pencilIcon} width="16" height="16">

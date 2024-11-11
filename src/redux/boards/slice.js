@@ -11,7 +11,7 @@ import {
 const initialState = {
   items: [],
   selectedBoard: null,
-  columns: [],
+  // columns: [],
   isModalOpen: false,
   isFiltersOpen: false,
   selectedFilter: {

@@ -43,12 +43,12 @@ export const addBoard = createAsyncThunk(
 );
 export const updateBoard = createAsyncThunk(
   'boards/updateBoard',
-  async ({ boardId, updatedTitle, token }, thunkAPI) => {
+  async ({ boardId, editedBoardObject, token }, thunkAPI) => {
     try {
-      console.log('boardId:', boardId, 'updatedTitle:', updatedTitle);
+      console.log('boardId:', boardId, 'editedBoardObject:', editedBoardObject);
       const { data } = await axios.patch(
         `/boards/${boardId}`,
-        { title: updatedTitle },
+        editedBoardObject,
         {
           headers: {
             Authorization: `Bearer ${token}`,

@@ -51,11 +51,11 @@ export const fetchColumns = createAsyncThunk(
   }
 );
 export const addColumn = createAsyncThunk(
-  'boards/addColumn',
-  async ({ boardId, title, token }, thunkAPI) => {
+  'columns/addColumn',
+  async ({ columnId, title, token }, thunkAPI) => {
     try {
       const response = await axios.post(
-        `/columns/${boardId}`,
+        `/columns/${columnId}`,
         { title },
         {
           headers: {
@@ -72,6 +72,28 @@ export const addColumn = createAsyncThunk(
     }
   }
 );
+// export const addColumn = createAsyncThunk(
+//   'boards/addColumn',
+//   async ({ boardId, title, token }, thunkAPI) => {
+//     try {
+//       const response = await axios.post(
+//         `/columns/${boardId}`,
+//         { title },
+//         {
+//           headers: {
+//             Authorization: `Bearer ${token}`,
+//           },
+//         }
+//       );
+//       console.log('Adding column :', response.data);
+//       return response.data;
+//     } catch (error) {
+//       return thunkAPI.rejectWithValue(
+//         error.response?.data.message || 'Failed to add a new column'
+//       );
+//     }
+//   }
+// );
 
 export const editColumnTitle = createAsyncThunk(
   'boards/editColumnTitle',

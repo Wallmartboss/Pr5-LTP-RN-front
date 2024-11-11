@@ -1,5 +1,5 @@
 // import { createSelector } from 'reselect';
-export const selectColumns = state => state.boards.columns;
+export const selectColumns = state => state.columns.columns;
 // const selectColumnsData = state => state.boards.columns;
 // export const selectColumns = createSelector(
 //   [selectColumnsData],
