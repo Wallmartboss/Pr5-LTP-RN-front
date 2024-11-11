@@ -26,7 +26,7 @@
 }
 
 .title {
-  color: var(--icon-color); /*rgba(22, 22, 22, 0.5);*/
+  color: var(--sec-text-color); /*rgba(22, 22, 22, 0.5);*/
   font-size: 12px;
   line-height: normal;
   letter-spacing: -0.24px;
@@ -60,7 +60,7 @@
 }
 
 .createBoardText {
-  color: var(--main-text-color);
+  color: var(--sec-text-color);
   font-weight: 500;
   line-height: auto;
   letter-spacing: -0.2%;
@@ -73,7 +73,7 @@
   height: 36px;
   border: none;
   border-radius: 6px;
-  background: var(--main-color);
+  background: var(--icon-bg-color);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -83,7 +83,7 @@
 .plusIcon {
   width: 20px;
   height: 20px;
-  stroke: var(--sideBar-bg-color);
+  stroke: var(--create-plus-color);
 }
 
 .boardList {
@@ -92,10 +92,17 @@
   padding-left: 14px;
   padding-right: 14px;
   padding-top: 40px;
-
+  @media screen and (min-width: 375px) {
+    height: 278px;
+    overflow: auto;
+  }
   @media screen and (min-width: 768px) {
     padding-left: 24px;
     padding-right: 24px;
+    height: 456px;
+  }
+  @media screen and (min-width: 1440px) {
+    height: 202px;
   }
 }
 
@@ -103,7 +110,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  color: var(--main-text-color);
+  color: var(--sec-text-color);
   padding: 8px 0;
 }
 
@@ -115,7 +122,10 @@
 }
 
 .icon {
-  fill: var(--icon-color);
+  fill: var(--sicon-color);
+}
+c.iconAction {
+  fill: var(--side-icon-color);
 }
 
 .toggleButton {
