@@ -1,4 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
+
 import {
   addCard,
   deleteCard,
@@ -10,7 +11,7 @@ import {
 const cardsSlice = createSlice({
   name: 'cards',
   initialState: {
-    items: [],
+
     isLoading: false,
     error: null,
     openDropdowns: {},
@@ -47,6 +48,9 @@ const cardsSlice = createSlice({
       state.isModalOpen = false;
       state.cardIdToDelete = null;
     },
+    // addCard(state, action) {
+    //   state.items.push(action.payload); // Додаємо картку до масиву карток
+    // },
   },
   extraReducers: builder => {
     builder
@@ -124,6 +128,7 @@ const cardsSlice = createSlice({
 });
 
 export const {
+  // addCard,
   toggleDropdown,
   toggleDescription,
   openModal,

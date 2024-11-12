@@ -7,6 +7,7 @@ import {
 } from '../../redux/columns/selectors.js';
 import { selectSelectedBoard } from '../../redux/boards/selectors.js';
 import { moveCard } from '../../redux/cards/operations.js';
+
 import Card from '../Card/Card.jsx';
 import { toggleDropdown } from '../../redux/cards/cardsSlice.js';
 import {
@@ -32,9 +33,12 @@ const CardList = ({ columnId }) => {
   const selectedBoard = useSelector(selectSelectedBoard);
   const boardId = selectedBoard?._id;
   const columns = useSelector(state => selectColumnsByBoardId(state, boardId));
-  const filteredColumns = columns.filter(column => column._id !== columnId);
-  const openDropdowns = useSelector(state => state.cards.openDropdowns);
 
+
+  const filteredColumns = columns.filter(column => column._id !== columnId);
+
+
+  const openDropdowns = useSelector(state => state.cards.openDropdowns);
   console.log('All cards for column:', cards);
   console.log('Filtered cards for column:', filteredCards);
 
@@ -54,9 +58,13 @@ const CardList = ({ columnId }) => {
       {filteredCards.length === 0 ? (
         <p>No cards available in this column.</p>
       ) : (
+
         filteredCards.map(card => (
+
+       // cards.map((card, index) => (
+
           <Card
-            key={card._id}
+            key={card._id || `card-${index}`}
             card={card}
             columnId={columnId}
             handleMoveCard={handleMoveCard}

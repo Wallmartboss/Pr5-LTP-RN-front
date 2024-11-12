@@ -2,26 +2,13 @@ import React, { useEffect, useState } from 'react';
 import s from './EditColumnModal.module.css';
 import sprite from '../../icons/icons.svg';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectColumnToEdit } from '../../redux/columns/selectors';
+import { selectColumnToEdit } from '../../redux/columns/selectors'; // Переконайтесь, що цей selector правильно налаштований
 import { closeEditModal } from '../../redux/columns/slice';
 import { editColumnTitle } from '../../redux/columns/operations';
 
-// const EditColumnModal = () => {
-//   const dispatch = useDispatch();
-//   const columnToEdit = useSelector(selectColumnToEdit);
-//   const [title, setTitle] = useState(columnToEdit?.title || '');
-
-//   const token = localStorage.getItem('token');
-//   useEffect(() => {
-//     setTitle(columnToEdit?.title || '');
-//   }, [columnToEdit]);
-
-//   const handleInputChange = event => {
-//     setTitle(event.target.value);
-//   };
 const EditColumnModal = () => {
   const dispatch = useDispatch();
-  const columnToEdit = useSelector(state => state.boards.columnToEdit);
+  const columnToEdit = useSelector(selectColumnToEdit); // Використовуємо selector
   const [title, setTitle] = useState(columnToEdit?.title || '');
 
   const token = localStorage.getItem('token');
@@ -30,27 +17,28 @@ const EditColumnModal = () => {
     setTitle(columnToEdit?.title || '');
   }, [columnToEdit]);
 
-  const handleInputChange = event => {
+  const handleInputChange = (event) => {
     setTitle(event.target.value);
   };
+
   const handleEditClick = async () => {
-    console.log('title:', title, 'columnToEdit:', columnToEdit._id);
     if (title.trim() && columnToEdit) {
       await dispatch(
-        editColumnTitle({ columnId: columnToEdit._id, newTitle: title, token })
+        editColumnTitle({ columnId: columnToEdit._id, newTitle: title, token }) // Pass newTitle here
       );
       handleClose();
     } else {
       alert('Please provide a title');
     }
   };
+  
 
   const handleClose = () => {
     dispatch(closeEditModal());
   };
 
   useEffect(() => {
-    const handleKeyDown = event => {
+    const handleKeyDown = (event) => {
       if (event.key === 'Escape') {
         handleClose();
       }
@@ -64,7 +52,7 @@ const EditColumnModal = () => {
   return (
     <div
       className={s.modalOverlay}
-      onClick={event => event.target === event.currentTarget && handleClose()}
+      onClick={(event) => event.target === event.currentTarget && handleClose()}
     >
       <div className={s.modalContent}>
         <button className={s.closeBtn} onClick={handleClose}>

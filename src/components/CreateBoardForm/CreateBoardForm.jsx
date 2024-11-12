@@ -85,10 +85,9 @@
 
 // export default CreateBoardForm;
 
-import React, { useState } from 'react';
+import { useState } from 'react';
 import s from './CreateBoardForm.module.css';
-import backgroundImages from '../../bg/backgroundImages'; // Імпортуємо масив фонів для різних пристроїв
-import backgroundIcons from '../../bg/backgroundIcons'; // Імпортуємо масив іконок для відображення на радіо кнопках
+import backgroundImages from '../../bg/backgroundImages.js'; // Імпортуємо масив фонів для різних пристрої
 import sprite from '../../icons/icons.svg';
 
 // Список іконок для вибору
@@ -106,7 +105,7 @@ const icons = [
 const CreateBoardForm = ({ onCreate }) => {
   const [title, setTitle] = useState('');
   const [icon, setIcon] = useState('icon-grid'); // Початкове значення для іконки
-  const [background, setBackground] = useState(''); // Початковий фон
+  const [background, setBackground] = useState(0); // Початковий фон
 
   const handleSubmit = e => {
     e.preventDefault();
@@ -133,7 +132,7 @@ const CreateBoardForm = ({ onCreate }) => {
       <div className={s.section}>
         <p>Icons</p>
         <div className={s.icons}>
-          {icons.map(({ value, label }) => (
+          {icons.map(({ value }) => (
             <label key={value} className={s.iconOption}>
               <input
                 type="radio"
@@ -159,24 +158,25 @@ const CreateBoardForm = ({ onCreate }) => {
       <div className={s.section}>
         <p>Background</p>
         <div className={s.backgrounds}>
-          {backgroundIcons.map((bg, index) => (
-            <div key={index} className={s.bgOption}>
+          {backgroundImages.map((bg, index) => (
+            <label key={index} className={s.bgOption}>
               <input
                 type="radio"
                 name="background"
-                value={index} // Передаємо індекс фону для зберігання
-                checked={background === index}
-                onChange={() => setBackground(index)} // Зміна фону
-                id={`bg-${index}`}
+                value={bg.desktop} // Використовуємо desktop URL
+                checked={background === bg.desktop}
+                onChange={() => setBackground(bg.desktop)} // Оновлюємо стан фону
+                className={s.backgroundRadio}
+                style={{ display: 'none' }} // Приховуємо інпут
               />
-              <label htmlFor={`bg-${index}`}>
-                <img
-                  src={bg.src} // Використовуємо зображення для іконки
-                  alt={bg.alt}
-                  className={s.bgImage}
-                />
-              </label>
-            </div>
+              <img
+                src={bg.desktop}
+                alt={`Background ${index + 1}`}
+                className={s.backgroundImage}
+                width="28"
+                height="28"
+              />
+            </label>
           ))}
         </div>
       </div>

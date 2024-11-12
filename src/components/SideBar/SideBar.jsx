@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   fetchBoards,
@@ -52,6 +52,7 @@ const Sidebar = () => {
   };
 
   const handleEditBoardClick = board => {
+    console.log('Selected board for editing:', board);
     setSelectedBoard(board);
     console.log(selectedBoard);
     setEditModalOpen(true);
