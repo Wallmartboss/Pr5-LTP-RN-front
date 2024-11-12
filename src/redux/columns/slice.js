@@ -1,5 +1,12 @@
 import { createSlice } from '@reduxjs/toolkit';
 import {
+  // addCard,
+  deleteCard,
+  editCard,
+  fetchCards,
+  moveCard,
+} from '../cards/operations';
+import {
   fetchColumns,
   addColumn,
   editColumnTitle,
@@ -71,10 +78,22 @@ const columnsSlice = createSlice({
         column => column._id !== action.payload
       );
     },
+    addCard(state, action) {
+      const { columnId, card } = action.payload;
+      const column = state.columns.find(col => col._id === columnId);
+      if (column) {
+        console.log('Column, куди додаємо:', column);
+        console.log('Card, яку додаэмо:', card);
+        column.cards.push(card); // Додаємо картку до відповідної колонки
+        state.columns = [...state.columns]; // Это триггерит ререндер в некоторых случаях
+      } else {
+        console.error('Column not found:', columnId);
+      }
+    },
   },
   extraReducers: builder => {
     builder
-      .addCase(fetchColumns.pending, (state) => {
+      .addCase(fetchColumns.pending, state => {
         state.isLoading = true;
         state.isError = null;
       })
@@ -86,7 +105,7 @@ const columnsSlice = createSlice({
         state.isLoading = false;
         state.isError = action.payload || 'Error fetching columns';
       })
-      .addCase(addColumn.pending, (state) => {
+      .addCase(addColumn.pending, state => {
         state.isLoading = true;
         state.isError = null;
       })
@@ -98,13 +117,13 @@ const columnsSlice = createSlice({
         state.isLoading = false;
         state.isError = action.payload || 'Error adding column';
       })
-      .addCase(editColumnTitle.pending, (state) => {
+      .addCase(editColumnTitle.pending, state => {
         state.isLoading = true;
         state.isError = null;
       })
       .addCase(editColumnTitle.fulfilled, (state, action) => {
         const updatedColumn = action.payload;
-        state.columns = state.columns.map((column) =>
+        state.columns = state.columns.map(column =>
           column._id === updatedColumn._id ? updatedColumn : column
         );
         state.isLoading = false;
@@ -119,17 +138,95 @@ const columnsSlice = createSlice({
       .addCase(deleteColumn.fulfilled, (state, action) => {
         state.isLoading = false;
         // Видаляємо колонку зі списку в Redux після успішного видалення з бази даних
-        state.columns = state.columns.filter(column => column._id !== action.payload._id);
+        state.columns = state.columns.filter(
+          column => column._id !== action.payload._id
+        );
       })
       .addCase(deleteColumn.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;
         // Обробка помилки
+      })
+      // .addCase(addCard.fulfilled, (state, action) => {
+      //   const column = state.columns.find(
+      //     col => col._id === action.payload.data.columnId
+      //   );
+      //   if (column) {
+      //     column.cards.push(action.payload.data); // Додаємо картку в колонку
+      //   }
+      //   state.allColumns = state.columns;
+      // })
+      // .addCase(addCard.pending, state => {
+      //   state.isLoading = true;
+      //   state.error = null;
+      // })
+      // .addCase(addCard.rejected, (state, action) => {
+      //   state.error = action.payload;
+      // })
+      .addCase(editCard.pending, state => {
+        state.isLoading = true;
+        state.error = null;
+      })
+      .addCase(editCard.fulfilled, (state, action) => {
+        state.isLoading = false;
+        const index = state.items.findIndex(
+          card => card.id === action.payload.id
+        );
+        if (index !== -1) state.items[index] = action.payload;
+      })
+      .addCase(editCard.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.payload;
+      })
+      .addCase(deleteCard.pending, state => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(deleteCard.fulfilled, (state, action) => {
+        state.cards = state.cards.filter(card => card._id !== action.payload);
+      })
+      .addCase(deleteCard.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+      .addCase(moveCard.pending, state => {
+        state.status = 'loading';
+      })
+      .addCase(moveCard.fulfilled, (state, action) => {
+        state.status = 'succeeded';
+        const { cardId, columnId } = action.payload;
+        const index = state.items.findIndex(card => card._id === cardId);
+        if (index !== -1) {
+          state.items[index].columnId = columnId;
+        }
+      })
+      .addCase(moveCard.rejected, (state, action) => {
+        state.status = 'failed';
+        state.error = action.error.message;
+      })
+      .addCase(fetchCards.fulfilled, (state, action) => {
+        state.loading = false;
+        const newCards = action.payload.data;
+
+        state.items = [
+          ...state.items,
+          ...newCards.filter(
+            newCard =>
+              !state.column.cards.some(
+                existingCard => existingCard._id === newCard._id
+              )
+          ),
+        ];
+      })
+      .addCase(fetchCards.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
       });
   },
 });
 
 export const {
+  addCard,
   openModal,
   closeModal,
   toggleFilter,

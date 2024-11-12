@@ -1,20 +1,26 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import instance from '../../instance';
 import axios from 'axios';
+import { addCard as addCardAction } from '../columns/slice';
 
 axios.defaults.baseURL = 'https://pr5-ltp-rn-back.onrender.com';
 
 export const addCard = createAsyncThunk(
   'cards/addCard',
-  async ({ newCard }, thunkApi) => {
+  async (newCard, thunkAPI) => {
     try {
       const response = await axios.post('/cards', newCard);
       console.log('Card created successfully:', response.data);
-
-      return response.data; 
+      if (response.status === 201) {
+        // Якщо картка успішно створена, додаємо її в стан
+        thunkAPI.dispatch(addCardAction(response.data.data)); // Використовуємо thunkAPI.dispatch
+      } else {
+        throw new Error('Failed to create card');
+      }
     } catch (error) {
-      console.error('API call failed:', error);
-      return thunkApi.rejectWithValue(error.message);
+      console.error('Error creating card:', error);
+      // Можна додати action для обробки помилок, якщо це потрібно
+      return thunkAPI.rejectWithValue(error.message); // Повертаємо помилку для обробки в reducer
     }
   }
 );
@@ -65,13 +71,12 @@ export const fetchCards = createAsyncThunk(
 //   }
 // );
 
-
 export const deleteCard = createAsyncThunk(
   'cards/deleteCard',
   async ({ cardId }, { rejectWithValue }) => {
     console.log('Sending DELETE request for cardId:', cardId);
     try {
-        // Перевірка cardId
+      // Перевірка cardId
       await axios.delete(`/cards/${cardId}`); // Видаляємо картку за cardId
       return cardId;
     } catch (error) {

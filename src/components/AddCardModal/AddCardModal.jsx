@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
@@ -6,13 +6,16 @@ import 'flatpickr/dist/themes/material_blue.css';
 import s from './AddCardModal.module.css';
 import sprite from '../../icons/icons.svg';
 import Calendar from '../Calendar/Calendar';
-import { addCard, fetchCards } from "../../redux/cards/operations";
-
+import axios from 'axios';
+// import { fetchBoardById } from '../../redux/boads/operations';
+// import { fetchCards } from '../../redux/cards/operations';
+import { addCard } from '../../redux/columns/slice';
+import { fetchBoardById } from '../../redux/boards/operations';
 const AddCardModal = ({ onClose, columnId, boardId }) => {
   const dispatch = useDispatch();
   const [priority, setPriority] = useState('without');
-
-  const handleSubmit = (values) => {
+  const token = localStorage.getItem('token');
+  const handleSubmit = async values => {
     const newCard = {
       title: values.title,
       description: values.description,
@@ -22,13 +25,31 @@ const AddCardModal = ({ onClose, columnId, boardId }) => {
       boardId,
     };
 
-    console.log('Data being sent to API:', newCard);  // Логування перед відправкою
+    console.log('Data being sent to API:', newCard); // Логування перед відправкою
+    try {
+      const response = await axios.post('/cards', newCard);
+      console.log('Card added:', response.data);
+      // обробка успішної відповіді
+      onClose();
+      // dispatch(addCard(newCard));
 
-    dispatch(addCard({ newCard })).then(() => {
-      dispatch(fetchCards({ boardId })); // Optional: оновлюємо список карток після додавання
-      onClose();  // Закриваємо модальне вікно після додавання
-    });
+      // dispatch(fetchBoardById({ boardId, token }));
+    } catch (error) {
+      console.error('Error adding card:', error);
+    }
   };
+  useEffect(() => {
+    if (boardId) {
+      // dispatch(fetchColumns(selectedBoard._id));
+      dispatch(fetchBoardById({ boardId, token }));
+    }
+  }, [dispatch, boardId, token]);
+
+  // .then(() => {
+  //     dispatch(fetchCards({ boardId })); // Optional: оновлюємо список карток після додавання
+  //     onClose(); // Закриваємо модальне вікно після додавання
+  //   });
+  // };
 
   return (
     <div className={s.wrapper}>
@@ -59,13 +80,31 @@ const AddCardModal = ({ onClose, columnId, boardId }) => {
           {({ values, setFieldValue }) => (
             <Form className={s.modalForm}>
               <div>
-                <Field type="text" name="title" placeholder="Title" className={s.input} />
-                <ErrorMessage name="title" component="div" className={s.error} />
+                <Field
+                  type="text"
+                  name="title"
+                  placeholder="Title"
+                  className={s.input}
+                />
+                <ErrorMessage
+                  name="title"
+                  component="div"
+                  className={s.error}
+                />
               </div>
 
               <div>
-                <Field as="textarea" name="description" placeholder="Description" className={s.textarea} />
-                <ErrorMessage name="description" component="div" className={s.error} />
+                <Field
+                  as="textarea"
+                  name="description"
+                  placeholder="Description"
+                  className={s.textarea}
+                />
+                <ErrorMessage
+                  name="description"
+                  component="div"
+                  className={s.error}
+                />
               </div>
 
               <div className={s.formGroupLabelColor}>
@@ -74,7 +113,9 @@ const AddCardModal = ({ onClose, columnId, boardId }) => {
                   {['low', 'medium', 'high', 'without'].map(color => (
                     <label
                       key={color}
-                      className={`${s.priority} ${s[color]} ${priority === color ? s.selected : ''}`}
+                      className={`${s.priority} ${s[color]} ${
+                        priority === color ? s.selected : ''
+                      }`}
                     >
                       <input
                         checked={priority === color}
@@ -92,7 +133,7 @@ const AddCardModal = ({ onClose, columnId, boardId }) => {
                 <label htmlFor="date">Deadline</label>
                 <Calendar
                   value={values.date}
-                  onChange={(date) => setFieldValue('date', date)}
+                  onChange={date => setFieldValue('date', date)}
                 />
                 <ErrorMessage name="date" component="div" className={s.error} />
               </div>

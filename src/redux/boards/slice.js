@@ -42,7 +42,11 @@ const boardsSlice = createSlice({
         board => board._id === state.selectedBoard
       );
       if (selectedBoard) {
-        selectedBoard.columns.push({ _id: Date.now(), title: action.payload, cards: [] });
+        selectedBoard.columns.push({
+          _id: Date.now(),
+          title: action.payload,
+          cards: [],
+        });
       }
     },
     toggleFilter(state, action) {
@@ -58,25 +62,18 @@ const boardsSlice = createSlice({
       };
     },
     addCardToColumn(state, action) {
+      console.log('Payload:', action.payload);
+      console.log('Current State:', state);
       const { boardId, columnId, card } = action.payload;
       const board = state.items.find(board => board._id === boardId);
       if (board) {
         const column = board.columns.find(col => col._id === columnId);
         if (column) {
-          column.cards.push(card);  // Додаємо картку до колонки
+          column.cards.push(card);
         }
       }
     },
-    removeCardFromColumn(state, action) {
-      const { boardId, columnId, cardId } = action.payload;
-      const board = state.items.find(board => board._id === boardId);
-      if (board) {
-        const column = board.columns.find(col => col._id === columnId);
-        if (column) {
-          column.cards = column.cards.filter(card => card._id !== cardId);  // Видаляємо картку
-        }
-      }
-    },
+
     toggleFiltersOpen(state) {
       state.isFiltersOpen = !state.isFiltersOpen;
     },
@@ -119,26 +116,17 @@ const boardsSlice = createSlice({
     selectBoard(state, action) {
       state.selectedBoard = action.payload;
     },
-    addCardToColumn(state, action) {
-      const { boardId, columnId, card } = action.payload;
-      const board = state.items.find(board => board._id === boardId);
-      if (board) {
-        const column = board.columns.find(col => col._id === columnId);
-        if (column) {
-          column.cards.push(card);  // Додаємо картку до колонки
-        }
-      }
-    },
+
     removeCardFromColumn(state, action) {
       const { boardId, columnId, cardId } = action.payload;
       const board = state.items.find(board => board._id === boardId);
       if (board) {
         const column = board.columns.find(col => col._id === columnId);
         if (column) {
-          column.cards = column.cards.filter(card => card._id !== cardId);  // Видаляємо картку
+          column.cards = column.cards.filter(card => card._id !== cardId); // Видаляємо картку
         }
       }
-    }
+    },
   },
   extraReducers: builder => {
     builder
@@ -198,7 +186,6 @@ const boardsSlice = createSlice({
 });
 
 export const {
-  
   openModal,
   closeModal,
   addColumn,

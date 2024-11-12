@@ -15,7 +15,12 @@ import {
 import { selectSelectedBoard } from '../../redux/boards/selectors';
 import { fetchBoardById } from '../../redux/boards/operations';
 import { fetchColumns, addColumn } from '../../redux/columns/operations';
-import { openModal, closeModal, openEditModal, openDeleteModal } from '../../redux/columns/slice';
+import {
+  openModal,
+  closeModal,
+  openEditModal,
+  openDeleteModal,
+} from '../../redux/columns/slice';
 import EditColumnModal from '../EditColumnModal/EditColumnModal';
 import DeleteColumnModal from '../DeleteColumnModal/DeleteColumnModal';
 import AddCardModal from '../AddCardModal/AddCardModal'; // Import AddCardModal
@@ -35,7 +40,7 @@ const ScreensPage = () => {
 
   useEffect(() => {
     if (selectedBoard?._id) {
-      dispatch(fetchColumns(selectedBoard._id));
+      // dispatch(fetchColumns(selectedBoard._id));
       dispatch(fetchBoardById({ boardId: selectedBoard._id, token }));
     }
   }, [dispatch, selectedBoard?._id, token]);
@@ -49,13 +54,12 @@ const ScreensPage = () => {
   };
 
   const handleAddColumn = async columnTitle => {
-    await dispatch(addColumn({ boardId: selectedBoard._id, title: columnTitle, token }));
+    await dispatch(
+      addColumn({ boardId: selectedBoard._id, title: columnTitle, token })
+    );
     handleCloseModal();
   };
 
-<<<<<<< Updated upstream
-=======
-<<<<<<< HEAD
   const openAddCardModal = columnId => {
     setCurrentColumnId(columnId);
     setIsAddCardModalOpen(true);
@@ -65,17 +69,12 @@ const ScreensPage = () => {
     setIsAddCardModalOpen(false);
     setCurrentColumnId(null);
   };
-=======
->>>>>>> Stashed changes
+
   useEffect(() => {
     if (selectedBoard?._id) {
       dispatch(fetchBoardById({ boardId: selectedBoard._id, token }));
     }
   }, [dispatch, selectedBoard?._id, token]);
-<<<<<<< Updated upstream
-=======
->>>>>>> 9ccce22de781316e0d24f00bfe1e14c795a057c8
->>>>>>> Stashed changes
 
   if (isLoading) {
     return <p>Loading...</p>;
