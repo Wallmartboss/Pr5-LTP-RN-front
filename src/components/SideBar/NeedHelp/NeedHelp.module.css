@@ -1,13 +1,17 @@
 .help {
   display: flex;
   flex-direction: column;
-  background-color: var(--main-bg-color);
-  width: 197px;
+  background-color: var(--need-bg-color);
   height: 238px;
+  width: 197px;
   margin-left: 14px;
   margin-right: 14px;
   margin-top: 40px;
   border-radius: 8px;
+  @media screen and (min-width: 768px) {
+    height: 272px;
+    width: 212px;
+  }
 }
 .helpText {
   font-family: Poppins;
@@ -16,7 +20,7 @@
   line-height: 16px;
   letter-spacing: -0.02em;
   text-align: left;
-  color: var(var(--main-text-color));
+  color: var(--main-bg-color);
   width: 168px;
   height: 80px;
   margin-top: 14px;
@@ -30,13 +34,10 @@
 }
 
 .taskProSpan {
-  font-family: Poppins;
-  font-size: 12px;
-  font-weight: 400;
   line-height: 16px;
   letter-spacing: -0.02em;
   text-align: left;
-  color: var(--main-color);
+  color: var(--sec-text-color);
 }
 
 .helpBtn {
@@ -49,26 +50,19 @@
 }
 
 .helpIcon {
-  stroke: var(--main-text-color);
+  stroke: var(--sec-text-color);
   fill: transparent;
 }
 
 .helpBtnText {
-  font-family: Poppins;
-  font-size: 12px;
   font-weight: 500;
   line-height: 18px;
   letter-spacing: -0.02em;
   text-align: left;
-  color: var(--main-text-color);
+  color: var(--sec-text-color);
   margin-left: 8px;
 }
- @media (min-width: 768px) and (max-width: 1439px){
-  .help {
-    width: 212px;
-    height: 272px;
-    margin-left: 24px;
-  }
+@media (min-width: 768px) and (max-width: 1439px) {
   .helpCactusIcon {
     margin-left: 20px;
     margin-top: 20px;

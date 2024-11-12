@@ -59,24 +59,11 @@ const ScreensPage = () => {
   //   handleCloseModal();
   // };
 
-  // useEffect(() => {
-  //   if (selectedBoard) {
-  //     dispatch(fetchBoardById({ boardId: selectedBoard._id, token }));
-  //   }
-  // }, [dispatch, selectedBoard, token]);
   useEffect(() => {
     if (selectedBoard?._id) {
       dispatch(fetchBoardById({ boardId: selectedBoard._id, token }));
     }
   }, [dispatch, selectedBoard?._id, token]);
-  useEffect(() => {
-    console.log('Selected board:', selectedBoard);
-  }, [selectedBoard]);
-  // console.log('Selected board title:', selectedBoard.title);
-
-  useEffect(() => {
-    console.log('Columns in selected board:', columns);
-  }, [columns]);
 
   if (isLoading) {
     return <p>Loading...</p>;

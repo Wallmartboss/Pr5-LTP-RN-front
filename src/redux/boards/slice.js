@@ -10,7 +10,6 @@ import {
 const initialState = {
   items: [],
   selectedBoard: null,
-  columns: [],
   isModalOpen: false,
   isFiltersOpen: false,
   selectedFilter: {
@@ -32,20 +31,29 @@ const boardsSlice = createSlice({
   name: 'boards',
   initialState,
   reducers: {
-    openModal(state, action) {
+    openModal(state) {
       state.isModalOpen = true;
     },
-    closeModal(state, action) {
+    closeModal(state) {
       state.isModalOpen = false;
     },
     addColumn(state, action) {
-      state.columns.push({ id: Date.now(), title: action.payload });
+      const selectedBoard = state.items.find(
+        board => board._id === state.selectedBoard
+      );
+      if (selectedBoard) {
+        selectedBoard.columns.push({
+          _id: Date.now(),
+          title: action.payload,
+          cards: [],
+        });
+      }
     },
     toggleFilter(state, action) {
       const { value, checked } = action.payload;
       state.selectedFilter[value] = checked;
     },
-    selectAllFilters(state, action) {
+    selectAllFilters(state) {
       state.selectedFilter = {
         none: true,
         low: true,
@@ -53,21 +61,29 @@ const boardsSlice = createSlice({
         high: true,
       };
     },
-    toggleFiltersOpen(state, action) {
+    addCardToColumn(state, action) {
+      console.log('Payload:', action.payload);
+      console.log('Current State:', state);
+      const { boardId, columnId, card } = action.payload;
+      const board = state.items.find(board => board._id === boardId);
+      if (board) {
+        const column = board.columns.find(col => col._id === columnId);
+        if (column) {
+          column.cards.push(card);
+        }
+      }
+    },
+
+    toggleFiltersOpen(state) {
       state.isFiltersOpen = !state.isFiltersOpen;
     },
-    openEditModal(state, action) {
+    openEditModalBoard(state, action) {
       state.isEditModalOpen = true;
       state.columnToEdit = action.payload;
     },
-    closeEditModal(state, action) {
+    closeEditModal(state) {
       state.isEditModalOpen = false;
       state.columnToEdit = null;
-    },
-    editColumnTitle(state, action) {
-      const { id, newTitle } = action.payload;
-      const column = state.columns.find(column => column.id === id);
-      if (column) column.title = newTitle;
     },
     openDeleteModal(state, action) {
       state.isDeleteModalOpen = true;
@@ -77,22 +93,15 @@ const boardsSlice = createSlice({
       state.isDeleteModalOpen = true;
       state.boardToDelete = action.payload;
     },
-    closeDeleteModal(state, action) {
+    closeDeleteModal(state) {
       state.isDeleteModalOpen = false;
       state.columnToDelete = null;
     },
-    closeDeleteBoardModal(state, action) {
+    closeDeleteBoardModal(state) {
       state.isDeleteModalOpen = false;
       state.boardToDelete = null;
     },
-    // deleteColumn(state, action) {
-    //   state.columns = state.columns.filter(
-    //     column => column.id !== state.columnToDelete.id
-    //   );
-    //   state.isDeleteModalOpen = false;
-    //   state.columnToDelete = null;
-    // },
-    deleteColumn(state, action) {
+    deleteColumn(state) {
       const board = state.items.find(
         board => board._id === state.selectedBoard
       );
@@ -104,26 +113,19 @@ const boardsSlice = createSlice({
       state.isDeleteModalOpen = false;
       state.columnToDelete = null;
     },
-    // fetchBoards(state, action) {
-    //   state.items = action.payload;
-    //   state.loading = false;
-    // },
-    // addBoard(state, action) {
-    //   state.items.push(action.payload);
-    // },
-    // updateBoard(state, action) {
-    //   const index = state.items.findIndex(
-    //     board => board.id === action.payload.id
-    //   );
-    //   if (index !== -1) {
-    //     state.items[index] = action.payload;
-    //   }
-    // },
-    // deleteBoard(state, action) {
-    //   state.items = state.items.filter(board => board.id !== action.payload);
-    // },
     selectBoard(state, action) {
       state.selectedBoard = action.payload;
+    },
+
+    removeCardFromColumn(state, action) {
+      const { boardId, columnId, cardId } = action.payload;
+      const board = state.items.find(board => board._id === boardId);
+      if (board) {
+        const column = board.columns.find(col => col._id === columnId);
+        if (column) {
+          column.cards = column.cards.filter(card => card._id !== cardId); // Видаляємо картку
+        }
+      }
     },
   },
   extraReducers: builder => {
@@ -133,7 +135,6 @@ const boardsSlice = createSlice({
         state.error = null;
       })
       .addCase(fetchBoards.fulfilled, (state, action) => {
-        console.log('Data received in reducer:', action.payload);
         state.items = action.payload;
         state.loading = false;
       })
@@ -157,14 +158,10 @@ const boardsSlice = createSlice({
       })
       .addCase(updateBoard.fulfilled, (state, action) => {
         const updatedBoard = action.payload.data;
-        console.log('Updated board:', updatedBoard);
         state.items = state.items.map(board =>
           board._id === updatedBoard._id ? updatedBoard : board
         );
-        if (
-          state.selectedBoard &&
-          state.selectedBoard._id === updatedBoard._id
-        ) {
+        if (state.selectedBoard?._id === updatedBoard._id) {
           state.selectedBoard = updatedBoard;
         }
       })
@@ -172,7 +169,7 @@ const boardsSlice = createSlice({
         console.error('Update board failed:', action.payload);
       })
       .addCase(addBoard.fulfilled, (state, action) => {
-        state.items.push(action.payload); // добавляем новую доску в массив
+        state.items.push(action.payload);
       })
       .addCase(addBoard.rejected, (state, action) => {
         console.error('Add board failed:', action.payload);
@@ -185,13 +182,6 @@ const boardsSlice = createSlice({
       .addCase(deleteBoard.rejected, (state, action) => {
         console.error('Delete board failed:', action.payload);
       });
-    // .addCase(deleteColumn.fulfilled, (state, action) => {
-    //   const { boardId, columnId } = action.payload;
-    //   const board = state.items.find(board => board._id === boardId);
-    //   if (board) {
-    //     board.columns = board.columns.filter(col => col._id !== columnId);
-    //   }
-    // });
   },
 });
 
@@ -202,18 +192,16 @@ export const {
   toggleFilter,
   selectAllFilters,
   toggleFiltersOpen,
-  openEditModal,
+  openEditModalBoard,
   closeEditModal,
-  editColumnTitle,
   openDeleteModal,
   openDeleteBoardModal,
   closeDeleteBoardModal,
   closeDeleteModal,
   deleteColumn,
-  // fetchBoards,
-  // addBoard,
-  // updateBoard,
-  // deleteBoard,
   selectBoard,
+  addCardToColumn,
+  removeCardFromColumn,
 } = boardsSlice.actions;
+
 export const boardsReducer = boardsSlice.reducer;

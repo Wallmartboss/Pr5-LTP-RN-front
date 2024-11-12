@@ -1,16 +1,9 @@
 import { createSlice } from '@reduxjs/toolkit';
-import {
-  addCard,
-  deleteCard,
-  editCard,
-  fetchCards,
-  moveCard,
-} from './operations.js';
 
 const cardsSlice = createSlice({
   name: 'cards',
   initialState: {
-    items: [],
+    // items: [],
     isLoading: false,
     error: null,
     openDropdowns: {},
@@ -25,8 +18,24 @@ const cardsSlice = createSlice({
   },
   closeDropdown: (state, action) => {
       const cardId = action.payload;
+
       state.openDropdowns[cardId] = false; 
   },
+
+      state.openDropdowns = Object.keys(state.openDropdowns).reduce(
+        (acc, key) => {
+          acc[key] = false;
+          return acc;
+        },
+        {}
+      );
+      state.openDropdowns[cardId] = !state.openDropdowns[cardId];
+    },
+    closeDropdown(state, action) {
+      const cardId = action.payload;
+      state.openDropdowns[cardId] = false;
+    },
+
 
     toggleDescription(state, action) {
       state.expandedCardId =
@@ -40,12 +49,13 @@ const cardsSlice = createSlice({
       state.isModalOpen = false;
       state.cardIdToDelete = null;
     },
+    // addCard(state, action) {
+    //   state.items.push(action.payload); // Додаємо картку до масиву карток
+    // },
   },
-  extraReducers: builder => {
-    builder
-      .addCase(fetchCards.fulfilled, (state, action) => {
-        state.loading = false;
-        const newCards = action.payload.data;
+  // extraReducers: builder => {
+  //   builder;
+
 
         state.items = [
           ...state.items,
@@ -116,7 +126,21 @@ const cardsSlice = createSlice({
   },
 });
 
+// export const {
+
+  // .addCase(addCard.fulfilled, (state, action) => {
+  //   state.isLoading = false;
+  //   state.items = state.items.push(action.payload);
+  //   console.log('Updated Cards:', state.items); // Логування оновленого масиву карток
+  // })
+  // Додавання картки
+  // },
+//});
+
 export const {
+  // addCard,
+  toggleDropdown,
+
   toggleDescription,
   openModal,
   closeModal,
@@ -124,6 +148,8 @@ export const {
   closeDropdown,
 } = cardsSlice.actions;
 
+
 export const selectCardIdToDelete = (state) => state.cards.cardIdToDelete;
+
 
 export default cardsSlice.reducer;

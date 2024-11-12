@@ -5,10 +5,12 @@ import { useDispatch, useSelector } from 'react-redux';
 import { selectColumnToDelete } from '../../redux/columns/selectors';
 import { closeDeleteModal } from '../../redux/columns/slice';
 import { deleteColumn } from '../../redux/columns/operations';
+import { removeColumnFromList } from '../../redux/columns/slice'; // Додано для видалення з Redux
 
 const DeleteColumnModal = () => {
   const dispatch = useDispatch();
   const columnToDelete = useSelector(selectColumnToDelete);
+  const token = localStorage.getItem('token'); // Отримання токену
 
   const handleClose = () => {
     dispatch(closeDeleteModal());
@@ -16,8 +18,17 @@ const DeleteColumnModal = () => {
 
   const handleDelete = async () => {
     if (columnToDelete?._id) {
-      await dispatch(deleteColumn(columnToDelete._id));
-      handleClose();
+      try {
+        // Видаляємо колонку через операцію
+        await dispatch(deleteColumn({ columnId: columnToDelete._id, token }));
+
+        // Оновлюємо список колонок у Redux, видаляючи колону, що була видалена
+        dispatch(removeColumnFromList(columnToDelete._id, token));
+
+        handleClose();
+      } catch (error) {
+        console.error('Error deleting column:', error);
+      }
     }
   };
 

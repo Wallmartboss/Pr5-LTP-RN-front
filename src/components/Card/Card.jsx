@@ -11,7 +11,12 @@ import {
 
 } from '../../redux/cards/cardsSlice.js';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectExpandedCardId, selectIsModalOpen,  selectSelectedBoard } from '../../redux/cards/selectors.js';
+
+import { selectExpandedCardId, selectIsModalOpen } from '../../redux/cards/selectors.js';
+import { selectSelectedBoard } '../../redux/boards/selectors.js';
+
+import { selectCardById, selectExpandedCardId, selectIsModalOpen, selectOpenDropdowns} from '../../redux/cards/selectors.js';
+
 import { useEffect, useState } from 'react';
 import { deleteCard, editCard } from '../../redux/cards/operations.js';
 import EditCardModal from '../EditCardModal/EditCardModal.jsx'
@@ -20,7 +25,12 @@ const Card = ({ card,  filteredColumns}) => {
     const selectedBoard = useSelector(selectSelectedBoard);
     const boardId = selectedBoard?._id;
 
+
     const cardIdToDelete = useSelector(selectCardIdToDelete);
+
+const Card = ({ card, handleMoveCard, filteredColumns }) => {
+    const cardIdToDelete = useSelector(selectCardById);
+
     const dispatch = useDispatch();
     const expandedCardId = useSelector(selectExpandedCardId);
     const isModalOpen = useSelector(selectIsModalOpen);
@@ -60,8 +70,10 @@ const Card = ({ card,  filteredColumns}) => {
         dispatch(toggleDescription({ cardId }));
     };
 
+
     const openDeleteModal = () => {
         dispatch(openModal({ cardId}));
+
     };
 
     const handleConfirmDelete = () => {
@@ -74,6 +86,7 @@ const Card = ({ card,  filteredColumns}) => {
         dispatch(closeModal());
     };
    
+
 
     const handleMoveCard = (newColumnId, cardId) => {
         if (cardId && newColumnId && newColumnId !== card.columnId) {
@@ -88,6 +101,7 @@ const Card = ({ card,  filteredColumns}) => {
     const closeDropdownHandler = () =>{
         setIsDropdownOpen(false);
     } 
+
 
     const getPriorityColor = (priority) => {
         switch (priority) {
@@ -161,6 +175,7 @@ const Card = ({ card,  filteredColumns}) => {
                 isOpen={isModalOpen}
                 onClose={handleCancelDelete}
                 onConfirm={handleConfirmDelete}
+                cardId={card._id}
             />
             {isEditModalOpen && (
                 <EditCardModal

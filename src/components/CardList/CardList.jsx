@@ -3,8 +3,10 @@ import s from './CardList.module.css';
 import {
   selectCardsByColumnId,
   selectColumnsByBoardId,
-} from '../../redux/cards/selectors.js';
-import { selectSelectedBoard } from '../../redux/cards/selectors.js';
+
+} from '../../redux/columns/selectors.js';
+import { selectSelectedBoard } from '../../redux/boards/selectors.js';
+import { moveCard } from '../../redux/cards/operations.js';
 
 import Card from '../Card/Card.jsx';
 
@@ -17,18 +19,39 @@ const CardList = ({ columnId }) => {
   const boardId = selectedBoard?._id;
   const columns = useSelector(state => {
     return selectColumnsByBoardId(state, boardId);
-});
+
     const filteredColumns = columns.filter(column => column._id !== columnId);
+
+  });
+  const filteredColumns = columns.filter(column => column._id !== columnId);
+  const openDropdowns = useSelector(state => state.cards.openDropdowns);
+  // console.log('Cards for column:', columnId, cards);
+  const handleMoveCard = (newColumnId, cardId) => {
+    if (cardId && newColumnId && newColumnId !== columnId) {
+      dispatch(moveCard({ cardId, columnId: newColumnId, boardId }));
+      dispatch(toggleDropdown(cardId));
+    }
+  };
+
+  const toggleDropdownHandler = cardId => {
+    dispatch(toggleDropdown(cardId));
+  };
+
+
   return (
     <div className={s.cardsContainer}>
       {cards.length === 0 ? (
         <p>No cards available in this column.</p>
       ) : (
-        cards.map(card => (
+        cards.map((card, index) => (
           <Card
-            key={card._id}
+            key={card._id || `card-${index}`}
             card={card}
-            columnId={columnId}  
+
+            columnId={columnId}
+            handleMoveCard={handleMoveCard}
+            openDropdowns={openDropdowns}
+
             filteredColumns={filteredColumns}
   
           />

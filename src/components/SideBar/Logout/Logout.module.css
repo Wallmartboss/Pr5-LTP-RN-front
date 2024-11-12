@@ -1,6 +1,10 @@
 .block {
   display: flex;
-  margin-left: 24px;
+  margin-left: 14px;
+
+  @media screen and (min-width: 768px) {
+    margin-left: 24px;
+  }
 }
 
 .logoutBtn {
@@ -13,14 +17,13 @@
   padding: 0;
 }
 .logoutIcon {
-  stroke: var(--icon-bg-color);
+  stroke: var(--logout-color);
   fill: transparent;
   transition: stroke 0.25s ease;
 }
 
 .logoutText {
-  color: var(--main-text-color);
-  font-family: 'Poppins';
+  color: var(--sec-text-color);
   font-weight: 500;
   font-size: 14px;
 }
@@ -33,5 +36,3 @@
 .logoutBtn:focus {
   transform: translateX(5px);
 }
-
-
