@@ -10,10 +10,10 @@ import {
     toggleDropdown,
     closeDropdown,
     selectCardIdToDelete,
- 
+
 } from '../../redux/cards/cardsSlice.js';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectExpandedCardId, selectIsModalOpen, selectOpenDropdowns} from '../../redux/cards/selectors.js';
+import { selectExpandedCardId, selectIsModalOpen, selectOpenDropdowns } from '../../redux/cards/selectors.js';
 import { useEffect, useState } from 'react';
 import { deleteCard } from '../../redux/cards/operations.js';
 
@@ -26,36 +26,36 @@ const Card = ({ card, handleMoveCard, filteredColumns }) => {
     const openDropdowns = useSelector(selectOpenDropdowns);
     const { _id, priority, title, description, deadline } = card;
     const [isToday, setIsToday] = useState(false);
-
+    console.log(deadline);
     const isDeadlineToday = (deadline) => {
         const deadlineDate = new Date(deadline);
         const currentDate = new Date();
         currentDate.setHours(0, 0, 0, 0);
         deadlineDate.setHours(0, 0, 0, 0);
         return currentDate.getTime() === deadlineDate.getTime();
-      };
-    
-      useEffect(() => {
+    };
+
+    useEffect(() => {
         setIsToday(isDeadlineToday(deadline));
         const interval = setInterval(() => {
-          setIsToday(isDeadlineToday(deadline));
-        }, 24 * 60 * 60 * 1000); 
+            setIsToday(isDeadlineToday(deadline));
+        }, 24 * 60 * 60 * 1000);
         return () => clearInterval(interval);
-      }, [deadline]);
+    }, [deadline]);
 
     const toggleDescriptionHandler = () => {
         dispatch(toggleDescription(_id));
     };
 
-    const openDeleteModal  = () => {
-        dispatch(openModal({ cardId: _id }));     
+    const openDeleteModal = () => {
+        dispatch(openModal({ cardId: _id }));
     };
 
     const handleConfirmDelete = () => {
         if (cardIdToDelete) {
-            dispatch(deleteCard(cardIdToDelete)); 
+            dispatch(deleteCard(cardIdToDelete));
         }
-        dispatch(closeModal()); 
+        dispatch(closeModal());
     };
     const handleCancelDelete = () => {
         dispatch(closeModal());
@@ -73,7 +73,7 @@ const Card = ({ card, handleMoveCard, filteredColumns }) => {
     // const handleToggleDropdown = () => {
     //     dispatch(toggleDropdown(card._id));
     //   };
-    
+
     //   const handleMove = (columnId) => {
     //     handleMoveCard(columnId, card._id);
     //     dispatch(closeDropdown(card._id)); 
@@ -96,31 +96,31 @@ const Card = ({ card, handleMoveCard, filteredColumns }) => {
         <div className={s.card} style={{ '--card-color': getPriorityColor(priority) }}>
             <h5 className={s.title}>{title}</h5>
 
-           <div className={s.desWrap}>
-           <p
-                className={`${s.description} ${expandedCardId === _id ? s.expanded : ''}`}
-                onClick={toggleDescriptionHandler}
-            >{description}</p>
+            <div className={s.desWrap}>
+                <p
+                    className={`${s.description} ${expandedCardId === _id ? s.expanded : ''}`}
+                    onClick={toggleDescriptionHandler}
+                >{description}</p>
 
-           </div>
+            </div>
             <span className={s.line}></span>
             <div className={s.bottom}>
                 <div className={s.action}>
                     <p className={s.priority}>Priority
                         <span className={s.label} style={{ '--card-color': getPriorityColor(priority) }}>{priority}</span>
                     </p>
-                    <p className={s.deadline}>Deadline<span>{deadline}</span></p>
+                    <p className={s.deadline}>Deadline <span>{deadline ? new Date(deadline).toLocaleDateString() : 'No date set'}</span></p>
                 </div>
 
                 <div className={s.buttons}>
-                {isToday && (
-            <div className={s.deadlineIcon}>
-              <svg width="16" height="16">
-                <use href={`${sprite}#bell-icon`} />
-              </svg>
-            </div>
-          )}
-                    <button className={s.move}  onClick={toggleDropdownHandler} disabled={filteredColumns.length === 0} >
+                    {isToday && (
+                        <div className={s.deadlineIcon}>
+                            <svg width="16" height="16">
+                                <use href={`${sprite}#bell-icon`} />
+                            </svg>
+                        </div>
+                    )}
+                    <button className={s.move} onClick={toggleDropdownHandler} disabled={filteredColumns.length === 0} >
                         <svg className={s.icon} width="16" height="16">
                             <use href={`${sprite}#arrow-circle-icon`} />
                         </svg>
@@ -138,14 +138,14 @@ const Card = ({ card, handleMoveCard, filteredColumns }) => {
                 </div>
             </div>
 
-                <Dropdown
-                 cardId={card._id}
-                 filteredColumns={filteredColumns}
-                 handleMoveCard={handleMoveCardClick}
-                 openDropdown={openDropdowns[_id]}
-                 closeDropdown={() => dispatch(closeDropdown(_id))}
-                />
-          
+            <Dropdown
+                cardId={card._id}
+                filteredColumns={filteredColumns}
+                handleMoveCard={handleMoveCardClick}
+                openDropdown={openDropdowns[_id]}
+                closeDropdown={() => dispatch(closeDropdown(_id))}
+            />
+
             <ModalDeleteCard
                 isOpen={isModalOpen}
                 onClose={handleCancelDelete}

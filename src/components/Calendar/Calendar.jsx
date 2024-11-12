@@ -33,7 +33,7 @@ const Calendar = () => {
       setDisplayDate(formattedToday);
     } else {
       // В іншому випадку використовуємо стандартний формат дати
-      setDisplayDate(dateStr); 
+      setDisplayDate(dateStr);
     }
   };
 
@@ -43,8 +43,8 @@ const Calendar = () => {
         minDate: "today",
         dateFormat: "l, F d", // Основний формат для інших дат
         locale: {
-                    "firstDayOfWeek": 1,
-                  },
+          "firstDayOfWeek": 1,
+        },
       }}
       value={displayDate} // Відображуване значення
       onChange={handleDateChange}
@@ -54,3 +54,7 @@ const Calendar = () => {
 };
 
 export default Calendar;
+
+
+
+

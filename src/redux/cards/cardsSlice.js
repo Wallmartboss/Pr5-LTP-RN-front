@@ -16,21 +16,21 @@ const cardsSlice = createSlice({
     openDropdowns: {},
     expandedCardId: null,
     isModalOpen: false,
-    cardIdToDelete: null, 
+    cardIdToDelete: null,
   },
   reducers: {
     toggleDropdown: (state, action) => {
       const cardId = action.payload;
       state.openDropdowns = Object.keys(state.openDropdowns).reduce((acc, key) => {
-          acc[key] = false;
-          return acc;
+        acc[key] = false;
+        return acc;
       }, {});
       state.openDropdowns[cardId] = !state.openDropdowns[cardId];
-  },
-  closeDropdown(state, action) {
-    const cardId = action.payload;
-    state.openDropdowns[cardId] = false;
-},
+    },
+    closeDropdown(state, action) {
+      const cardId = action.payload;
+      state.openDropdowns[cardId] = false;
+    },
 
     toggleDescription(state, action) {
       state.expandedCardId =
@@ -42,7 +42,7 @@ const cardsSlice = createSlice({
     },
     closeModal(state) {
       state.isModalOpen = false;
-      state.cardIdToDelete = null; 
+      state.cardIdToDelete = null;
     },
   },
   extraReducers: builder => {
@@ -72,7 +72,7 @@ const cardsSlice = createSlice({
       .addCase(addCard.fulfilled, (state, action) => {
         state.isLoading = false;
         state.items.push(action.payload);
-        console.log('Updated Cards:', state.items); // Логування оновленого масиву карток
+        console.log('Updated Cards:', action.payload); // Логування оновленого масиву карток
       })
       .addCase(editCard.pending, state => {
         state.isLoading = true;
@@ -129,6 +129,6 @@ export const {
   closeDropdown,
 } = cardsSlice.actions;
 
-export const selectCardIdToDelete = (state) => state.cards.cardIdToDelete;  
+export const selectCardIdToDelete = (state) => state.cards.cardIdToDelete;
 
 export default cardsSlice.reducer;
