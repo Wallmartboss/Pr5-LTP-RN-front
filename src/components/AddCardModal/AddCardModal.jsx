@@ -38,12 +38,12 @@ const AddCardModal = ({ onClose, columnId, boardId }) => {
       console.error('Error adding card:', error);
     }
   };
-  useEffect(() => {
-    if (boardId) {
-      // dispatch(fetchColumns(selectedBoard._id));
-      dispatch(fetchBoardById({ boardId, token }));
-    }
-  }, [dispatch, boardId, token]);
+  // useEffect(() => {
+  //   if (boardId) {
+  //     // dispatch(fetchColumns(selectedBoard._id));
+  //     dispatch(fetchBoardById({ boardId, token }));
+  //   }
+  // }, [dispatch, boardId, token]);
 
   // .then(() => {
   //     dispatch(fetchCards({ boardId })); // Optional: оновлюємо список карток після додавання
