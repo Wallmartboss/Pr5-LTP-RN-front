@@ -124,3 +124,123 @@
 .boardHeader {
   /* background-color: chartreuse; */
 }
+
+.column {
+  display: flex;
+  gap: 10px;
+  flex-direction: column;
+  flex: 0 0 335px;
+  width: 335px;
+  background-color: var(--main-bg-color);
+  border-radius: 8px;
+  overflow: hidden;
+  margin-top: 40px;
+  height: 100%;
+}
+
+@media screen and (min-width: 768px) {
+  .column {
+    gap: 14px;
+    margin-top: 26px;
+  }
+}
+
+@media screen and (min-width: 1440px) {
+  .column {
+    margin-top: 10px;
+  }
+}
+
+.columnHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 56px;
+  padding: 20px;
+  background-color: var(--white);
+  border-radius: 8px;
+}
+
+.columnHeaderBtn {
+  border: none;
+  background-color: inherit;
+}
+
+.columnTitle {
+  font-weight: 500;
+  font-size: 14px;
+  letter-spacing: -0.02em;
+  color: var(--black);
+}
+
+.columnContent {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  overflow-x: hidden;
+  width: 100%;
+  background-color: transparent;
+  border-radius: 8px;
+  gap: 8px;
+  max-height: calc(100vh - 250px);
+  padding-right: 4px;
+  padding-bottom: 10px;
+}
+
+.testCard {
+  width: 335px;
+  height: 154px;
+  background-color: var(--cards-bg-color);
+  border-radius: 8px;
+  flex-shrink: 0;
+}
+
+.icons {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+}
+
+.pencilIcon,
+.trashIcon {
+  fill: none;
+  stroke: currentColor;
+}
+
+.addBtn {
+  align-self: stretch;
+  margin-top: auto;
+  border-radius: 8px;
+  width: 100%;
+  height: 49px;
+  background-color: var(--main-color);
+  border: none;
+  font-weight: 500;
+  font-size: 14px;
+  letter-spacing: -0.02em;
+  color: var(--black);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  margin-top: 4px;
+}
+
+.addBtn:hover {
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  background-color: var(--accent-color);
+}
+
+.plusIcon {
+  width: 28px;
+  height: 28px;
+  background-color: var(--columnPlus-bg-color);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 6px;
+  stroke: var(--main-iconPlus-color);
+}
