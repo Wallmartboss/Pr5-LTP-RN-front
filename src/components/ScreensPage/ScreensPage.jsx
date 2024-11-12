@@ -49,7 +49,17 @@ const ScreensPage = () => {
   };
 
   const handleAddColumn = async columnTitle => {
+<<<<<<< Updated upstream
     await dispatch(addColumn({ boardId: selectedBoard._id, title: columnTitle, token }));
+=======
+    
+    await dispatch(
+      
+      addColumn({ boardId: selectedBoard._id, title: columnTitle, token })
+    );
+    console.log('Selected board ID:', selectedBoard._id);
+    dispatch(fetchColumns(selectedBoard._id));
+>>>>>>> Stashed changes
     handleCloseModal();
   };
 

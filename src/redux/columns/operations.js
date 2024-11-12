@@ -1,6 +1,7 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
-axios.defaults.baseURL = 'https://pr5-ltp-rn-back.onrender.com';
+
+axios.defaults.baseURL = 'https://pr5-ltp-rn-back.onrender.com/';
 
 export const fetchColumns = createAsyncThunk(
   'columns/fetchColumns',
@@ -16,8 +17,9 @@ export const fetchColumns = createAsyncThunk(
 
 export const addColumn = createAsyncThunk(
   'columns/addColumn',
-  async ({ boardId, title, token }, { rejectWithValue }) => {
+  async ({ columnId, title, token }, thunkAPI) => {
     try {
+      
       const response = await axios.post(
         `/columns/${boardId}`,
         { title },
