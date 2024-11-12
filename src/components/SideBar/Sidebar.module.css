@@ -131,8 +131,9 @@
 .icon {
   fill: var(--sicon-color);
 }
-c.iconAction {
-  fill: var(--side-icon-color);
+.iconAction {
+  fill: transparent;
+  stroke: var(--side-icon-color);
 }
 
 .toggleButton {
@@ -183,7 +184,4 @@ c.iconAction {
   margin-top: 150px;
   margin-bottom: 30px;
   background-color: var(--main-bg-color);
-}
-
-.out {
 }
