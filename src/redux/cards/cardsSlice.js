@@ -3,7 +3,6 @@ import { createSlice } from '@reduxjs/toolkit';
 const cardsSlice = createSlice({
   name: 'cards',
   initialState: {
-    // items: [],
     isLoading: false,
     error: null,
     openDropdowns: {},
