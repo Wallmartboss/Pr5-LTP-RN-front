@@ -81,6 +81,7 @@ const columnsSlice = createSlice({
         state.isError = null;
       })
       .addCase(fetchColumns.fulfilled, (state, action) => {
+        console.log('Fetched columns:', action.payload); 
         state.columns = action.payload;
         state.isLoading = false;
       })

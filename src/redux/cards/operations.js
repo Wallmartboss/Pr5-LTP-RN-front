@@ -1,6 +1,7 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import instance from '../../instance';
+// import instance from '../../instance';
 import axios from 'axios';
+
 
 axios.defaults.baseURL = 'https://pr5-ltp-rn-back.onrender.com';
 
@@ -9,7 +10,7 @@ export const addCard = createAsyncThunk(
   async ({ newCard }, thunkApi) => {
     try {
       const response = await axios.post('/cards', newCard);
-      console.log(response.data); 
+      console.log(response.data);
 
       return response.data;
     } catch (error) {
@@ -18,18 +19,29 @@ export const addCard = createAsyncThunk(
     }
   }
 );
-
 export const editCard = createAsyncThunk(
   'cards/editCard',
-  async ({ id, updatedCard }, thunkApi) => {
+  async ({ boardId, updatedCard, cardId }, thunkApi) => {
     try {
-      const response = await instance.put(`/cards/${id}`, updatedCard);
+      const response = await axios.patch(`/cards/${cardId}`, { ...updatedCard, boardId });
       return response.data;
     } catch (error) {
+      console.error('Error updating card:', error);
       return thunkApi.rejectWithValue(error.message);
     }
   }
 );
+// export const editCard = createAsyncThunk(
+//   'cards/editCard',
+//   async ({ id, updatedCard }, thunkApi) => {
+//     try {
+//       const response = await instance.put(`/cards/${id}`, updatedCard);
+//       return response.data;
+//     } catch (error) {
+//       return thunkApi.rejectWithValue(error.message);
+//     }
+//   }
+// );
 
 // ======================
 

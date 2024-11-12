@@ -26,7 +26,7 @@ export const selectSelectedBoard = state => state.boards.selectedBoard;
 
 export const selectColumnsByBoardId = (state, boardId) => {
   return (
-    state.columns?.items?.filter(column => column.boardId === boardId) || []
+    state.columns?.columns?.filter(column => column.boardId === boardId) || []
   );
 };
 

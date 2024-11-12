@@ -7,26 +7,31 @@ import {
     toggleDescription,
     openModal,
     closeModal,
-    toggleDropdown,
-    closeDropdown,
     selectCardIdToDelete,
 
 } from '../../redux/cards/cardsSlice.js';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectExpandedCardId, selectIsModalOpen, selectOpenDropdowns } from '../../redux/cards/selectors.js';
+import { selectExpandedCardId, selectIsModalOpen,  selectSelectedBoard } from '../../redux/cards/selectors.js';
 import { useEffect, useState } from 'react';
-import { deleteCard } from '../../redux/cards/operations.js';
+import { deleteCard, editCard } from '../../redux/cards/operations.js';
+import EditCardModal from '../EditCardModal/EditCardModal.jsx'
 
-const Card = ({ card, handleMoveCard, filteredColumns }) => {
+const Card = ({ card,  filteredColumns}) => {
+    const selectedBoard = useSelector(selectSelectedBoard);
+    const boardId = selectedBoard?._id;
+
     const cardIdToDelete = useSelector(selectCardIdToDelete);
     const dispatch = useDispatch();
     const expandedCardId = useSelector(selectExpandedCardId);
     const isModalOpen = useSelector(selectIsModalOpen);
     // const isDropdownOpen = useSelector((state) => state.cards.openDropdowns[card._id]);
-    const openDropdowns = useSelector(selectOpenDropdowns);
-    const { _id, priority, title, description, date } = card;
+    // const openDropdowns = useSelector(selectOpenDropdowns);
+    const { _id: cardId, priority, title, description, date } = card;
     const [isToday, setIsToday] = useState(false);
-    console.log(date);
+    const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+    const [isDropdownOpen, setIsDropdownOpen] = useState(false); 
+    // const [selectedCard, setSelectedCard] = useState(null);
+
     const isDeadlineToday = (date) => {
         const deadlineDate = new Date(date);
         const currentDate = new Date();
@@ -43,12 +48,20 @@ const Card = ({ card, handleMoveCard, filteredColumns }) => {
         return () => clearInterval(interval);
     }, [date]);
 
+    const openEditModalHandler = () => {
+
+        setIsEditModalOpen(true);
+    };
+    const closeEditModalHandler = () => {
+        setIsEditModalOpen(false);
+    };
+
     const toggleDescriptionHandler = () => {
-        dispatch(toggleDescription(_id));
+        dispatch(toggleDescription({ cardId }));
     };
 
     const openDeleteModal = () => {
-        dispatch(openModal({ cardId: _id }));
+        dispatch(openModal({ cardId}));
     };
 
     const handleConfirmDelete = () => {
@@ -60,24 +73,22 @@ const Card = ({ card, handleMoveCard, filteredColumns }) => {
     const handleCancelDelete = () => {
         dispatch(closeModal());
     };
-    const handleMoveCardClick = (columnId) => {
-        handleMoveCard(columnId, _id);
-        dispatch(closeDropdown(_id));
-    };
+   
 
-    const toggleDropdownHandler = () => {
-        dispatch(toggleDropdown(_id));
-    };
+    const handleMoveCard = (newColumnId, cardId) => {
+        if (cardId && newColumnId && newColumnId !== card.columnId) {
+                const updatedCard = { ...card, columnId: newColumnId };
+          dispatch(editCard({ boardId, updatedCard, cardId }));
+          setIsDropdownOpen(false)
+        }
+      };
 
+    const openDropdownHandler = () => {
+         setIsDropdownOpen(true);}
+    const closeDropdownHandler = () =>{
+        setIsDropdownOpen(false);
+    } 
 
-    // const handleToggleDropdown = () => {
-    //     dispatch(toggleDropdown(card._id));
-    //   };
-
-    //   const handleMove = (columnId) => {
-    //     handleMoveCard(columnId, card._id);
-    //     dispatch(closeDropdown(card._id)); 
-    //   };
     const getPriorityColor = (priority) => {
         switch (priority) {
             case 'low':
@@ -98,7 +109,7 @@ const Card = ({ card, handleMoveCard, filteredColumns }) => {
 
             <div className={s.desWrap}>
                 <p
-                    className={`${s.description} ${expandedCardId === _id ? s.expanded : ''}`}
+                    className={`${s.description} ${expandedCardId ===  cardId  ? s.expanded : ''}`}
                     onClick={toggleDescriptionHandler}
                 >{description}</p>
 
@@ -120,12 +131,12 @@ const Card = ({ card, handleMoveCard, filteredColumns }) => {
                             </svg>
                         </div>
                     )}
-                    <button className={s.move} onClick={toggleDropdownHandler} disabled={filteredColumns.length === 0} >
+                    <button className={s.move} onClick={openDropdownHandler} disabled={filteredColumns.length === 0} >
                         <svg className={s.icon} width="16" height="16">
                             <use href={`${sprite}#arrow-circle-icon`} />
                         </svg>
                     </button>
-                    <button >
+                    <button onClick={openEditModalHandler}>
                         <svg className={s.icon} width="16" height="16">
                             <use href={`${sprite}#pencil-icon`} />
                         </svg>
@@ -139,11 +150,11 @@ const Card = ({ card, handleMoveCard, filteredColumns }) => {
             </div>
 
             <Dropdown
-                cardId={card._id}
+                cardId={cardId}
                 filteredColumns={filteredColumns}
-                handleMoveCard={handleMoveCardClick}
-                openDropdown={openDropdowns[_id]}
-                closeDropdown={() => dispatch(closeDropdown(_id))}
+                handleMoveCard={handleMoveCard }
+                onClose={closeDropdownHandler}
+                isOpen={isDropdownOpen}
             />
 
             <ModalDeleteCard
@@ -151,6 +162,15 @@ const Card = ({ card, handleMoveCard, filteredColumns }) => {
                 onClose={handleCancelDelete}
                 onConfirm={handleConfirmDelete}
             />
+            {isEditModalOpen && (
+                <EditCardModal
+                    columnId={card.columnId}
+                    boardId={boardId}
+                    card={card}
+                    onClose={closeEditModalHandler}
+                   
+                />
+            )}
         </div>
     );
 };

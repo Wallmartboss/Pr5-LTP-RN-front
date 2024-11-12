@@ -19,18 +19,14 @@ const cardsSlice = createSlice({
     cardIdToDelete: null,
   },
   reducers: {
-    toggleDropdown: (state, action) => {
+    openDropdown: (state, action) => {
+      const {cardId} = action.payload;
+      state.openDropdowns[cardId] = true; 
+  },
+  closeDropdown: (state, action) => {
       const cardId = action.payload;
-      state.openDropdowns = Object.keys(state.openDropdowns).reduce((acc, key) => {
-        acc[key] = false;
-        return acc;
-      }, {});
-      state.openDropdowns[cardId] = !state.openDropdowns[cardId];
-    },
-    closeDropdown(state, action) {
-      const cardId = action.payload;
-      state.openDropdowns[cardId] = false;
-    },
+      state.openDropdowns[cardId] = false; 
+  },
 
     toggleDescription(state, action) {
       state.expandedCardId =
@@ -81,7 +77,7 @@ const cardsSlice = createSlice({
       .addCase(editCard.fulfilled, (state, action) => {
         state.isLoading = false;
         const index = state.items.findIndex(
-          card => card.id === action.payload.id
+          card => card._id === action.payload._id
         );
         if (index !== -1) state.items[index] = action.payload;
       })
@@ -121,11 +117,10 @@ const cardsSlice = createSlice({
 });
 
 export const {
-
-  toggleDropdown,
   toggleDescription,
   openModal,
   closeModal,
+  openDropdown,
   closeDropdown,
 } = cardsSlice.actions;
 
