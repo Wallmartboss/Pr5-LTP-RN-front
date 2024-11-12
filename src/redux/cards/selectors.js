@@ -28,6 +28,17 @@ export const selectCards = createSelector([selectBoardCards], cards => {
 export const selectCardsByBoardId = (state, boardId) => {
   return state.cards.items.filter(card => card.boardId === boardId);
 };
+
+
+export const selectSelectedBoard = state => state.boards.selectedBoard;
+
+export const selectColumnsByBoardId = (state, boardId) => {
+  return (
+    state.columns?.columns?.filter(column => column.boardId === boardId) || []
+  );
+};
+
+
 export const selectIsAddModalOpen = state => state.cards.isAddModalOpen;
 export const selectIsModalOpen = state => state.cards.isModalOpen;
 export const selectExpandedCardId = state => state.cards.expandedCardId;

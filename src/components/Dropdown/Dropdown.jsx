@@ -3,13 +3,14 @@ import s from './Dropdown.module.css';
 import sprite from '../../icons/icons.svg'
 import { useEffect, useRef } from 'react';
 
-const Dropdown = ({ filteredColumns, openDropdown, handleMoveCard, cardId,closeDropdown  }) => {
+const Dropdown = ({isOpen, filteredColumns, handleMoveCard, onClose }) => {
+   
     const dropdownRef = useRef(null); 
-
+    
     useEffect(() => {
         const handleKeyDown = (event) => {
             if (event.key === 'Escape') {
-                closeDropdown(); 
+               onClose(); 
             }
         };
         document.addEventListener('keydown', handleKeyDown);
@@ -17,29 +18,27 @@ const Dropdown = ({ filteredColumns, openDropdown, handleMoveCard, cardId,closeD
         return () => {
             document.removeEventListener('keydown', handleKeyDown);
         };
-    }, [closeDropdown]);
+    }, [onClose]);
 
     useEffect(() => {
         const handleClickOutside = (event) => {
             if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
-                closeDropdown(); // Закрити дропдаун, якщо натиснуто за його межами
+                onClose();
             }
         };
 
-        document.addEventListener('mousedown', handleClickOutside); // Слухаємо подію миші
+        document.addEventListener('mousedown', handleClickOutside); 
 
         return () => {
-            document.removeEventListener('mousedown', handleClickOutside); // Очищаємо слухача при розмонтажі компонента
+            document.removeEventListener('mousedown', handleClickOutside); 
         };
-    }, [closeDropdown]);
+    }, [onClose]);
 
-    if (!openDropdown) {
-        return null;
-    }
+    if (!isOpen) return null;
     return (
         <div className={s.dropdown} ref={dropdownRef}>
             {filteredColumns.map((column) => (
-                <button className={s.btn} key={column._id} onClick={() => handleMoveCard(column._id, cardId)}>
+                <button className={s.btn} key={column._id} onClick={() => handleMoveCard(column._id)}>
                     <span>{column.title}</span>
                     <svg className={s.icon} width="16" height="16">
                         <use href={`${sprite}#arrow-circle-icon`} />

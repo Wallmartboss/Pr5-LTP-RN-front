@@ -1,7 +1,8 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import instance from '../../instance';
+// import instance from '../../instance';
 import axios from 'axios';
 import { addCard as addCardAction } from '../columns/slice';
+
 
 axios.defaults.baseURL = 'https://pr5-ltp-rn-back.onrender.com';
 
@@ -10,13 +11,17 @@ export const addCard = createAsyncThunk(
   async (newCard, thunkAPI) => {
     try {
       const response = await axios.post('/cards', newCard);
-      console.log('Card created successfully:', response.data);
+
+      console.log(response.data);
+
+      return response.data;      console.log('Card created successfully:', response.data);
       if (response.status === 201) {
         // Якщо картка успішно створена, додаємо її в стан
         thunkAPI.dispatch(addCardAction(response.data.data)); // Використовуємо thunkAPI.dispatch
       } else {
         throw new Error('Failed to create card');
       }
+
     } catch (error) {
       console.error('Error creating card:', error);
       // Можна додати action для обробки помилок, якщо це потрібно
@@ -24,18 +29,35 @@ export const addCard = createAsyncThunk(
     }
   }
 );
-
 export const editCard = createAsyncThunk(
   'cards/editCard',
+
+  async ({ boardId, updatedCard, cardId }, thunkApi) => {
+    try {
+      const response = await axios.patch(`/cards/${cardId}`, { ...updatedCard, boardId });
+
   async ({ boardId, updatedCard }, thunkApi) => {
     try {
       const response = await instance.put(`/cards/${boardId}`, updatedCard);
+
       return response.data;
     } catch (error) {
+      console.error('Error updating card:', error);
       return thunkApi.rejectWithValue(error.message);
     }
   }
 );
+// export const editCard = createAsyncThunk(
+//   'cards/editCard',
+//   async ({ id, updatedCard }, thunkApi) => {
+//     try {
+//       const response = await instance.put(`/cards/${id}`, updatedCard);
+//       return response.data;
+//     } catch (error) {
+//       return thunkApi.rejectWithValue(error.message);
+//     }
+//   }
+// );
 
 // ======================
 

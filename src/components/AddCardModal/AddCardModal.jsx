@@ -1,55 +1,40 @@
-import { useState, useEffect } from 'react';
+
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+
+import format from 'date-fns/format';
+import { useState } from "react";
 import { useDispatch } from 'react-redux';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
-import 'flatpickr/dist/themes/material_blue.css';
+// import 'flatpickr/dist/themes/material_blue.css';
 import s from './AddCardModal.module.css';
 import sprite from '../../icons/icons.svg';
-import Calendar from '../Calendar/Calendar';
-import axios from 'axios';
-// import { fetchBoardById } from '../../redux/boads/operations';
-// import { fetchCards } from '../../redux/cards/operations';
-import { addCard } from '../../redux/columns/slice';
-import { fetchBoardById } from '../../redux/boards/operations';
+// import Calendar from '../Calendar/Calendar';
+import { addCard, fetchCards } from "../../redux/cards/operations";
+
 const AddCardModal = ({ onClose, columnId, boardId }) => {
   const dispatch = useDispatch();
   const [priority, setPriority] = useState('without');
-  const token = localStorage.getItem('token');
-  const handleSubmit = async values => {
+  const [showCalendar, setShowCalendar] = useState(false);
+  const [selectedDate, setSelectedDate] = useState(null);
+  const formattedDate = selectedDate ? format(selectedDate, 'MMMM d') : format(new Date(), 'MMMM d');
+  const displayDate = `Today, ${formattedDate}`;
+
+  const handleSubmit = (values) => {
+    console.log(boardId, columnId);
     const newCard = {
-      title: values.title,
-      description: values.description,
+      ...values,
+      date: selectedDate ? selectedDate.toISOString() : new Date().toISOString(),
       priority,
-      date: values.date,
       columnId,
-      boardId,
+      boardId
     };
-
-    console.log('Data being sent to API:', newCard); // Логування перед відправкою
-    try {
-      const response = await axios.post('/cards', newCard);
-      console.log('Card added:', response.data);
-      // обробка успішної відповіді
-      onClose();
-      // dispatch(addCard(newCard));
-
-      // dispatch(fetchBoardById({ boardId, token }));
-    } catch (error) {
-      console.error('Error adding card:', error);
-    }
+    dispatch(addCard({ newCard }));
+    dispatch(fetchCards({ boardId }));
+    onClose();
   };
-  // useEffect(() => {
-  //   if (boardId) {
-  //     // dispatch(fetchColumns(selectedBoard._id));
-  //     dispatch(fetchBoardById({ boardId, token }));
-  //   }
-  // }, [dispatch, boardId, token]);
 
-  // .then(() => {
-  //     dispatch(fetchCards({ boardId })); // Optional: оновлюємо список карток після додавання
-  //     onClose(); // Закриваємо модальне вікно після додавання
-  //   });
-  // };
 
   return (
     <div className={s.wrapper}>
@@ -77,45 +62,30 @@ const AddCardModal = ({ onClose, columnId, boardId }) => {
             resetForm();
           }}
         >
-          {({ values, setFieldValue }) => (
+
+          {({ values }) => (
             <Form className={s.modalForm}>
               <div>
-                <Field
-                  type="text"
-                  name="title"
-                  placeholder="Title"
-                  className={s.input}
-                />
-                <ErrorMessage
-                  name="title"
-                  component="div"
-                  className={s.error}
-                />
+                <Field type="text" name="title" placeholder="Title" className={s.input} />
+                <ErrorMessage name="title" component="div" className={s.error} />
               </div>
 
               <div>
-                <Field
-                  as="textarea"
-                  name="description"
-                  placeholder="Description"
-                  className={s.textarea}
-                />
-                <ErrorMessage
-                  name="description"
-                  component="div"
-                  className={s.error}
-                />
+                <Field as="textarea" name="description" placeholder="Description" className={s.textarea} />
+                <ErrorMessage name="description" component="div" className={s.error} />
               </div>
 
               <div className={s.formGroupLabelColor}>
-                <label>Label color</label>
+                <label className={s.labelName}>Label color</label>
+
                 <div className={s.labelColors}>
                   {['low', 'medium', 'high', 'without'].map(color => (
                     <label
                       key={color}
-                      className={`${s.priority} ${s[color]} ${
-                        priority === color ? s.selected : ''
-                      }`}
+
+                      className={`${s.priority} ${s[color]} ${priority === color ? s.selected : ''
+                        }`}
+
                     >
                       <input
                         checked={priority === color}
@@ -129,14 +99,34 @@ const AddCardModal = ({ onClose, columnId, boardId }) => {
                 </div>
               </div>
 
-              <div className={s.flatpickr}>
-                <label htmlFor="date">Deadline</label>
-                <Calendar
-                  value={values.date}
-                  onChange={date => setFieldValue('date', date)}
-                />
-                <ErrorMessage name="date" component="div" className={s.error} />
+
+
+              <div className={s.deadline}>
+                <label className={s.labelName} htmlFor="date">Deadline</label>
+                <div
+                  className={s.currentDate}
+                  onClick={() => setShowCalendar(!showCalendar)}
+                >
+                  {displayDate}
+                  <svg className={s.icon} width="16" height="16">
+                    <use href={`${sprite}#icon-arrow-down `} />
+                  </svg>
+                </div>
               </div>
+              {showCalendar && (
+                <div className={s.calendar}>
+                  <DatePicker
+                    selected={values.date}
+                    onChange={(date) => {
+                      setSelectedDate(date);
+                      setShowCalendar(false);
+                    }}
+                    dateFormat="MMMM d, yyyy"
+                    inline
+                  />
+                </div>
+              )}
+
 
               <button type="submit" className={s.addButton}>
                 <svg className={s.plusIcon} width="14" height="14">
