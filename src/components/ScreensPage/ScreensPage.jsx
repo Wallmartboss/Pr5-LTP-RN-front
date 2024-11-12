@@ -46,14 +46,18 @@ const ScreensPage = () => {
   const handleCloseModal = () => {
     dispatch(closeModal());
   };
+
+
+
   const handleAddColumn = async columnTitle => {
-    await dispatch(
-      addColumn({ boardId: selectedBoard._id, title: columnTitle, token })
-    );
-    console.log('Selected board ID:', selectedBoard._id);
-    dispatch(fetchColumns(selectedBoard._id));
+    await dispatch(addColumn({ boardId: selectedBoard._id, title: columnTitle, token }));
+    dispatch(fetchBoardById({ boardId: selectedBoard._id, token })); // Оновлюємо дошку з новими колонками
     handleCloseModal();
   };
+
+
+
+
   // const handleAddColumn = async columnTitle => {
   //   await dispatch(addColumn(columnTitle));
   //   handleCloseModal();
@@ -81,8 +85,8 @@ const ScreensPage = () => {
           <FiltersDropDown />
         </div>
         <div className={s.columnsContainer}>
-          {selectedBoard.columns && selectedBoard.columns.length > 0 ? (
-            selectedBoard.columns.map(column => (
+          {columns && columns.length > 0 ? (
+            columns.map(column => (
               <BoardColumn key={column._id} column={column} />
             ))
           ) : (

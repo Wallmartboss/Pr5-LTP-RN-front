@@ -111,7 +111,11 @@ const columnsSlice = createSlice({
         state.isError = null;
       })
       .addCase(addColumn.fulfilled, (state, action) => {
-        state.columns.push(action.payload);
+        const newColumn = action.payload;
+        state.columns.push(newColumn);
+        if (state.selectedBoard && state.selectedBoard.columns) {
+          state.selectedBoard.columns.push(newColumn); // Додаємо нову колонку в `selectedBoard`
+        }
         state.isLoading = false;
       })
       .addCase(addColumn.rejected, (state, action) => {
@@ -125,10 +129,11 @@ const columnsSlice = createSlice({
       .addCase(editColumnTitle.fulfilled, (state, action) => {
         const updatedColumn = action.payload;
         state.columns = state.columns.map(column =>
-          column._id === updatedColumn._id ? updatedColumn : column
+          column._id === updatedColumn._id ? updatedColumn : column  
         );
         state.isLoading = false;
       })
+      
       .addCase(editColumnTitle.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = action.payload || 'Error editing column';
@@ -138,9 +143,8 @@ const columnsSlice = createSlice({
       })
       .addCase(deleteColumn.fulfilled, (state, action) => {
         state.isLoading = false;
-        // Видаляємо колонку зі списку в Redux після успішного видалення з бази даних
         state.columns = state.columns.filter(
-          column => column._id !== action.payload._id
+          column => column._id !== action.payload._id  // Видаляємо колонку за ID
         );
       })
       .addCase(deleteColumn.rejected, (state, action) => {
