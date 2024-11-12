@@ -11,6 +11,7 @@ import {
 const cardsSlice = createSlice({
   name: 'cards',
   initialState: {
+
     isLoading: false,
     error: null,
     openDropdowns: {},
