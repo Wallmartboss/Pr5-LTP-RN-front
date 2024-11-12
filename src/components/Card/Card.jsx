@@ -12,6 +12,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import {
   selectExpandedCardId,
   selectIsModalOpen,
+  selectOpenDropdowns,
   selectSelectedBoard,
 } from '../../redux/cards/selectors.js';
 import { useEffect, useState } from 'react';
