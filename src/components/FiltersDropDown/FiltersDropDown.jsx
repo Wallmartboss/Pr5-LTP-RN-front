@@ -10,10 +10,10 @@ import {
   selectSelectedFilter,
 } from '../../redux/columns/selectors';
 import {
-  selectAllFilters,
-  toggleFilter,
-  toggleFiltersOpen,
-} from '../../redux/columns/slice';
+  selectAllPriorities,
+  togglePriorityFilter,
+} from '../../redux/filters/filtersSlice';
+import { toggleFiltersOpen } from '../../redux/columns/slice';
 
 const FiltersDropDown = () => {
   const selectedFilter = useSelector(selectSelectedFilter);
@@ -21,15 +21,16 @@ const FiltersDropDown = () => {
   const isModalOpen = useSelector(selectIsModalOpen);
   const isEditModalOpen = useSelector(selectEditModalOpen);
   const isDeleteModalOpen = useSelector(selectIsDeleteModalOpen);
+  const selectPriority = useSelector(state => state.filters.priority);
+  const selectAll = useSelector(state => state.filters.selectAll);
   const dispatch = useDispatch();
 
-  const handleFilterChange = event => {
-    const { value, checked } = event.target;
-    dispatch(toggleFilter({ value, checked }));
+  const handlePriorityChange = priorityLevel => {
+    dispatch(togglePriorityFilter({ priorityLevel }));
   };
 
-  const handleSelectAllFilters = () => {
-    dispatch(selectAllFilters());
+  const handleSelectAll = () => {
+    dispatch(selectAllPriorities());
   };
 
   const handleToggleOpen = () => {
@@ -44,7 +45,6 @@ const FiltersDropDown = () => {
         !isEditModalOpen &&
         !isDeleteModalOpen
       ) {
-        // додав перевірку на відкритість модального вікна бо закривання модалки через Esc автоматично відкривало фільтри
         dispatch(toggleFiltersOpen());
       }
     };
@@ -75,7 +75,7 @@ const FiltersDropDown = () => {
           </div>
           <div className={s.filtersTop}>
             <span className={s.filtersName}>Label color</span>
-            <span onClick={handleSelectAllFilters} className={s.showAllFilters}>
+            <span onClick={handleSelectAll} className={s.showAllFilters}>
               Show all
             </span>
           </div>
@@ -83,19 +83,18 @@ const FiltersDropDown = () => {
             <label className={s.prioItem}>
               <input
                 type="checkbox"
-                value="none"
-                checked={selectedFilter.none}
-                onChange={handleFilterChange}
+                checked={selectAll}
+                onChange={handleSelectAll}
               />
               <span className={`${s.checkmark} ${s.checkmarkNone}`}></span>
-              Without priority
+              Show all
             </label>
             <label className={s.prioItem}>
               <input
                 type="checkbox"
                 value="low"
-                checked={selectedFilter.low}
-                onChange={handleFilterChange}
+                checked={selectPriority.low}
+                onChange={() => handlePriorityChange('low')}
               />
               <span className={`${s.checkmark} ${s.checkmarkLow}`}></span>
               Low
@@ -104,8 +103,8 @@ const FiltersDropDown = () => {
               <input
                 type="checkbox"
                 value="medium"
-                checked={selectedFilter.medium}
-                onChange={handleFilterChange}
+                checked={selectPriority.medium}
+                onChange={() => handlePriorityChange('medium')}
               />
               <span className={`${s.checkmark} ${s.checkmarkMedium}`}></span>
               Medium
@@ -114,8 +113,8 @@ const FiltersDropDown = () => {
               <input
                 type="checkbox"
                 value="high"
-                checked={selectedFilter.high}
-                onChange={handleFilterChange}
+                checked={selectPriority.high}
+                onChange={() => handlePriorityChange('high')}
               />
               <span className={`${s.checkmark} ${s.checkmarkHigh}`}></span>
               High

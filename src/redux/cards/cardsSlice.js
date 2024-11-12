@@ -10,7 +10,7 @@ import {
 const cardsSlice = createSlice({
   name: 'cards',
   initialState: {
-    // items: [],
+    items: [],
     isLoading: false,
     error: null,
     openDropdowns: {},

@@ -1,3 +1,4 @@
+import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import s from './CardList.module.css';
 import {
@@ -8,17 +9,34 @@ import { selectSelectedBoard } from '../../redux/boards/selectors.js';
 import { moveCard } from '../../redux/cards/operations.js';
 import Card from '../Card/Card.jsx';
 import { toggleDropdown } from '../../redux/cards/cardsSlice.js';
+import {
+  selectAllPriorityFilter,
+  selectSelectAll,
+} from '../../redux/filters/selectors';
 
 const CardList = ({ columnId }) => {
   const dispatch = useDispatch();
+
+  // Отримуємо всі картки колонки
   const cards = useSelector(state => selectCardsByColumnId(state, columnId));
+
+  // Отримуємо інформацію про фільтри пріоритету
+  const priorityFilter = useSelector(selectAllPriorityFilter);
+  const selectAll = useSelector(selectSelectAll);
+
+  // Фільтруємо картки за пріоритетом
+  const filteredCards = selectAll
+    ? cards
+    : cards.filter(card => priorityFilter[card.priority]);
+
   const selectedBoard = useSelector(selectSelectedBoard);
   const boardId = selectedBoard?._id;
-  const columns = useSelector(state => {
-    return selectColumnsByBoardId(state, boardId);
-  });
+  const columns = useSelector(state => selectColumnsByBoardId(state, boardId));
   const filteredColumns = columns.filter(column => column._id !== columnId);
   const openDropdowns = useSelector(state => state.cards.openDropdowns);
+
+  console.log('All cards for column:', cards);
+  console.log('Filtered cards for column:', filteredCards);
 
   const handleMoveCard = (newColumnId, cardId) => {
     if (cardId && newColumnId && newColumnId !== columnId) {
@@ -33,10 +51,10 @@ const CardList = ({ columnId }) => {
 
   return (
     <div className={s.cardsContainer}>
-      {cards.length === 0 ? (
+      {filteredCards.length === 0 ? (
         <p>No cards available in this column.</p>
       ) : (
-        cards.map(card => (
+        filteredCards.map(card => (
           <Card
             key={card._id}
             card={card}

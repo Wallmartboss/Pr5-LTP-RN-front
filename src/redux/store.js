@@ -17,6 +17,7 @@ import helpSliceReducer from './help/slice';
 import { setAuthHeader } from './auth/operations';
 import { boardsReducer } from './boards/slice.js';
 import cardsReducer from './cards/cardsSlice';
+import filtersReducer from './filters/filtersSlice.js';
 
 import { sidebarReducer } from './sidebarSlice/slice.js';
 
@@ -41,6 +42,7 @@ export const store = configureStore({
   reducer: {
     auth: persistReducer(authPersistConfig, authReducer),
     columns: columnsReducer,
+    filters: filtersReducer,
     help: helpSliceReducer,
     user: persistReducer(userPersistConfig, userReducer),
     boards: boardsReducer,
