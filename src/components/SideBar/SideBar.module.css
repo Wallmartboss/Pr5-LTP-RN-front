@@ -105,6 +105,13 @@
     height: 202px;
   }
 }
+.boardList::-webkit-scrollbar {
+  width: 0;
+}
+.boardList::-webkit-scrollbar-track {
+  background: var(--logo-bg-color); /* цвет фона трека */
+  border-radius: 2px;
+}
 
 .boardItem {
   display: flex;
