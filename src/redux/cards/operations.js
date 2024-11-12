@@ -1,29 +1,35 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import instance from '../../instance';
 import axios from 'axios';
+import { addCard as addCardAction } from '../columns/slice';
 
 axios.defaults.baseURL = 'https://pr5-ltp-rn-back.onrender.com';
 
 export const addCard = createAsyncThunk(
   'cards/addCard',
-  async ({ newCard }, thunkApi) => {
+  async (newCard, thunkAPI) => {
     try {
       const response = await axios.post('/cards', newCard);
-      console.log(response.data); 
-
-      return response.data;
+      console.log('Card created successfully:', response.data);
+      if (response.status === 201) {
+        // Якщо картка успішно створена, додаємо її в стан
+        thunkAPI.dispatch(addCardAction(response.data.data)); // Використовуємо thunkAPI.dispatch
+      } else {
+        throw new Error('Failed to create card');
+      }
     } catch (error) {
-      console.error('API call failed:', error);
-      return thunkApi.rejectWithValue(error.message);
+      console.error('Error creating card:', error);
+      // Можна додати action для обробки помилок, якщо це потрібно
+      return thunkAPI.rejectWithValue(error.message); // Повертаємо помилку для обробки в reducer
     }
   }
 );
 
 export const editCard = createAsyncThunk(
   'cards/editCard',
-  async ({ id, updatedCard }, thunkApi) => {
+  async ({ boardId, updatedCard }, thunkApi) => {
     try {
-      const response = await instance.put(`/cards/${id}`, updatedCard);
+      const response = await instance.put(`/cards/${boardId}`, updatedCard);
       return response.data;
     } catch (error) {
       return thunkApi.rejectWithValue(error.message);
@@ -68,8 +74,10 @@ export const fetchCards = createAsyncThunk(
 export const deleteCard = createAsyncThunk(
   'cards/deleteCard',
   async ({ cardId }, { rejectWithValue }) => {
+    console.log('Sending DELETE request for cardId:', cardId);
     try {
-      await axios.delete(`/cards/${cardId}`);
+      // Перевірка cardId
+      await axios.delete(`/cards/${cardId}`); // Видаляємо картку за cardId
       return cardId;
     } catch (error) {
       return rejectWithValue(error.message);
@@ -82,9 +90,9 @@ export const moveCard = createAsyncThunk(
   async ({ cardId, columnId }, { rejectWithValue }) => {
     try {
       await axios.patch(`/cards/move/${cardId}`, { columnId });
-      return { cardId, columnId };
+      return { cardId, columnId }; // Повертаємо ID картки і колонку, куди її перемістили
     } catch (error) {
-      return rejectWithValue(error.message);
+      return rejectWithValue(error.message); // Помилка при переміщенні
     }
   }
 );

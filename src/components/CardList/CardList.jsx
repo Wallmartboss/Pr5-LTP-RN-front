@@ -19,7 +19,7 @@ const CardList = ({ columnId }) => {
   });
   const filteredColumns = columns.filter(column => column._id !== columnId);
   const openDropdowns = useSelector(state => state.cards.openDropdowns);
-
+  // console.log('Cards for column:', columnId, cards);
   const handleMoveCard = (newColumnId, cardId) => {
     if (cardId && newColumnId && newColumnId !== columnId) {
       dispatch(moveCard({ cardId, columnId: newColumnId, boardId }));
@@ -36,9 +36,9 @@ const CardList = ({ columnId }) => {
       {cards.length === 0 ? (
         <p>No cards available in this column.</p>
       ) : (
-        cards.map(card => (
+        cards.map((card, index) => (
           <Card
-            key={card._id}
+            key={card._id || `card-${index}`}
             card={card}
             columnId={columnId}
             handleMoveCard={handleMoveCard}

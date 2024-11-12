@@ -1,135 +1,66 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
+axios.defaults.baseURL = 'https://pr5-ltp-rn-back.onrender.com';
 
-axios.defaults.baseURL = 'https://pr5-ltp-rn-back.onrender.com/';
-
-// export const fetchColumns = createAsyncThunk(
-//   'boards/fetchColumns',
-//   async (boardId, thunkAPI) => {
-//     try {
-//       const response = await axios.get(`/columns/${boardId}`, {
-//         headers: {
-//           Authorization: `Bearer ${token}`,
-//         },
-//       });
-//       return response.data;
-//     } catch (error) {
-//       return thunkAPI.rejectWithValue(
-//         error.response?.data.message || 'Failed to fetch columns'
-//       );
-//     }
-//   }
-// );
-
-// export const fetchColumns = createAsyncThunk(
-//   'boards/fetchColumns',
-//   async (boardId, thunkAPI) => {
-//     try {
-//       const response = await axios.get(`/columns/${boardId}`);
-//       return response.data;
-//     } catch (error) {
-//       return thunkAPI.rejectWithValue(
-//         error.response?.data.message || 'Failed to fetch columns'
-//       );
-//     }
-//   }
-// );
 export const fetchColumns = createAsyncThunk(
-  'boards/fetchColumns',
-  async (boardId, thunkAPI) => {
-    if (!boardId) {
-      return thunkAPI.rejectWithValue('Board ID is required');
-    }
+  'columns/fetchColumns',
+  async (boardId, { rejectWithValue }) => {
     try {
       const response = await axios.get(`/columns/${boardId}`);
       return response.data;
     } catch (error) {
-      return thunkAPI.rejectWithValue(
-        error.response?.data.message || 'Failed to fetch columns'
-      );
+      return rejectWithValue(error.message);
     }
   }
 );
+
 export const addColumn = createAsyncThunk(
   'columns/addColumn',
-  async ({ columnId, title, token }, thunkAPI) => {
+  async ({ boardId, title, token }, { rejectWithValue }) => {
     try {
       const response = await axios.post(
-        `/columns/${columnId}`,
+        `/columns/${boardId}`,
         { title },
         {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
+          headers: { Authorization: `Bearer ${token}` },
         }
       );
-      console.log('Adding column :', response.data);
       return response.data;
     } catch (error) {
-      return thunkAPI.rejectWithValue(
-        error.response?.data.message || 'Failed to add a new column'
-      );
+      return rejectWithValue(error.message);
     }
   }
 );
-// export const addColumn = createAsyncThunk(
-//   'boards/addColumn',
-//   async ({ boardId, title, token }, thunkAPI) => {
-//     try {
-//       const response = await axios.post(
-//         `/columns/${boardId}`,
-//         { title },
-//         {
-//           headers: {
-//             Authorization: `Bearer ${token}`,
-//           },
-//         }
-//       );
-//       console.log('Adding column :', response.data);
-//       return response.data;
-//     } catch (error) {
-//       return thunkAPI.rejectWithValue(
-//         error.response?.data.message || 'Failed to add a new column'
-//       );
-//     }
-//   }
-// );
 
 export const editColumnTitle = createAsyncThunk(
-  'boards/editColumnTitle',
-  async ({ columnId, newTitle, token }, thunkAPI) => {
+  'columns/editColumnTitle',
+  async ({ columnId, newTitle, token }, { rejectWithValue }) => { // Use newTitle here
     try {
-      console.log('columnId:', columnId);
-      console.log('Token:', token);
       const response = await axios.patch(
         `/columns/${columnId}`,
-        { title: newTitle },
+        { title: newTitle }, // Send newTitle as title in the payload
         {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
+          headers: { Authorization: `Bearer ${token}` },
         }
       );
-      console.log('Server response after editing column:', response.data);
       return response.data;
     } catch (error) {
-      return thunkAPI.rejectWithValue(
-        error.response?.data.message || 'Failed to edit the column'
-      );
+      return rejectWithValue(error.message);
     }
   }
 );
 
+
 export const deleteColumn = createAsyncThunk(
-  'boards/deleteColumn',
-  async (columnId, thunkAPI) => {
+  'columns/deleteColumn',
+  async ({ columnId, token }, { rejectWithValue }) => {
     try {
-      const response = await axios.delete(`/columns/${columnId}`);
+      const response = await axios.delete(`/columns/${columnId}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
       return response.data;
     } catch (error) {
-      return thunkAPI.rejectWithValue(
-        error.response?.data.message || 'Failed to delete the column'
-      );
+      return rejectWithValue(error.message);
     }
   }
 );
