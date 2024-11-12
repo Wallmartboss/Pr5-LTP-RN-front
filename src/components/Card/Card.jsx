@@ -24,11 +24,11 @@ const Card = ({ card, handleMoveCard, filteredColumns }) => {
     const isModalOpen = useSelector(selectIsModalOpen);
     // const isDropdownOpen = useSelector((state) => state.cards.openDropdowns[card._id]);
     const openDropdowns = useSelector(selectOpenDropdowns);
-    const { _id, priority, title, description, deadline } = card;
+    const { _id, priority, title, description, date } = card;
     const [isToday, setIsToday] = useState(false);
-    console.log(deadline);
-    const isDeadlineToday = (deadline) => {
-        const deadlineDate = new Date(deadline);
+    console.log(date);
+    const isDeadlineToday = (date) => {
+        const deadlineDate = new Date(date);
         const currentDate = new Date();
         currentDate.setHours(0, 0, 0, 0);
         deadlineDate.setHours(0, 0, 0, 0);
@@ -36,12 +36,12 @@ const Card = ({ card, handleMoveCard, filteredColumns }) => {
     };
 
     useEffect(() => {
-        setIsToday(isDeadlineToday(deadline));
+        setIsToday(isDeadlineToday(date));
         const interval = setInterval(() => {
-            setIsToday(isDeadlineToday(deadline));
+            setIsToday(isDeadlineToday(date));
         }, 24 * 60 * 60 * 1000);
         return () => clearInterval(interval);
-    }, [deadline]);
+    }, [date]);
 
     const toggleDescriptionHandler = () => {
         dispatch(toggleDescription(_id));
@@ -109,7 +109,7 @@ const Card = ({ card, handleMoveCard, filteredColumns }) => {
                     <p className={s.priority}>Priority
                         <span className={s.label} style={{ '--card-color': getPriorityColor(priority) }}>{priority}</span>
                     </p>
-                    <p className={s.deadline}>Deadline <span>{deadline ? new Date(deadline).toLocaleDateString() : 'No date set'}</span></p>
+                    <p className={s.deadline}>Deadline <span>{date ? new Date(date).toLocaleDateString() : 'No date set'}</span></p>
                 </div>
 
                 <div className={s.buttons}>
