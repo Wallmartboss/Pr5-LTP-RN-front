@@ -47,9 +47,6 @@ const cardsSlice = createSlice({
       state.isModalOpen = false;
       state.cardIdToDelete = null;
     },
-    // addCard(state, action) {
-    //   state.items.push(action.payload); // Додаємо картку до масиву карток
-    // },
   },
   extraReducers: builder => {
     builder
@@ -100,9 +97,17 @@ const cardsSlice = createSlice({
         state.error = null;
       })
       .addCase(deleteCard.fulfilled, (state, action) => {
-        const cardId = action.meta.arg.cardId;
-        state.items = state.items.filter(card => card._id !== cardId);
         state.loading = false;
+        // const cardId = action.meta.arg.cardId;
+        // const cardId = action.payload;
+        // const columnId = action.payload.columnId;
+        // console.log('Card from superreducer', cardId);
+        // const column = state.columns.find(col => col.id === columnId);
+
+        // if (column) {
+        //   column.cards = column.cards.filter(card => card.id !== cardId);
+        //   state.loading = false;
+        // }
       })
       .addCase(deleteCard.rejected, (state, action) => {
         state.loading = false;
