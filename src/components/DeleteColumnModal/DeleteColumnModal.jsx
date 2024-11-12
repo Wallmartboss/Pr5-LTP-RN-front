@@ -20,11 +20,11 @@ const DeleteColumnModal = () => {
     if (columnToDelete?._id) {
       try {
         // Видаляємо колонку через операцію
-        await dispatch(deleteColumn({ columnId: columnToDelete._id }));
-        
+        await dispatch(deleteColumn({ columnId: columnToDelete._id, token }));
+
         // Оновлюємо список колонок у Redux, видаляючи колону, що була видалена
-        dispatch(removeColumnFromList(columnToDelete._id)); 
-        
+        dispatch(removeColumnFromList(columnToDelete._id, token));
+
         handleClose();
       } catch (error) {
         console.error('Error deleting column:', error);
