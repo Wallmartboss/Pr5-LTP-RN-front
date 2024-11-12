@@ -61,6 +61,7 @@ import image15Tab from './bg15-2x-tab.jpg';
 import defaultBg from './default-bg.png';
 
 const backgroundImages = [
+  { desktop: defaultBg, mobile: defaultBg, tablet: defaultBg },
   { desktop: image1, mobile: image1Mob, tablet: image1Tab },
   { desktop: image2, mobile: image2Mob, tablet: image2Tab },
   { desktop: image3, mobile: image3Mob, tablet: image3Tab },
@@ -76,8 +77,6 @@ const backgroundImages = [
   { desktop: image13, mobile: image13Mob, tablet: image13Tab },
   { desktop: image14, mobile: image14Mob, tablet: image14Tab },
   { desktop: image15, mobile: image15Mob, tablet: image15Tab },
-
-  { desktop: defaultBg, mobile: defaultBg, tablet: defaultBg },
 ];
 
 export default backgroundImages;
