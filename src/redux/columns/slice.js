@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import {
-  // addCard,
+  addCard as addCardOperation,
   deleteCard,
   editCard,
   fetchCards,
@@ -98,7 +98,7 @@ const columnsSlice = createSlice({
         state.isError = null;
       })
       .addCase(fetchColumns.fulfilled, (state, action) => {
-        console.log('Fetched columns:', action.payload); 
+        console.log('Fetched columns:', action.payload);
         state.columns = action.payload;
         state.isLoading = false;
       })
@@ -129,11 +129,11 @@ const columnsSlice = createSlice({
       .addCase(editColumnTitle.fulfilled, (state, action) => {
         const updatedColumn = action.payload;
         state.columns = state.columns.map(column =>
-          column._id === updatedColumn._id ? updatedColumn : column  
+          column._id === updatedColumn._id ? updatedColumn : column
         );
         state.isLoading = false;
       })
-      
+
       .addCase(editColumnTitle.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = action.payload || 'Error editing column';
@@ -144,7 +144,7 @@ const columnsSlice = createSlice({
       .addCase(deleteColumn.fulfilled, (state, action) => {
         state.isLoading = false;
         state.columns = state.columns.filter(
-          column => column._id !== action.payload._id  // Видаляємо колонку за ID
+          column => column._id !== action.payload._id // Видаляємо колонку за ID
         );
       })
       .addCase(deleteColumn.rejected, (state, action) => {
@@ -152,22 +152,25 @@ const columnsSlice = createSlice({
         state.isError = true;
         // Обробка помилки
       })
-      // .addCase(addCard.fulfilled, (state, action) => {
-      //   const column = state.columns.find(
-      //     col => col._id === action.payload.data.columnId
-      //   );
-      //   if (column) {
-      //     column.cards.push(action.payload.data); // Додаємо картку в колонку
-      //   }
-      //   state.allColumns = state.columns;
-      // })
-      // .addCase(addCard.pending, state => {
-      //   state.isLoading = true;
-      //   state.error = null;
-      // })
-      // .addCase(addCard.rejected, (state, action) => {
-      //   state.error = action.payload;
-      // })
+      .addCase(addCardOperation.fulfilled, (state, action) => {
+        state.isLoading = false;
+        const column = state.columns.find(
+          col => col._id === action.payload.columnId
+        );
+
+        if (column) {
+          column.cards.push(action.payload); // Додаємо картку в колонку
+        }
+        // state.allColumns = state.columns;
+      })
+      .addCase(addCardOperation.pending, state => {
+        state.isLoading = true;
+        state.error = null;
+      })
+      .addCase(addCardOperation.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.payload;
+      })
       .addCase(editCard.pending, state => {
         state.isLoading = true;
         state.error = null;
@@ -213,11 +216,11 @@ const columnsSlice = createSlice({
         state.loading = false;
         const newCards = action.payload.data;
 
-        state.items = [
-          ...state.items,
+        state.columns.items = [
+          ...state.columns.items,
           ...newCards.filter(
             newCard =>
-              !state.column.cards.some(
+              !state.cards.some(
                 existingCard => existingCard._id === newCard._id
               )
           ),

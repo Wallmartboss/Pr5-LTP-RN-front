@@ -13,7 +13,7 @@ import { toggleDropdown } from '../../redux/cards/cardsSlice.js';
 import {
   selectAllPriorityFilter,
   selectSelectAll,
-} from '../../redux/filters/selectors';
+} from '../../redux/filters/selectors.js';
 
 const CardList = ({ columnId }) => {
   const dispatch = useDispatch();
@@ -34,9 +34,7 @@ const CardList = ({ columnId }) => {
   const boardId = selectedBoard?._id;
   const columns = useSelector(state => selectColumnsByBoardId(state, boardId));
 
-
   const filteredColumns = columns.filter(column => column._id !== columnId);
-
 
   const openDropdowns = useSelector(state => state.cards.openDropdowns);
   console.log('All cards for column:', cards);
@@ -58,13 +56,11 @@ const CardList = ({ columnId }) => {
       {filteredCards.length === 0 ? (
         <p>No cards available in this column.</p>
       ) : (
-
         filteredCards.map(card => (
-
-       // cards.map((card, index) => (
+          // cards.map((card, index) => (
 
           <Card
-            key={card._id || `card-${index}`}
+            key={card._id}
             card={card}
             columnId={columnId}
             handleMoveCard={handleMoveCard}

@@ -6,19 +6,12 @@ import { addCard as addCardAction } from '../columns/slice';
 axios.defaults.baseURL = 'https://pr5-ltp-rn-back.onrender.com';
 
 export const addCard = createAsyncThunk(
-  'cards/addCard',
+  'cards/add_Card',
   async ({ newCard }, thunkAPI) => {
     try {
       const response = await axios.post('/cards', newCard);
-      console.log('Card created successfully:', response.data);
-      return response.data;
-
-      //   if (response.status === 201) {
-      //     // Якщо картка успішно створена, додаємо її в стан
-      //     thunkAPI.dispatch(addCardAction(response.data.data)); // Використовуємо thunkAPI.dispatch
-      //   } else {
-      //     throw new Error('Failed to create card');
-      //   }
+      console.log('Card created successfully:', response.data.data);
+      return response.data.data;
     } catch (error) {
       console.error('Error creating card:', error);
       // Можна додати action для обробки помилок, якщо це потрібно
@@ -26,6 +19,14 @@ export const addCard = createAsyncThunk(
     }
   }
 );
+
+// export const addCard = createAsyncThunk(
+//   'cards/newAddCard',
+//   async ({ newCard }, thunkAPI) => {
+//     return newCard;
+//   }
+// );
+
 export const editCard = createAsyncThunk(
   'cards/editCard',
 

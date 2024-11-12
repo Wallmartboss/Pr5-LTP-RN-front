@@ -11,7 +11,6 @@ import {
 const cardsSlice = createSlice({
   name: 'cards',
   initialState: {
-
     isLoading: false,
     error: null,
     openDropdowns: {},
@@ -78,8 +77,8 @@ const cardsSlice = createSlice({
       })
       .addCase(addCard.fulfilled, (state, action) => {
         state.isLoading = false;
-        state.items.push(action.payload);
-        console.log('Updated Cards:', state.items); // Логування оновленого масиву карток
+        // state.items.push(action.payload);
+        // console.log('Updated Cards:', state.items); // Логування оновленого масиву карток
       })
       .addCase(editCard.pending, state => {
         state.isLoading = true;
