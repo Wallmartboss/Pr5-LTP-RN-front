@@ -1,15 +1,12 @@
 import { createSelector } from '@reduxjs/toolkit';
 
-// Вибірка всіх колонок
 export const selectColumns = state => state.columns.columns;
 
-// Мемоїзовані селектори для колонок за boardId
 export const selectColumnsByBoardId = createSelector(
-  [selectColumns, (state, boardId) => boardId], // Вхідні параметри: state і boardId
+  [selectColumns, (state, boardId) => boardId], 
   (columns, boardId) => columns.filter(column => column.boardId === boardId) || []
 );
 
-// Мемоїзовані селектори для карток за columnId
 export const selectCardsByColumnId = createSelector(
   [selectColumns, (state, columnId) => columnId], // Вхідні параметри: state і columnId
   (columns, columnId) => {
@@ -18,7 +15,6 @@ export const selectCardsByColumnId = createSelector(
   }
 );
 
-// Інші прості селектори
 export const selectIsModalOpen = state => state.columns.isModalOpen;
 export const selectSelectedFilter = state => state.columns.selectedFilter;
 export const selectIsFiltersOpen = state => state.columns.isFiltersOpen;
@@ -29,9 +25,8 @@ export const selectColumnToDelete = state => state.columns.columnToDelete;
 export const selectIsLoading = state => state.columns.isLoading;
 export const selectIsError = state => state.columns.isError;
 
-// Мемоїзовані селектори для карток за boardId
 export const selectCardsByBoardId = createSelector(
   [selectColumns],
-  (columns) => columns.flatMap(column => column.cards) // Об'єднуємо всі картки з усіх колонок
+  (columns) => columns.flatMap(column => column.cards) 
 );
 
