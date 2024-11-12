@@ -3,14 +3,18 @@ import axios from 'axios';
 
 axios.defaults.baseURL = 'https://pr5-ltp-rn-back.onrender.com';
 
+const getAuthHeaders = token => ({
+  Authorization: `Bearer ${token}`,
+});
 export const fetchBoards = createAsyncThunk(
   'boards/fetchAll',
   async ({ userId, token }, thunkAPI) => {
+    if (!token) {
+      return thunkAPI.rejectWithValue('No token provided');
+    }
     try {
       const { data } = await axios.get(`/boards?owner=${userId}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
+        headers: getAuthHeaders(token),
       });
       // console.log('Fetched data:', data);
       return data;
@@ -28,9 +32,7 @@ export const addBoard = createAsyncThunk(
         '/boards',
         { title: boardName, owner: userId },
         {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
+          headers: getAuthHeaders(token),
         }
       );
       console.log('Adding board :', data);
@@ -50,9 +52,7 @@ export const updateBoard = createAsyncThunk(
         `/boards/${boardId}`,
         editedBoardObject,
         {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
+          headers: getAuthHeaders(token),
         }
       );
       console.log('Server response after update:', data);
@@ -68,9 +68,7 @@ export const deleteBoard = createAsyncThunk(
   async ({ boardId, token }, thunkAPI) => {
     try {
       await axios.delete(`/boards/${boardId}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
+        headers: getAuthHeaders(token),
       });
       return { boardId };
     } catch (error) {
@@ -88,9 +86,7 @@ export const fetchBoardById = createAsyncThunk(
       console.log('Fetching board with token:', token);
 
       const response = await axios.get(`/boards/${boardId}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
+        headers: getAuthHeaders(token),
       });
       console.log('Fetched board:', response.data);
       return response.data;
@@ -110,7 +106,7 @@ export const editColumnTitle = createAsyncThunk(
         {
           headers: {
             'Content-Type': 'application/json',
-            Authorization: `Bearer ${token}`,
+            ...getAuthHeaders(token),
           },
         }
       );

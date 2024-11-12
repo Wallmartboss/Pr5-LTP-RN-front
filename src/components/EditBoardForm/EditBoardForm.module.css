@@ -2,7 +2,6 @@
   display: flex;
   flex-direction: column;
   gap: 16px;
-
 }
 
 .input {
@@ -20,10 +19,11 @@
 
 .icons {
   display: flex;
-  gap: 10px;
+  gap: 5px;
   flex-wrap: wrap;
-  fill: none;
+  fill: transparent;
   stroke: #16161680;
+  margin-top: 10px;
 }
 
 .iconOption {
@@ -36,10 +36,10 @@
 }
 
 .icon {
-  width: 32px;
-  height: 32px;
+  width: 18px;
+  height: 18px;
   cursor: pointer;
-  fill: #888;
+  fill: none;
   transition: fill 0.3s ease, background-color 0.3s ease;
 }
 
@@ -50,14 +50,15 @@
 
 .backgrounds {
   display: flex;
-  gap: 10px;
+  gap: 1px;
   flex-wrap: wrap;
+  margin-top: 10px;
 }
 
 .backgroundOption {
-  width: 32px;
-  height: 32px;
-  border-radius: 4px;
+  /* width: 28px;
+  height: 28px;
+ */
   cursor: pointer;
   transition: transform 0.2s ease;
   border: 2px solid transparent;
@@ -66,11 +67,15 @@
 .backgroundOption:hover {
   transform: scale(1.05);
 }
-
-.backgroundOption.selected {
-  border-color: #bedbb0; /* Колір рамки для вибраного фону */
+.backgroundOption input:checked + label img {
+  box-shadow: 0 0 0 2px #bedbb0; /* Підсвічування вибраного фону */
+  transform: scale(1.05); /* Легке збільшення */
 }
 
+.backgroundOption:hover img {
+  transform: scale(1.1);
+  box-shadow: 0 0 0 3px #bedbb0;
+}
 .createButton {
   width: 100%;
   padding: 10px;
@@ -85,4 +90,14 @@
 
 .createButton:hover {
   background-color: #a6c398;
+}
+.activeIcon .backgroundImage {
+  width: 28px;
+  height: 28px;
+}
+.backgroundImage {
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+  object-fit: cover;
 }
