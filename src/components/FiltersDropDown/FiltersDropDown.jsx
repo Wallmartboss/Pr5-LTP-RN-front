@@ -85,7 +85,7 @@ const FiltersDropDown = () => {
                 type="checkbox"
                 value="none"
                 checked={selectPriority.none}
-                onChange={() => handlePriorityChange('none')}
+                onChange={() => handlePriorityChange('without')}
               />
               <span className={`${s.checkmark} ${s.checkmarkNone}`}></span>
               Without priority

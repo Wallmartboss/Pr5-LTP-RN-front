@@ -108,6 +108,7 @@ const Card = ({ card, filteredColumns }) => {
       case 'high':
         return '#BEDBB0';
       case 'without':
+        return 'rgba(22, 22, 22, 0.30)';
       default:
         return 'rgba(22, 22, 22, 0.30)';
     }

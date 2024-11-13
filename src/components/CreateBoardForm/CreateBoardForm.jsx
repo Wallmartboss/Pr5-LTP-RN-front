@@ -210,7 +210,8 @@ const CreateBoardForm = ({ closeModal }) => {
   const [background, setBackground] = useState(0); // Початковий фон
 
   const dispatch = useDispatch();
-  const token = useSelector(state => state.token);
+
+  // const token = useSelector(state => state.token);
 
   /* const handleSubmit = e => {
       e.preventDefault();
@@ -241,11 +242,13 @@ const CreateBoardForm = ({ closeModal }) => {
   };
 
   const createNewBoard = () => {
-    if (!token) {
-      console.error('Token is missing');
-      return;
-    }
-    dispatch(addBoard(newBoardObject))
+    const token = localStorage.getItem('token');
+    console.log('Token nnn ', token);
+    // if (!token) {
+    //   console.error('Token is missing');
+    //   return;
+    // }
+    dispatch(addBoard(newBoardObject, token))
       .unwrap()
       .then(() => {
         closeModal();

@@ -18,7 +18,7 @@ const initialState = {
   isModalOpen: false,
   isFiltersOpen: false,
   selectedFilter: {
-    none: false,
+    without: false,
     low: false,
     medium: false,
     high: false,
@@ -47,7 +47,7 @@ const columnsSlice = createSlice({
     },
     selectAllFilters(state) {
       state.selectedFilter = {
-        none: true,
+        without: true,
         low: true,
         medium: true,
         high: true,

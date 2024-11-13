@@ -28,17 +28,16 @@ export const fetchBoards = createAsyncThunk(
 export const addBoard = createAsyncThunk(
   'boards/addBoard',
   async ({ userId, boardName, icon, background, token }, thunkAPI) => {
-    /*  const state = thunkAPI.getState();
-    console.log(state);
-    const token = state.user.token; */
+    // const state = thunkAPI.getState();
+    // const token = state.user.token;
+    console.log('token', token);
 
     if (!token) {
-      // Відхиляємо запит, якщо токен відсутній
+      //   // Відхиляємо запит, якщо токен відсутній
       return thunkAPI.rejectWithValue('Token not found');
     }
 
     try {
-      setAuthHeader(token);
       // Відправляємо запит на створення нової дошки
       const response = await axios.post(
         '/boards',
@@ -49,7 +48,9 @@ export const addBoard = createAsyncThunk(
           background,
         },
         {
-          headers: getAuthHeaders(token),
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
         }
       );
 

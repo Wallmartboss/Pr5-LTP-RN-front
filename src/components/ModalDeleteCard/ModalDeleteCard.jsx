@@ -6,7 +6,7 @@ const ModalDeleteCard = ({ isOpen, onClose, onConfirm, cardId }) => {
   const dispatch = useDispatch();
 
   if (!isOpen) return null;
-
+  console.log('Carl should delete', cardId);
   const handleConfirm = () => {
     if (cardId) {
       console.log('Sending DELETE request for cardId:', cardId);
