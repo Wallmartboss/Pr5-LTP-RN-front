@@ -9,7 +9,7 @@
   --low-priority-color: #8fa1d0;
   --medium-priority-color: #e09cb5;
   --high-priority-color: #bedbb0;
-  --no-priopity-color: rgba(22, 22, 22, 0.4);
+  --no-priopity-color: rgba(255, 255, 255, 0.3);
   --auth-form-bg-color: #151515;
 }
 
@@ -27,6 +27,8 @@ body {
   --icon-bg-color: #bedbb0; /*колір заднього фону для іконки "+" в хедері та сайдбарі */
   --cards-bg-color: #fff; /* колір заднього фону карток та назви колонки */
   --columnPlus-bg-color: #161616; /* колір заднього фону для іконки в кнопці "add another column" */
+  --addColumnPlus-bg-color: #161616;
+  --columnPlus-strok: #ffffff;
   --logo-fill-color: #ffffff;
   --scrollX-color: #e8e8e8; /* колір для скролу по горизонталі */
   --scrollX-bg-color: #fff; /* колір заднього фону для скролу по вертикалі */
@@ -62,7 +64,9 @@ body.dark-mode {
   --calendar-bg-color: #1f1f1f;
   --icon-bg-color: #bedbb0;
   --cards-bg-color: #121212;
-  --columnPlus-bg-color: #ffffff;
+  --columnPlus-bg-color: #161616;
+  --columnPlus-strok: #161616;
+  --addColumnPlus-bg-color: #fff;
   --logo-fill-color: #ffffff;
   --scrollX-color: rgba(255, 255, 255, 0.1);
   --scrollX-bg-color: #161616;
@@ -92,19 +96,21 @@ body.violet-mode {
   background-color: var(--main-bg-color);
 
   --main-bg-color: #ecedfd;
-  --modal-bg-color: #a41313;
+  --modal-bg-color: #fcfcfc;
   --header-bg-color: #fff;
   --sideBar-bg-color: #5255bc;
   --calendar-bg-color: #fff;
   --icon-bg-color: #b8bcfd;
   --cards-bg-color: #fff;
-  --columnPlus-bg-color: #5255bc;
+  --columnPlus-bg-color: #fff;
+  --columnPlus-strok: #fff;
+  --addColumnPlus-bg-color: #5255bc;
   --logo-fill-color: #5255bc;
   --scrollX-color: #b8bcfd;
   --scrollX-bg-color: #ffffff;
   --scrollY-color: #b8bcfd;
   --scrollY-bg-color: #ffffff;
---side-icon-color: rgba(255, 255, 255, 0.5)
+  --side-icon-color: rgba(176, 177, 186, 0.9);
   --main-color: #5255bc;
   --accent-color: #7b7ede;
 

@@ -83,11 +83,12 @@ const FiltersDropDown = () => {
             <label className={s.prioItem}>
               <input
                 type="checkbox"
-                checked={selectAll}
-                onChange={handleSelectAll}
+                value="none"
+                checked={selectPriority.none}
+                onChange={() => handlePriorityChange('none')}
               />
               <span className={`${s.checkmark} ${s.checkmarkNone}`}></span>
-              Show all
+              Without priority
             </label>
             <label className={s.prioItem}>
               <input
