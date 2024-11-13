@@ -19,6 +19,9 @@ const cardsSlice = createSlice({
     cardIdToDelete: null,
   },
   reducers: {
+    selectCardIdToDelete: (state, action) => {
+      state.cards.cardIdToDelete = action.payload;
+    },
     toggleDropdown: (state, action) => {
       const cardId = action.payload;
       state.openDropdowns = Object.keys(state.openDropdowns).reduce(
@@ -41,11 +44,12 @@ const cardsSlice = createSlice({
     },
     openModal(state, action) {
       state.isModalOpen = true;
-      state.cardIdToDelete = action.payload;
+      state.cardId = action.payload;
+      console.log('Card ID:', state.cardId);
     },
     closeModal(state) {
       state.isModalOpen = false;
-      state.cardIdToDelete = null;
+      state.cardId = null;
     },
   },
   extraReducers: builder => {
@@ -98,8 +102,9 @@ const cardsSlice = createSlice({
       })
       .addCase(deleteCard.fulfilled, (state, action) => {
         state.loading = false;
-        // const cardId = action.meta.arg.cardId;
+
         // const cardId = action.payload;
+        // state.items = state.items.filter(card => card._id !== cardId);
         // const columnId = action.payload.columnId;
         // console.log('Card from superreducer', cardId);
         // const column = state.columns.find(col => col.id === columnId);
@@ -138,8 +143,7 @@ export const {
   openModal,
   closeModal,
   closeDropdown,
+  selectCardIdToDelete,
 } = cardsSlice.actions;
-
-export const selectCardIdToDelete = state => state.cards.cardIdToDelete;
 
 export default cardsSlice.reducer;

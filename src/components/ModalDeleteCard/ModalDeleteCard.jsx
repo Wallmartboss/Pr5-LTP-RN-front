@@ -1,26 +1,18 @@
 import s from './ModalDeleteCard.module.css';
 import sprite from '../../icons/icons.svg';
 import { useDispatch, useSelector } from 'react-redux';
-import { deleteCard } from '../../redux/cards/operations'; // Імпортуємо операцію видалення картки
-import { selectCardById } from '../../redux/cards/selectors';
-import { selectCardToDelete } from '../../redux/cards/selectors';
+import { deleteCard } from '../../redux/cards/operations';
 const ModalDeleteCard = ({ isOpen, onClose, onConfirm, cardId }) => {
   const dispatch = useDispatch();
-  const CardToDelete = useSelector(selectCardToDelete);
-  console.log('CardToDelete', CardToDelete);
+
   if (!isOpen) return null;
 
-  const handleConfirm = cardId => {
+  const handleConfirm = () => {
     if (cardId) {
       console.log('Sending DELETE request for cardId:', cardId);
       dispatch(deleteCard(cardId));
-      // .unwrap()
-      // .then(() => {
-      onConfirm(); // Закрываем модальное окно после успешного удаления
-      // })
-      // .catch(error => console.error('Error deleting card:', error));
     }
-    // Закриваємо модальне вікно після видалення
+    onConfirm(cardId);
   };
 
   return (

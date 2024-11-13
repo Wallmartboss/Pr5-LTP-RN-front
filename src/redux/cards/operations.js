@@ -68,7 +68,7 @@ export const fetchCards = createAsyncThunk(
 export const deleteCard = createAsyncThunk(
   'cards/delete_Card',
   async (cardId, thunkAPI) => {
-    console.log('Sending DELETE request for cardId:', cardId);
+    console.log('Sending AsyncThunk DELETE request for cardId:', cardId);
     try {
       // Перевірка cardId
       await axios.delete(`/cards/${cardId}`); // Видаляємо картку за cardId
