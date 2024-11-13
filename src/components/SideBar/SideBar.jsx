@@ -18,7 +18,11 @@ import sprite from '../../icons/icons.svg';
 import NeedHelp from './NeedHelp/NeedHelp';
 import Logout from './Logout/Logout';
 import { selectUserId } from '../../redux/user/selectors';
-import { selectIsSidebarOpen } from '../../redux/sidebarSlice/slice';
+import {
+  closeSidebar,
+  selectIsSidebarOpen,
+  toggleSidebar,
+} from '../../redux/sidebarSlice/slice';
 
 const Sidebar = () => {
   const dispatch = useDispatch();
@@ -81,95 +85,105 @@ const Sidebar = () => {
     // navigate(`/boards/${board._id}`);
   };
 
+  const handleOverlayClick = () => {
+    dispatch(closeSidebar());
+  };
+
   return (
-    <div
-      className={`${s.sidebarContainer} ${
-        isSidebarOpen ? s.openSidebar : s.closedSidebar
-      }`}
-    >
-      <div className={s.sidebar}>
-        <LogoComponent />
-        <h2 className={s.title}>My boards</h2>
-        <hr className={s.separator} />
+    <>
+      {isSidebarOpen && (
+        <div className={s.modalOverlay} onClick={handleOverlayClick}></div>
+      )}
 
-        <div className={s.createBoardContainer}>
-          <div>
-            <span className={s.createBoardText}>Create a new board</span>
+      <div
+        className={`${s.sidebarContainer} ${
+          isSidebarOpen ? s.openSidebar : s.closedSidebar
+        }`}
+      >
+        <div className={s.sidebar}>
+          <LogoComponent />
+          <h2 className={s.title}>My boards</h2>
+          <hr className={s.separator} />
+
+          <div className={s.createBoardContainer}>
+            <div>
+              <span className={s.createBoardText}>Create a new board</span>
+            </div>
+            <button
+              className={s.createButton}
+              onClick={() => setCreateModalOpen(true)}
+            >
+              <svg className={s.plusIcon} width="20" height="20">
+                <use href={`${sprite}#plus-icon`} />
+              </svg>
+            </button>
           </div>
-          <button
-            className={s.createButton}
-            onClick={() => setCreateModalOpen(true)}
-          >
-            <svg className={s.plusIcon} width="20" height="20">
-              <use href={`${sprite}#plus-icon`} />
-            </svg>
-          </button>
-        </div>
 
-        <hr className={s.separator} />
+          <hr className={s.separator} />
 
-        <div className={s.boardList}>
-          {boards && boards.length > 0 ? (
-            boards.map(board => (
-              <div
-                key={board._id}
-                className={s.boardItem}
-                onClick={() => handleBoardClick(board)}
-              >
-                <span>{board.title}</span>
-                <div className={s.actions}>
-                  <button
-                    className={s.editButton}
-                    onClick={() => handleEditBoardClick(board)}
-                  >
-                    <svg className={s.iconAction} width="16" height="16">
-                      <use href={`${sprite}#pencil-icon`} />
-                    </svg>
-                  </button>
-                  <button
-                    className={s.deleteButton}
-                    onClick={() => handleDeleteBoard(board._id)}
-                  >
-                    <svg className={s.iconAction} width="16" height="16">
-                      <use href={`${sprite}#trash-icon`} />
-                    </svg>
-                  </button>
+          <div className={s.boardList}>
+            {boards && boards.length > 0 ? (
+              boards.map(board => (
+                <div
+                  key={board._id}
+                  className={s.boardItem}
+                  onClick={() => handleBoardClick(board)}
+                >
+                  <span>{board.title}</span>
+                  <div className={s.actions}>
+                    <button
+                      className={s.editButton}
+                      onClick={() => handleEditBoardClick(board)}
+                    >
+                      <svg className={s.iconAction} width="16" height="16">
+                        <use href={`${sprite}#pencil-icon`} />
+                      </svg>
+                    </button>
+                    <button
+                      className={s.deleteButton}
+                      onClick={() => handleDeleteBoard(board._id)}
+                    >
+                      <svg className={s.iconAction} width="16" height="16">
+                        <use href={`${sprite}#trash-icon`} />
+                      </svg>
+                    </button>
+                  </div>
                 </div>
-              </div>
-            ))
-          ) : (
-            <p>No boards available</p>
+              ))
+            ) : (
+              <p>No boards available</p>
+            )}
+          </div>
+
+          {isCreateModalOpen && (
+            <Modal onClose={() => setCreateModalOpen(false)}>
+              <CreateBoardForm onCreate={handleCreateBoard} />
+            </Modal>
+          )}
+
+          {isEditModalOpen && (
+            <Modal onClose={() => setEditModalOpen(false)}>
+              <EditBoardForm board={selectedBoard} onSave={handleEditBoard} />
+            </Modal>
           )}
         </div>
 
-        {isCreateModalOpen && (
-          <Modal onClose={() => setCreateModalOpen(false)}>
-            <CreateBoardForm onCreate={handleCreateBoard} />
-          </Modal>
-        )}
-
-        {isEditModalOpen && (
-          <Modal onClose={() => setEditModalOpen(false)}>
-            <EditBoardForm board={selectedBoard} onSave={handleEditBoard} />
-          </Modal>
-        )}
+        <button
+          className={s.toggleButton}
+          onClick={() => dispatch(toggleSidebar())}
+        >
+          <svg className={s.toggleIcon} width="20" height="20">
+            <use href={`${sprite}#menu-icon`} />
+          </svg>
+        </button>
+        <div className={s.need}>
+          <NeedHelp />
+        </div>
+        <div className={s.out}>
+          <Logout />
+        </div>
       </div>
-
-      <button
-        className={s.toggleButton}
-        onClick={() => setSidebarOpen(!isSidebarOpen)}
-      >
-        <svg className={s.toggleIcon} width="20" height="20">
-          <use href={`${sprite}#menu-icon`} />
-        </svg>
-      </button>
-      <div className={s.need}>
-        <NeedHelp />
-      </div>
-      <div className={s.out}>
-        <Logout />
-      </div>
-    </div>
+    </>
   );
 };
 //   return (
