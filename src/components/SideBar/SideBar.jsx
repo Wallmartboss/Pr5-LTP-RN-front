@@ -18,12 +18,13 @@ import sprite from '../../icons/icons.svg';
 import NeedHelp from './NeedHelp/NeedHelp';
 import Logout from './Logout/Logout';
 import { selectUserId } from '../../redux/user/selectors';
+import { selectIsSidebarOpen } from '../../redux/sidebarSlice/slice';
 
 const Sidebar = () => {
   const dispatch = useDispatch();
   const [isCreateModalOpen, setCreateModalOpen] = useState(false);
   const [isEditModalOpen, setEditModalOpen] = useState(false);
-  const [isSidebarOpen, setSidebarOpen] = useState(true);
+  const isSidebarOpen = useSelector(selectIsSidebarOpen);
 
   const userId = useSelector(selectUserId);
   const token = localStorage.getItem('token');
@@ -81,8 +82,12 @@ const Sidebar = () => {
   };
 
   return (
-    <div className={s.sidebarContainer}>
-      <div className={`${s.sidebar} ${isSidebarOpen ? s.openSidebar : ''}`}>
+    <div
+      className={`${s.sidebarContainer} ${
+        isSidebarOpen ? s.openSidebar : s.closedSidebar
+      }`}
+    >
+      <div className={s.sidebar}>
         <LogoComponent />
         <h2 className={s.title}>My boards</h2>
         <hr className={s.separator} />
