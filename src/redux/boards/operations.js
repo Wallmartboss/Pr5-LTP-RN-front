@@ -1,6 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
-import { setAuthHeader } from '../auth/operations.js';
+// import { setAuthHeader } from '../auth/operations.js';
 
 axios.defaults.baseURL = 'https://pr5-ltp-rn-back.onrender.com';
 
@@ -28,18 +28,8 @@ export const fetchBoards = createAsyncThunk(
 export const addBoard = createAsyncThunk(
   'boards/addBoard',
   async ({ userId, title, icon, background, token }, thunkAPI) => {
-    // const state = thunkAPI.getState();
-    // const token = state.user.token;
-    console.log('token', token);
-
-    if (!token) {
-      //   // Відхиляємо запит, якщо токен відсутній
-      return thunkAPI.rejectWithValue('Token not found');
-    }
-
     try {
-      // Відправляємо запит на створення нової дошки
-      const response = await axios.post(
+      const { data } = await axios.post(
         '/boards',
         {
           title,
