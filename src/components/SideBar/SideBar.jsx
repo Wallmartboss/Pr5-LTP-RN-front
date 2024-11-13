@@ -28,6 +28,7 @@ const Sidebar = () => {
   const dispatch = useDispatch();
   const [isCreateModalOpen, setCreateModalOpen] = useState(false);
   const [isEditModalOpen, setEditModalOpen] = useState(false);
+  const [isDesktop, setIsDesktop] = useState(window.innerWidth >= 1440);
   const isSidebarOpen = useSelector(selectIsSidebarOpen);
 
   const userId = useSelector(selectUserId);
@@ -85,19 +86,27 @@ const Sidebar = () => {
     // navigate(`/boards/${board._id}`);
   };
 
+  useEffect(() => {
+    const handleResize = () => {
+      setIsDesktop(window.innerWidth >= 1440);
+    };
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
   const handleOverlayClick = () => {
-    dispatch(closeSidebar());
+    if (!isDesktop) dispatch(closeSidebar());
   };
 
   return (
     <>
-      {isSidebarOpen && (
+      {isSidebarOpen && !isDesktop && (
         <div className={s.modalOverlay} onClick={handleOverlayClick}></div>
       )}
 
       <div
         className={`${s.sidebarContainer} ${
-          isSidebarOpen ? s.openSidebar : s.closedSidebar
+          isSidebarOpen || isDesktop ? s.openSidebar : s.closedSidebar
         }`}
       >
         <div className={s.sidebar}>
