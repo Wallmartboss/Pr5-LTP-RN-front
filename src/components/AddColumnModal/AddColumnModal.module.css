@@ -78,16 +78,16 @@
 }
 
 .xCloseBtn {
-  stroke: var(--black);
+  stroke: var(--main-text-color);
 }
 
 .plusIcon {
   width: 28px;
   height: 28px;
-  background-color: var(--columnPlus-bg-color);
+  background-color: var(--addColumnPlus-bg-color);
   display: flex;
   justify-content: center;
   align-items: center;
   border-radius: 6px;
-  stroke: var(--white);
+  stroke: var(--main-text-color);
 }

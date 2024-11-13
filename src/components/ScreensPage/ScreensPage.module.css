@@ -52,13 +52,13 @@
   border-radius: 8px;
   width: 335px;
   height: 56px;
-  background-color: var(--cards-bg-color);
+  background-color: var(--main-bg-color);
   border: none;
   margin-top: 40px;
   font-weight: 500;
   font-size: 14px;
   letter-spacing: -0.02em;
-  color: var(--columnPlus-bg-color); /*#161616*/
+  color: var(--main-text-color);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -86,7 +86,7 @@
 .plus {
   width: 28px;
   height: 28px;
-  background-color: var(--columnPlus-bg-color);
+  /* background-color: var(--columnPlus-bg-color); */
   color: var(--sec-iconPlus-color);
   display: flex;
   justify-content: center;
@@ -105,24 +105,11 @@
   background-color: blue;
 }
 
-.plusIcon {
-  width: 28px;
-  height: 28px;
-  background-color: var(--columnPlus-bg-color);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border-radius: 6px;
-  stroke: white;
-}
 .boardTitle {
   color: var(--main-text-color);
   font-size: 18px;
   font-weight: 500;
   line-height: auto;
-}
-.boardHeader {
-  /* background-color: chartreuse; */
 }
 
 .column {
@@ -237,10 +224,10 @@
 .plusIcon {
   width: 28px;
   height: 28px;
-  background-color: var(--columnPlus-bg-color);
+  background-color: var(--addColumnPlus-bg-color);
   display: flex;
   justify-content: center;
   align-items: center;
   border-radius: 6px;
-  stroke: var(--main-iconPlus-color);
+  stroke: var(--columnPlus-strok);
 }

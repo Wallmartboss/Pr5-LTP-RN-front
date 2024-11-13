@@ -93,7 +93,7 @@
   font-weight: 500;
   font-size: 14px;
   letter-spacing: -0.02em;
-  color: var(--black);
+  color: var(--btn-text-color);
   display: flex;
   justify-content: center;
   align-items: center;
