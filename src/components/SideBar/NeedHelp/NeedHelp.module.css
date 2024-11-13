@@ -20,7 +20,7 @@
   line-height: 16px;
   letter-spacing: -0.02em;
   text-align: left;
-  color: var(--main-bg-color);
+  color: var(--needHelp-text-color);
   width: 168px;
   height: 80px;
   margin-top: 14px;
@@ -37,7 +37,7 @@
   line-height: 16px;
   letter-spacing: -0.02em;
   text-align: left;
-  color: var(--sec-text-color);
+  color: var(--needHelp-logo-color);
 }
 
 .helpBtn {
