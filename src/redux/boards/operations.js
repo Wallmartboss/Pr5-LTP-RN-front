@@ -27,7 +27,7 @@ export const fetchBoards = createAsyncThunk(
 
 export const addBoard = createAsyncThunk(
   'boards/addBoard',
-  async ({ userId, boardName, icon, background, token }, thunkAPI) => {
+  async ({ userId, title, icon, background, token }, thunkAPI) => {
     // const state = thunkAPI.getState();
     // const token = state.user.token;
     console.log('token', token);
@@ -42,7 +42,7 @@ export const addBoard = createAsyncThunk(
       const response = await axios.post(
         '/boards',
         {
-          title: boardName,
+          title,
           owner: userId,
           icon, // Додаємо іконку
           background,

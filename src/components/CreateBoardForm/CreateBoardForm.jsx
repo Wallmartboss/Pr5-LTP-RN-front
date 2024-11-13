@@ -213,7 +213,6 @@ const CreateBoardForm = ({ closeModal }) => {
   const dispatch = useDispatch();
   const userId = useSelector(selectUserId);
   const token = localStorage.getItem('token');
-  console.log('User token', userId, token);
   // useEffect(() => {
   //   console.log('User ID:', userId, 'Token:', token);
   //   if (userId && token) {
@@ -260,7 +259,7 @@ const CreateBoardForm = ({ closeModal }) => {
     dispatch(
       addBoard({
         userId,
-        boardName: newBoardObject.title,
+        title: newBoardObject.title,
         icon: newBoardObject.icon,
         background: bg,
         token,
