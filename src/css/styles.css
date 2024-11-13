@@ -50,6 +50,8 @@ body {
   --logo-bg-color: #1f1f1f; /*колір для логотипу*/
   --create-plus-color: #121212;
   --need-bg-color: #f6f6f7;
+  --needHelp-logo-color: #bedbb0;
+  --needHelp-text-color: #161616;
   --side-icon-color: rgba(22, 22, 22, 0.5);
   --logout-color: #bedbb0;
 }
@@ -88,6 +90,8 @@ body.dark-mode {
   --logo-bg-color: #1f1f1f;
   --create-plus-color: #121212;
   --need-bg-color: #1f1f1f;
+  --needHelp-logo-color: #bedbb0;
+  --needHelp-text-color: #fff;
   --side-icon-color: rgba(255, 255, 255, 0.5);
   --logout-color: #bedbb0;
 }
@@ -118,6 +122,8 @@ body.violet-mode {
   --sec-text-color: #fff;
   --btn-text-color: #ffffff;
   --need-bg-color: rgba(236, 237, 253, 0.4);
+  --needHelp-logo-color: #5255bc;
+  --needHelp-text-color: #fff;
   --icon-color: rgba(22, 22, 22, 0.5);
   --active-icon-color: rgba(22, 22, 22, 1);
   --icon-done-color: var(--main-text-color);
