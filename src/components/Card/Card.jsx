@@ -67,7 +67,9 @@ const Card = ({ card, filteredColumns }) => {
 
     console.log('String Id:', cardId);
     setCardIdToDelete(cardId);
-    dispatch(openModal(cardId));
+    console.log('cardIdToDelete:', cardIdToDelete);
+    dispatch(deleteCard(cardId));
+    // dispatch(openModal(cardIdToDelete));
   };
 
   const handleConfirmDelete = cardId => {
@@ -174,7 +176,7 @@ const Card = ({ card, filteredColumns }) => {
               <use href={`${sprite}#pencil-icon`} />
             </svg>
           </button>
-          <button data-id={card} onClick={() => openDeleteModal(cardId)}>
+          <button onClick={() => openDeleteModal(cardId)}>
             <svg className={s.icon} width="16" height="16">
               <use href={`${sprite}#trash-icon`} />
             </svg>

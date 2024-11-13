@@ -2,17 +2,16 @@ import s from './ModalDeleteCard.module.css';
 import sprite from '../../icons/icons.svg';
 import { useDispatch, useSelector } from 'react-redux';
 import { deleteCard } from '../../redux/cards/operations';
-const ModalDeleteCard = ({ isOpen, onClose, onConfirm, cardId }) => {
+const ModalDeleteCard = ({ isOpen, onClose, onConfirm, cardIdToDelete }) => {
   const dispatch = useDispatch();
 
   if (!isOpen) return null;
-  console.log('Carl should delete', cardId);
   const handleConfirm = () => {
-    if (cardId) {
-      console.log('Sending DELETE request for cardId:', cardId);
-      dispatch(deleteCard(cardId));
+    if (cardIdToDelete) {
+      console.log('Sending DELETE request for cardId:', cardIdToDelete);
+      dispatch(deleteCard(cardIdToDelete));
     }
-    onConfirm(cardId);
+    onConfirm(cardIdToDelete);
   };
 
   return (

@@ -85,39 +85,39 @@ const cardsSlice = createSlice({
         state.isLoading = true;
         state.error = null;
       })
-      .addCase(editCard.fulfilled, (state, action) => {
-        state.isLoading = false;
-        const index = state.items.findIndex(
-          card => card.id === action.payload.id
-        );
-        if (index !== -1) state.items[index] = action.payload;
-      })
-      .addCase(editCard.rejected, (state, action) => {
-        state.isLoading = false;
-        state.error = action.payload;
-      })
-      .addCase(deleteCard.pending, state => {
-        state.loading = true;
-        state.error = null;
-      })
-      .addCase(deleteCard.fulfilled, (state, action) => {
-        state.loading = false;
+      // .addCase(editCard.fulfilled, (state, action) => {
+      //   state.isLoading = false;
+      //   const index = state.items.findIndex(
+      //     card => card.id === action.payload.id
+      //   );
+      //   if (index !== -1) state.items[index] = action.payload;
+      // })
+      // .addCase(editCard.rejected, (state, action) => {
+      //   state.isLoading = false;
+      //   state.error = action.payload;
+      // })
+      // .addCase(deleteCard.pending, state => {
+      //   state.loading = true;
+      //   state.error = null;
+      // })
+      // .addCase(deleteCard.fulfilled, (state, action) => {
+      //   state.loading = false;
 
-        // const cardId = action.payload;
-        // state.items = state.items.filter(card => card._id !== cardId);
-        // const columnId = action.payload.columnId;
-        // console.log('Card from superreducer', cardId);
-        // const column = state.columns.find(col => col.id === columnId);
+      // const cardId = action.payload;
+      // state.items = state.items.filter(card => card._id !== cardId);
+      // const columnId = action.payload.columnId;
+      // console.log('Card from superreducer', cardId);
+      // const column = state.columns.find(col => col.id === columnId);
 
-        // if (column) {
-        //   column.cards = column.cards.filter(card => card.id !== cardId);
-        //   state.loading = false;
-        // }
-      })
-      .addCase(deleteCard.rejected, (state, action) => {
-        state.loading = false;
-        state.error = action.payload;
-      })
+      // if (column) {
+      //   column.cards = column.cards.filter(card => card.id !== cardId);
+      //   state.loading = false;
+      // }
+      // })
+      // .addCase(deleteCard.rejected, (state, action) => {
+      //   state.loading = false;
+      //   state.error = action.payload;
+      // })
       .addCase(moveCard.pending, state => {
         state.status = 'loading';
       })
