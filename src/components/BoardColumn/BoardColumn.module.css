@@ -30,7 +30,7 @@
   justify-content: space-between;
   height: 56px;
   padding: 20px;
-  background-color: var(--white);
+  background-color: var(--modal-bg-color);
   border-radius: 8px;
 }
 
@@ -43,7 +43,7 @@
   font-weight: 500;
   font-size: 14px;
   letter-spacing: -0.02em;
-  color: var(--black);
+  color: var(--main-text-color);
 }
 
 .columnContent {
@@ -79,7 +79,7 @@
 .pencilIcon,
 .trashIcon {
   fill: none;
-  stroke: currentColor;
+  stroke: var(--icon-color);
 }
 
 .addBtn {

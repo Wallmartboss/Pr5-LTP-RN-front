@@ -115,7 +115,7 @@
   border-radius: 6px;
   stroke: white;
 }
-.boardTiyle {
+.boardTitle {
   color: var(--main-text-color);
   font-size: 18px;
   font-weight: 500;
@@ -157,7 +157,7 @@
   justify-content: space-between;
   height: 56px;
   padding: 20px;
-  background-color: var(--white);
+  background-color: var(--main-text-color);
   border-radius: 8px;
 }
 

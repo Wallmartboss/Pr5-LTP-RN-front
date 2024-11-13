@@ -1,17 +1,18 @@
 .burger {
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-    cursor: pointer;
-    span {
-      width: 18px;
-      height: 1px;
-      background-color: var(--main-text-color);
-    }
-  }
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  cursor: pointer;
+}
 
-  @media screen and (min-width: 1440px) {
-    .burger {
-      display: none;
-    }
+.burger span {
+  width: 18px;
+  height: 1px;
+  background-color: var(--main-text-color);
+}
+
+@media screen and (min-width: 1440px) {
+  .burger {
+    display: none;
   }
+}

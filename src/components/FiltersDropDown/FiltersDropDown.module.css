@@ -34,7 +34,7 @@
   font-weight: 500;
   font-size: 14px;
   letter-spacing: -0.02em;
-  color: rgba(22, 22, 22, 0.8);
+  color: var(--main-text-color);
   width: 64px;
   height: 20px;
   display: flex;
@@ -70,7 +70,7 @@
   display: block;
   width: 252px;
   height: 1px;
-  background-color: rgba(22, 22, 22, 0.1);
+  background-color: var(--main-text-color);
   position: absolute;
   left: 50%;
   transform: translateX(-50%);
@@ -88,11 +88,11 @@
   font-weight: 400;
   font-size: 12px;
   letter-spacing: -0.02em;
-  color: rgba(22, 22, 22, 0.5);
   display: flex;
   align-items: center;
   cursor: pointer;
   position: relative;
+  color: var(--main-text-color);
 }
 
 .prioItem input {
@@ -116,7 +116,7 @@
   letter-spacing: -0.02em;
   text-decoration: underline;
   text-decoration-skip-ink: none;
-  color: rgba(22, 22, 22, 0.5);
+  color: var(--main-text-color);
   cursor: pointer;
 }
 
@@ -130,7 +130,7 @@
 }
 
 .xCloseBtn {
-  stroke: var(--black);
+  stroke: var(--main-text-color);
 }
 
 .checkmark {
