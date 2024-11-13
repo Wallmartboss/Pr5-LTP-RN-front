@@ -62,11 +62,9 @@ const Card = ({ card, filteredColumns }) => {
   const toggleDescriptionHandler = () => {
     dispatch(toggleDescription({ cardId }));
   };
-  const openDeleteModal = event => {
+  const openDeleteModal = cardId => {
     console.log('Has opened OpenDeleteModal');
-    const numCardId = event.currentTarget.dataset.id;
-    console.log('Card ID to delete:', numCardId);
-    const cardId = numCardId.toString();
+
     console.log('String Id:', cardId);
     setCardIdToDelete(cardId);
     dispatch(openModal(cardId));
@@ -175,7 +173,7 @@ const Card = ({ card, filteredColumns }) => {
               <use href={`${sprite}#pencil-icon`} />
             </svg>
           </button>
-          <button data-id={card} onClick={openDeleteModal}>
+          <button data-id={card} onClick={() => openDeleteModal(cardId)}>
             <svg className={s.icon} width="16" height="16">
               <use href={`${sprite}#trash-icon`} />
             </svg>
@@ -195,7 +193,7 @@ const Card = ({ card, filteredColumns }) => {
         isOpen={isModalOpen}
         onClose={handleCancelDelete}
         onConfirm={handleConfirmDelete}
-        cardId={cardIdToDelete}
+        cardId={cardId}
       />
       {isEditModalOpen && (
         <EditCardModal
