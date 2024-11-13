@@ -194,14 +194,15 @@
 
 //export default CreateBoardForm;
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import s from './CreateBoardForm.module.css';
 import backgrounds from '../../bg/background/bgImages.js'; // Імпортуємо масив фонів для різних пристро
 import icons from '../../bg/iconBg/icons.js';
 import SvgIcon from '../SvgIcon/SvgIcon.jsx';
 import { useDispatch, useSelector } from 'react-redux';
 import defoultBg from '../../bg/default-bg.png';
-import { addBoard } from '../../redux/boards/operations.js';
+import { addBoard, fetchBoards } from '../../redux/boards/operations.js';
+import { selectUserId } from '../../redux/user/selectors';
 
 const CreateBoardForm = ({ closeModal }) => {
   const [title, setTitle] = useState('');
@@ -210,7 +211,15 @@ const CreateBoardForm = ({ closeModal }) => {
   const [background, setBackground] = useState(0); // Початковий фон
 
   const dispatch = useDispatch();
-
+  const userId = useSelector(selectUserId);
+  const token = localStorage.getItem('token');
+  console.log('User token', userId, token);
+  // useEffect(() => {
+  //   console.log('User ID:', userId, 'Token:', token);
+  //   if (userId && token) {
+  //     dispatch(fetchBoards({ userId, token }));
+  //   }
+  // }, [dispatch, userId, token]);
   // const token = useSelector(state => state.token);
 
   /* const handleSubmit = e => {
@@ -241,14 +250,22 @@ const CreateBoardForm = ({ closeModal }) => {
     background: background ? String(background) : null,
   };
 
+  const bg = newBoardObject.background;
+
   const createNewBoard = () => {
-    const token = localStorage.getItem('token');
-    console.log('Token nnn ', token);
     // if (!token) {
-    //   console.error('Token is missing');
-    //   return;
+    //   console.error('Token is missing')
+    //   return
     // }
-    dispatch(addBoard(newBoardObject, token))
+    dispatch(
+      addBoard({
+        userId,
+        boardName: newBoardObject.title,
+        icon: newBoardObject.icon,
+        background: bg,
+        token,
+      })
+    )
       .unwrap()
       .then(() => {
         closeModal();
