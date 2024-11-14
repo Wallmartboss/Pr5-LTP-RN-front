@@ -225,13 +225,35 @@ const columnsSlice = createSlice({
       })
       .addCase(moveCard.fulfilled, (state, action) => {
         state.status = 'succeeded';
-        const { cardId, columnId } = action.payload;
-        console.log('payload', action.payload);
-        const index = state.columns.findIndex(card => card._id === cardId);
-        if (index !== -1) {
-          state.items[index].columnId = columnId;
+        const { cardId, columnId: newColumnId } = action.payload;
+    
+        // Знаходимо колонку, в якій наразі знаходиться картка, та видаляємо її з цієї колонки
+        state.columns = state.columns.map((column) => {
+            if (column.cards.some((card) => card._id === cardId)) {
+                return {
+                    ...column,
+                    cards: column.cards.filter((card) => card._id !== cardId),
+                };
+            }
+            return column;
+        });
+    
+        // Додаємо картку до нової колонки
+        const targetColumn = state.columns.find((column) => column._id === newColumnId);
+        if (targetColumn) {
+          const movedCard = { ...action.payload };
+          targetColumn.cards = [...targetColumn.cards, movedCard];
         }
-      })
+    })
+      // .addCase(moveCard.fulfilled, (state, action) => {
+      //   state.status = 'succeeded';
+      //   const { cardId, columnId } = action.payload;
+      //   console.log('payload', action.payload);
+      //   const index = state.columns.findIndex(card => card._id === cardId);
+      //   if (index !== -1) {
+      //     state.items[index].columnId = columnId;
+      //   }
+      // })
       .addCase(moveCard.rejected, (state, action) => {
         state.status = 'failed';
         state.error = action.error.message;
@@ -273,3 +295,6 @@ export const {
 } = columnsSlice.actions;
 
 export const columnsReducer = columnsSlice.reducer;
+
+
+
