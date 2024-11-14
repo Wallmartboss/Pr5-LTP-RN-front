@@ -34,7 +34,8 @@ export const addColumn = createAsyncThunk(
 
 export const editColumnTitle = createAsyncThunk(
   'columns/editColumnTitle',
-  async ({ columnId, newTitle, token }, { rejectWithValue }) => { // Use newTitle here
+  async ({ columnId, newTitle, token }, { rejectWithValue }) => {
+    // Use newTitle here
     try {
       const response = await axios.patch(
         `/columns/${columnId}`,
@@ -50,7 +51,6 @@ export const editColumnTitle = createAsyncThunk(
   }
 );
 
-
 export const deleteColumn = createAsyncThunk(
   'columns/deleteColumn',
   async ({ columnId, token }, { rejectWithValue }) => {
@@ -61,6 +61,17 @@ export const deleteColumn = createAsyncThunk(
       return response.data;
     } catch (error) {
       return rejectWithValue(error.message);
+    }
+  }
+);
+export const moveCard = createAsyncThunk(
+  'cards/moveCard',
+  async ({ cardId, columnId }, { rejectWithValue }) => {
+    try {
+      await axios.patch(`/cards/move/${cardId}`, { columnId });
+      return { cardId, columnId }; // Повертаємо ID картки і колонку, куди її перемістили
+    } catch (error) {
+      return rejectWithValue(error.message); // Помилка при переміщенні
     }
   }
 );

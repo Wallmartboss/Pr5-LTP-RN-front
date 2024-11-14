@@ -170,3 +170,38 @@
     stroke: var(--icon-color);
   }
 }
+/*===============*/
+.modalOverlay {
+  position: fixed;
+  top: 200px;
+  left: 200px;
+  right: 200px;
+  bottom: 200px;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modalContent {
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  width: 300px;
+  max-height: 80vh;
+  overflow-y: auto;
+  z-index: 2;
+}
+
+.columnItem {
+  cursor: pointer;
+  padding: 8px;
+  margin: 5px 0;
+  background: #f0f0f0;
+  border-radius: 4px;
+  z-index: 3;
+}
+
+.columnItem:hover {
+  background: #d0d0d0;
+}
