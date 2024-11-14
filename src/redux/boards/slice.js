@@ -13,7 +13,7 @@ const initialState = {
   isModalOpen: false,
   isFiltersOpen: false,
   selectedFilter: {
-    without: true,
+    without: false,
     low: false,
     medium: false,
     high: false,
