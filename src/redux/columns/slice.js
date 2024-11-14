@@ -178,16 +178,14 @@ const columnsSlice = createSlice({
       })
       .addCase(editCardOperation.fulfilled, (state, action) => {
         state.isLoading = false;
-        const { id, updatedCard, columnId } = action.payload.data;
+        const { _id, updatedCard, columnId } = action.payload.data;
 
         // Находим нужную колонку по columnId
-        const column = state.columns.find(
-          column => column._id === action.payload.data.columnId
-        );
+        const column = state.columns.find(column => column._id === columnId);
         console.log('column', column);
         if (column) {
           // Находим нужную карточку по id внутри найденной колонки
-          const cardIndex = column.cards.findIndex(card => card._id === id);
+          const cardIndex = column.cards.findIndex(card => card._id === _id);
           if (cardIndex !== -1) {
             column.cards[cardIndex] = {
               ...column.cards[cardIndex],
