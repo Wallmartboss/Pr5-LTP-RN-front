@@ -1,12 +1,11 @@
-import React, { useEffect } from 'react';
+import  { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import s from './CardList.module.css';
 import {
   selectCardsByColumnId,
-  selectColumnsByBoardId,
+
 } from '../../redux/columns/selectors.js';
 import { selectSelectedBoard } from '../../redux/boards/selectors.js';
-import { moveCard } from '../../redux/columns/operations.js';
 import { fetchBoardById } from '../../redux/boards/operations.js';
 import Card from '../Card/Card.jsx';
 import { toggleDropdown } from '../../redux/cards/cardsSlice.js';
@@ -52,12 +51,6 @@ const CardList = ({ columnId }) => {
   console.log('All cards for column:', cards);
   console.log('Filtered cards for column:', filteredCards);
 
-  const handleMoveCard = (newColumnId, cardId) => {
-    if (cardId && newColumnId && newColumnId !== columnId) {
-      dispatch(moveCard({ cardId, columnId: newColumnId, boardId }));
-      dispatch(toggleDropdown(cardId));
-    }
-  };
 
   const toggleDropdownHandler = cardId => {
     dispatch(toggleDropdown(cardId));
@@ -75,7 +68,6 @@ const CardList = ({ columnId }) => {
             key={card._id}
             card={card}
             columnId={columnId}
-            handleMoveCard={handleMoveCard}
             openDropdowns={openDropdowns}
             filteredColumns={filteredColumns}
             toggleDropdown={toggleDropdownHandler}

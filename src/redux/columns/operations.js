@@ -64,14 +64,14 @@ export const deleteColumn = createAsyncThunk(
     }
   }
 );
-export const moveCard = createAsyncThunk(
-  'cards/moveCard',
-  async ({ cardId, columnId }, { rejectWithValue }) => {
-    try {
-      await axios.patch(`/cards/move/${cardId}`, { columnId });
-      return { cardId, columnId }; // Повертаємо ID картки і колонку, куди її перемістили
-    } catch (error) {
-      return rejectWithValue(error.message); // Помилка при переміщенні
-    }
-  }
-);
+// export const moveCard = createAsyncThunk(
+//   'cards/moveCard',
+//   async ({ cardId, columnId }, { rejectWithValue }) => {
+//     try {
+//       await axios.patch(`/cards/move/${cardId}`, { columnId });
+//       return { cardId, columnId }; // Повертаємо ID картки і колонку, куди її перемістили
+//     } catch (error) {
+//       return rejectWithValue(error.message); // Помилка при переміщенні
+//     }
+//   }
+// );

@@ -4,13 +4,13 @@ import {
   deleteCard as deleteCardOperation,
   editCard as editCardOperation,
   fetchCards,
+  moveCard,
 } from '../cards/operations';
 import {
   fetchColumns,
   addColumn,
   editColumnTitle,
   deleteColumn,
-  moveCard,
 } from './operations';
 
 const initialState = {
@@ -227,7 +227,7 @@ const columnsSlice = createSlice({
         state.status = 'succeeded';
         const { cardId, columnId } = action.payload;
         console.log('payload', action.payload);
-        const index = state.items.findIndex(card => card._id === cardId);
+        const index = state.columns.findIndex(card => card._id === cardId);
         if (index !== -1) {
           state.items[index].columnId = columnId;
         }

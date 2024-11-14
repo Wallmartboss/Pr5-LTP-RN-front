@@ -78,3 +78,35 @@ export const deleteCard = createAsyncThunk(
     }
   }
 );
+
+
+
+// export const moveCard = createAsyncThunk(
+//   'cards/moveCard',
+//   async ({ cardId, newColumnId, boardId }, { rejectWithValue }) => {
+//     try {
+//       const response = await axios.patch(`/cards/move/${cardId}`, { newColumnId, boardId });
+//       return response.data;
+//     } catch (error) {
+//       return rejectWithValue(error.response.data);
+//     }
+//   }
+// );
+
+export const moveCard = createAsyncThunk(
+  'cards/move_Card',
+  async ({ cardId, columnId, boardId }, thunkApi) => {
+    try {
+      console.log('Attempting to move card:', { cardId, columnId, boardId });  // Debugging line
+      const response = await axios.patch(`/cards/move/${cardId}`, {
+        columnId,
+        boardId,
+      });
+      console.log('Card moved successfully:', response.data);
+      return response.data;
+    } catch (error) {
+      console.error('Error moving card:', error);
+      return thunkApi.rejectWithValue(error.message);
+    }
+  }
+);

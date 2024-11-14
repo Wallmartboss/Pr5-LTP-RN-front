@@ -4,29 +4,30 @@ import Dropdown from '../Dropdown/Dropdown.jsx';
 import ModalDeleteCard from '../ModalDeleteCard/ModalDeleteCard.jsx';
 import {
   toggleDescription,
-  openModal,
+  // openModal,
   closeModal,
-  selectCardIdToDelete,
+  // selectCardIdToDelete,
 } from '../../redux/cards/cardsSlice.js';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   selectExpandedCardId,
   selectIsModalOpen,
-  selectOpenDropdowns,
+  // selectOpenDropdowns,
   selectSelectedBoard,
 } from '../../redux/cards/selectors.js';
 import { useEffect, useState } from 'react';
-import { deleteCard, editCard } from '../../redux/cards/operations.js';
+import { deleteCard, moveCard } from '../../redux/cards/operations.js';
 import EditCardModal from '../EditCardModal/EditCardModal.jsx';
+import {selectColumnsForSelectedBoard } from '../../redux/columns/selectors.js';
 
-const Card = ({ card, filteredColumns }) => {
+const Card = ({ card }) => {
   const selectedBoard = useSelector(selectSelectedBoard);
   const boardId = selectedBoard?._id;
   const [cardIdToDelete, setCardIdToDelete] = useState(null);
   //   const cardIdToDelete = useSelector(selectCardIdToDelete);
   const dispatch = useDispatch();
   const expandedCardId = useSelector(selectExpandedCardId);
-  const [selectedCard, setSelectedCard] = useState(null);
+  // const [selectedCard, setSelectedCard] = useState(null);
   const isModalOpen = useSelector(selectIsModalOpen);
   // const isDropdownOpen = useSelector((state) => state.cards.openDropdowns[card._id]);
   // const openDropdowns = useSelector(selectOpenDropdowns);
@@ -35,7 +36,10 @@ const Card = ({ card, filteredColumns }) => {
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   // const [selectedCard, setSelectedCard] = useState(null);
-
+  const columns = useSelector(selectColumnsForSelectedBoard);
+  console.log('columns for board', columns);
+  const filteredColumns = columns.filter(column => column._id !== card.columnId);
+  console.log('filteredColumns',filteredColumns);
   const isDeadlineToday = date => {
     const deadlineDate = new Date(date);
     const currentDate = new Date();
@@ -83,13 +87,25 @@ const Card = ({ card, filteredColumns }) => {
     dispatch(closeModal());
   };
 
-  const handleMoveCard = (newColumnId, cardId) => {
+  // const handleMoveCard = (newColumnId, cardId) => {
+  //   if (cardId && newColumnId && newColumnId !== card.columnId) {
+  //     const updatedCard = { ...card, columnId: newColumnId };
+  //     dispatch(editCard({ boardId, updatedCard, cardId }));
+  //     setIsDropdownOpen(false);
+  //   }
+  // };
+  const handleMoveCard = (newColumnId, cardId, boardId) => {
+    console.log("Moving card to column:", newColumnId);
+    
+    // Перевірка на те, чи картка дійсно змінює колонку
     if (cardId && newColumnId && newColumnId !== card.columnId) {
-      const updatedCard = { ...card, columnId: newColumnId };
-      dispatch(editCard({ boardId, updatedCard, cardId }));
+      // Відправка дії для переміщення картки
+      dispatch(moveCard({ cardId, columnId: newColumnId, boardId }));
+      // Закриття дропдауна після переміщення
       setIsDropdownOpen(false);
     }
   };
+  
 
   const openDropdownHandler = () => {
     setIsDropdownOpen(true);
@@ -182,7 +198,8 @@ const Card = ({ card, filteredColumns }) => {
 
       {isDropdownOpen && (
         <Dropdown
-          cardId={cardId}
+          cardId={card._id}
+        boardId={boardId} 
           filteredColumns={filteredColumns}
           handleMoveCard={handleMoveCard}
           onClose={closeDropdownHandler}
