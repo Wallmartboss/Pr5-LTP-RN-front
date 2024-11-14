@@ -32,10 +32,18 @@ const CardList = ({ columnId }) => {
 
   const selectedBoard = useSelector(selectSelectedBoard);
   const boardId = selectedBoard?._id;
-  const columns = useSelector(state => selectColumnsByBoardId(state, boardId));
+  console.log('boardId:', boardId);
+  const filteredColumns = useSelector(state =>
+    boardId
+      ? selectColumnsByBoardId(state, boardId).filter(
+          column => column._id !== columnId
+        )
+      : []
+  );
 
-  const filteredColumns = columns.filter(column => column._id !== columnId);
+  console.log('filteredColumns:', filteredColumns);
 
+  console.log('Columns for board:', filteredColumns());
   const openDropdowns = useSelector(state => state.cards.openDropdowns);
   console.log('All cards for column:', cards);
   console.log('Filtered cards for column:', filteredCards);

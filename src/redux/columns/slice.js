@@ -226,6 +226,7 @@ const columnsSlice = createSlice({
       .addCase(moveCard.fulfilled, (state, action) => {
         state.status = 'succeeded';
         const { cardId, columnId } = action.payload;
+        console.log('payload', action.payload);
         const index = state.items.findIndex(card => card._id === cardId);
         if (index !== -1) {
           state.items[index].columnId = columnId;
