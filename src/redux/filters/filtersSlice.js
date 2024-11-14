@@ -5,6 +5,7 @@ const filtersSlice = createSlice({
   initialState: {
     selectAll: true,
     priority: {
+      without: false,
       low: false,
       medium: false,
       high: false,
@@ -19,9 +20,10 @@ const filtersSlice = createSlice({
     selectAllPriorities(state, action) {
       state.selectAll = true;
       state.priority = {
-        low: false,
-        medium: false,
-        high: false,
+        without: true,
+        low: true,
+        medium: true,
+        high: true,
       };
     },
   },
