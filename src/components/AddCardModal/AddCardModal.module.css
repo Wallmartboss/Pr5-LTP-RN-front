@@ -51,6 +51,7 @@
   font-weight: 400;
   font-size: 14px;
   letter-spacing: -0.02em;
+  color: var(--main-text-color);
 }
 
 .textarea {
