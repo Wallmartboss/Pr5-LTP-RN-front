@@ -4,9 +4,12 @@
 }
 
 .sidebar {
-  width: 280px;
+  width: 0;
   background-color: var(--sideBar-bg-color);
   /* padding: 10px; */
+  @media screen and (min-width: 768px) {
+    width: 280px;
+  }
 }
 
 .mainContent {
@@ -16,12 +19,15 @@
 }
 
 .header {
-  height: 68px;
+  height: 60px;
   /* background-color: var(--header-bg-color); */
   display: flex;
   align-items: center;
   padding: 0;
   font-size: 24px;
+  @media screen and (min-width: 768px) {
+    height: 68px;
+  }
 }
 
 .screensPage {
@@ -29,4 +35,5 @@
   padding: 0;
   /* background-color: var(--main-bg-color); */
   font-size: 24px;
+  height: 100vh;
 }

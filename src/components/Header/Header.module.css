@@ -11,12 +11,13 @@
   padding: 14px 20px;
   display: flex;
   justify-content: space-between;
+  width: 100%;
 }
 
 .header_wrapper {
   display: flex;
   gap: 14px;
-  align-items: center;
+  align-items: right;
 }
 
 .theme {
