@@ -1,5 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
+// import { setAuthHeader } from '../auth/operations.js';
 
 axios.defaults.baseURL = 'https://pr5-ltp-rn-back.onrender.com';
 
@@ -26,6 +27,51 @@ export const fetchBoards = createAsyncThunk(
 
 export const addBoard = createAsyncThunk(
   'boards/addBoard',
+  async ({ userId, title, icon, token }, thunkAPI) => {
+    try {
+      const { data } = await axios.post(
+        '/boards',
+        { owner: userId, title, icon },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      // Виводимо успішне повідомлення
+      /*  toast.success('The board is created!', {
+        position: 'top-right',
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: false,
+        draggable: false,
+        theme: 'light',
+      }); */
+
+      console.log('Adding board:', data);
+      return data;
+    } catch (error) {
+      // Виводимо повідомлення про помилку
+      /*  toast.error('Error, please try again later!', {
+        position: 'top-right',
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: false,
+        draggable: false,
+        theme: 'light',
+      } )*/
+
+      console.error('Error adding board:', error);
+      return thunkAPI.rejectWithValue(error.message);
+    }
+  }
+);
+
+/* export const addBoard = createAsyncThunk(
+  'boards/addBoard',
   async ({ userId, boardName, token }, thunkAPI) => {
     try {
       const { data } = await axios.post(
@@ -42,7 +88,7 @@ export const addBoard = createAsyncThunk(
       return thunkAPI.rejectWithValue(error.message);
     }
   }
-);
+); */
 export const updateBoard = createAsyncThunk(
   'boards/updateBoard',
   async ({ boardId, editedBoardObject, token }, thunkAPI) => {

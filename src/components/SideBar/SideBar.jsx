@@ -49,8 +49,8 @@ const Sidebar = () => {
 
   const handleCreateBoard = newBoard => {
     console.log('Creating new board:', newBoard);
-    dispatch(addBoard({ userId, boardName: newBoard.title, token }));
-    setCreateModalOpen(false);
+    // dispatch(addBoard({ userId, boardName: newBoard.title, token }));
+    // setCreateModalOpen(false);
   };
 
   const handleDeleteBoard = boardId => {

@@ -19,6 +19,9 @@ const cardsSlice = createSlice({
     cardIdToDelete: null,
   },
   reducers: {
+    selectCardIdToDelete: (state, action) => {
+      state.cards.cardIdToDelete = action.payload;
+    },
     toggleDropdown: (state, action) => {
       const cardId = action.payload;
       state.openDropdowns = Object.keys(state.openDropdowns).reduce(
@@ -41,15 +44,13 @@ const cardsSlice = createSlice({
     },
     openModal(state, action) {
       state.isModalOpen = true;
-      state.cardIdToDelete = action.payload;
+      state.cardId = action.payload;
+      console.log('Card ID:', state.cardId);
     },
     closeModal(state) {
       state.isModalOpen = false;
-      state.cardIdToDelete = null;
+      state.cardId = null;
     },
-    // addCard(state, action) {
-    //   state.items.push(action.payload); // Додаємо картку до масиву карток
-    // },
   },
   extraReducers: builder => {
     builder
@@ -84,30 +85,39 @@ const cardsSlice = createSlice({
         state.isLoading = true;
         state.error = null;
       })
-      .addCase(editCard.fulfilled, (state, action) => {
-        state.isLoading = false;
-        const index = state.items.findIndex(
-          card => card.id === action.payload.id
-        );
-        if (index !== -1) state.items[index] = action.payload;
-      })
-      .addCase(editCard.rejected, (state, action) => {
-        state.isLoading = false;
-        state.error = action.payload;
-      })
-      .addCase(deleteCard.pending, state => {
-        state.loading = true;
-        state.error = null;
-      })
-      .addCase(deleteCard.fulfilled, (state, action) => {
-        const cardId = action.meta.arg.cardId;
-        state.items = state.items.filter(card => card._id !== cardId);
-        state.loading = false;
-      })
-      .addCase(deleteCard.rejected, (state, action) => {
-        state.loading = false;
-        state.error = action.payload;
-      })
+      // .addCase(editCard.fulfilled, (state, action) => {
+      //   state.isLoading = false;
+      //   const index = state.items.findIndex(
+      //     card => card.id === action.payload.id
+      //   );
+      //   if (index !== -1) state.items[index] = action.payload;
+      // })
+      // .addCase(editCard.rejected, (state, action) => {
+      //   state.isLoading = false;
+      //   state.error = action.payload;
+      // })
+      // .addCase(deleteCard.pending, state => {
+      //   state.loading = true;
+      //   state.error = null;
+      // })
+      // .addCase(deleteCard.fulfilled, (state, action) => {
+      //   state.loading = false;
+
+      // const cardId = action.payload;
+      // state.items = state.items.filter(card => card._id !== cardId);
+      // const columnId = action.payload.columnId;
+      // console.log('Card from superreducer', cardId);
+      // const column = state.columns.find(col => col.id === columnId);
+
+      // if (column) {
+      //   column.cards = column.cards.filter(card => card.id !== cardId);
+      //   state.loading = false;
+      // }
+      // })
+      // .addCase(deleteCard.rejected, (state, action) => {
+      //   state.loading = false;
+      //   state.error = action.payload;
+      // })
       .addCase(moveCard.pending, state => {
         state.status = 'loading';
       })
@@ -133,8 +143,7 @@ export const {
   openModal,
   closeModal,
   closeDropdown,
+  selectCardIdToDelete,
 } = cardsSlice.actions;
-
-export const selectCardIdToDelete = state => state.cards.cardIdToDelete;
 
 export default cardsSlice.reducer;

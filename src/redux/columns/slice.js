@@ -1,8 +1,8 @@
 import { createSlice } from '@reduxjs/toolkit';
 import {
   addCard as addCardOperation,
-  deleteCard,
-  editCard,
+  deleteCard as deleteCardOperation,
+  editCard as editCardOperation,
   fetchCards,
   moveCard,
 } from '../cards/operations';
@@ -18,7 +18,7 @@ const initialState = {
   isModalOpen: false,
   isFiltersOpen: false,
   selectedFilter: {
-    none: false,
+    without: false,
     low: false,
     medium: false,
     high: false,
@@ -47,7 +47,7 @@ const columnsSlice = createSlice({
     },
     selectAllFilters(state) {
       state.selectedFilter = {
-        none: true,
+        without: true,
         low: true,
         medium: true,
         high: true,
@@ -76,6 +76,11 @@ const columnsSlice = createSlice({
     removeColumnFromList(state, action) {
       state.columns = state.columns.filter(
         column => column._id !== action.payload
+      );
+    },
+    removeCardFromList(state, action) {
+      state.columns.cards = state.columns.cards.filter(
+        card => card._id !== action.payload
       );
     },
     addCard(state, action) {
@@ -171,31 +176,40 @@ const columnsSlice = createSlice({
         state.isLoading = false;
         state.error = action.payload;
       })
-      .addCase(editCard.pending, state => {
-        state.isLoading = true;
-        state.error = null;
-      })
-      .addCase(editCard.fulfilled, (state, action) => {
+      .addCase(editCardOperation.fulfilled, (state, action) => {
         state.isLoading = false;
-        const index = state.items.findIndex(
+        const index = state.columns.findIndex(
           card => card.id === action.payload.id
         );
         if (index !== -1) state.items[index] = action.payload;
       })
-      .addCase(editCard.rejected, (state, action) => {
+      .addCase(editCardOperation.rejected, (state, action) => {
         state.isLoading = false;
         state.error = action.payload;
       })
-      .addCase(deleteCard.pending, state => {
+      .addCase(editCardOperation.pending, state => {
         state.loading = true;
         state.error = null;
       })
-      .addCase(deleteCard.fulfilled, (state, action) => {
-        state.cards = state.cards.filter(card => card._id !== action.payload);
+      // .addCase(deleteCardOperation.fulfilled, (state, action) => {
+      //   state.columns.cards = state.columns.cards.filter(
+      //     card => card._id !== action.payload
+      //   );
+      // })
+      .addCase(deleteCardOperation.fulfilled, (state, action) => {
+        const cardIdToRemove = action.payload;
+        state.columns = state.columns.map(column => ({
+          ...column,
+          cards: column.cards.filter(card => card._id !== cardIdToRemove),
+        }));
       })
-      .addCase(deleteCard.rejected, (state, action) => {
+      .addCase(deleteCardOperation.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
+      })
+      .addCase(deleteCardOperation.pending, (state, action) => {
+        state.loading = true;
+        state.error = null;
       })
       .addCase(moveCard.pending, state => {
         state.status = 'loading';
@@ -244,7 +258,8 @@ export const {
   closeEditModal,
   openDeleteModal,
   closeDeleteModal,
-  removeColumnFromList, // Експорт нового екшену
+  removeColumnFromList,
+  removeCardFromList,
 } = columnsSlice.actions;
 
 export const columnsReducer = columnsSlice.reducer;

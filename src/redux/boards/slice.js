@@ -13,7 +13,7 @@ const initialState = {
   isModalOpen: false,
   isFiltersOpen: false,
   selectedFilter: {
-    none: true,
+    without: true,
     low: false,
     medium: false,
     high: false,
@@ -55,7 +55,7 @@ const boardsSlice = createSlice({
     },
     selectAllFilters(state) {
       state.selectedFilter = {
-        none: true,
+        without: true,
         low: true,
         medium: true,
         high: true,

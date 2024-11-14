@@ -20,15 +20,8 @@ export const addCard = createAsyncThunk(
   }
 );
 
-// export const addCard = createAsyncThunk(
-//   'cards/newAddCard',
-//   async ({ newCard }, thunkAPI) => {
-//     return newCard;
-//   }
-// );
-
 export const editCard = createAsyncThunk(
-  'cards/editCard',
+  'cards/edit_Card',
 
   async ({ boardId, updatedCard, cardId }, thunkApi) => {
     try {
@@ -36,7 +29,7 @@ export const editCard = createAsyncThunk(
         ...updatedCard,
         boardId,
       });
-
+      console.log('Card updated successfully:', response.data);
       return response.data;
     } catch (error) {
       console.error('Error updating card:', error);
@@ -72,34 +65,16 @@ export const fetchCards = createAsyncThunk(
   }
 );
 
-// export const addCard = createAsyncThunk(
-//   'cards/addCard',
-//   async ({ title, description, priority, boardId, columnId, }, thunkAPI) => {
-//       try {
-//           console.log("Request payload:", { boardId, columnId, title, description, priority });
-
-//           const response = await axios.post(
-//               '/cards',
-//               { title, description, priority, boardId, columnId }
-//           );
-//           return response.data;
-//       } catch (error) {
-//           console.error("Error response:", error.response);
-//           return thunkAPI.rejectWithValue(error.response.data.message);
-//       }
-//   }
-// );
-
 export const deleteCard = createAsyncThunk(
-  'cards/deleteCard',
-  async ({ cardId }, { rejectWithValue }) => {
-    console.log('Sending DELETE request for cardId:', cardId);
+  'cards/delete_Card',
+  async (cardId, thunkAPI) => {
+    console.log('Sending AsyncThunk DELETE request for cardId:', cardId);
     try {
       // Перевірка cardId
       await axios.delete(`/cards/${cardId}`); // Видаляємо картку за cardId
       return cardId;
     } catch (error) {
-      return rejectWithValue(error.message);
+      return thunkAPI.rejectWithValue(error.message);
     }
   }
 );

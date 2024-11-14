@@ -22,10 +22,11 @@ import EditCardModal from '../EditCardModal/EditCardModal.jsx';
 const Card = ({ card, filteredColumns }) => {
   const selectedBoard = useSelector(selectSelectedBoard);
   const boardId = selectedBoard?._id;
-
-  const cardIdToDelete = useSelector(selectCardIdToDelete);
+  const [cardIdToDelete, setCardIdToDelete] = useState(null);
+  //   const cardIdToDelete = useSelector(selectCardIdToDelete);
   const dispatch = useDispatch();
   const expandedCardId = useSelector(selectExpandedCardId);
+  const [selectedCard, setSelectedCard] = useState(null);
   const isModalOpen = useSelector(selectIsModalOpen);
   // const isDropdownOpen = useSelector((state) => state.cards.openDropdowns[card._id]);
   // const openDropdowns = useSelector(selectOpenDropdowns);
@@ -61,14 +62,23 @@ const Card = ({ card, filteredColumns }) => {
   const toggleDescriptionHandler = () => {
     dispatch(toggleDescription({ cardId }));
   };
+  const openDeleteModal = cardId => {
+    console.log('Has opened OpenDeleteModal');
 
-  const openDeleteModal = () => {
-    dispatch(openModal({ cardId }));
+    console.log('String Id:', cardId);
+    setCardIdToDelete(cardId);
+    console.log('cardIdToDelete:', cardIdToDelete);
+    dispatch(deleteCard(cardId));
+    // dispatch(openModal(cardIdToDelete));
   };
 
-  const handleConfirmDelete = () => {
-    if (cardIdToDelete) {
-      dispatch(deleteCard(cardIdToDelete));
+  const handleConfirmDelete = cardId => {
+    if (cardId) {
+      console.log('Card for DELETE:', cardId);
+      dispatch(deleteCard(cardId));
+      setCardIdToDelete(null);
+    } else {
+      console.error('No cardId to delete:');
     }
     dispatch(closeModal());
   };
@@ -100,6 +110,7 @@ const Card = ({ card, filteredColumns }) => {
       case 'high':
         return '#BEDBB0';
       case 'without':
+        return 'rgba(22, 22, 22, 0.30)';
       default:
         return 'rgba(22, 22, 22, 0.30)';
     }
@@ -121,7 +132,7 @@ const Card = ({ card, filteredColumns }) => {
         >
           {description}
         </p>
-        Oksana Verezhak, [12.11.2024 16:20]
+        Added card 13/11
       </div>
       <span className={s.line}></span>
       <div className={s.bottom}>
@@ -165,7 +176,7 @@ const Card = ({ card, filteredColumns }) => {
               <use href={`${sprite}#pencil-icon`} />
             </svg>
           </button>
-          <button onClick={openDeleteModal}>
+          <button onClick={() => openDeleteModal(cardId)}>
             <svg className={s.icon} width="16" height="16">
               <use href={`${sprite}#trash-icon`} />
             </svg>
@@ -185,6 +196,7 @@ const Card = ({ card, filteredColumns }) => {
         isOpen={isModalOpen}
         onClose={handleCancelDelete}
         onConfirm={handleConfirmDelete}
+        cardId={cardId}
       />
       {isEditModalOpen && (
         <EditCardModal
