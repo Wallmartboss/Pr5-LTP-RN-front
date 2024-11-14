@@ -166,9 +166,50 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  gap: 4px;
+  font-weight: 500;
+  font-size: 14px;
+  letter-spacing: -0.02em;
+  transition: color 250ms cubic-bezier(0.4, 0, 0.2, 1);
   color: var(--sec-text-color);
   padding: 8px 0;
+  
 }
+.projecContainer{
+  display: flex;
+  gap: 4px;
+  font-weight: 500;
+  font-size: 14px;
+  letter-spacing: -0.02em;
+  transition: color 250ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+@media (min-width: 768px) {
+  .projecContainer {
+    gap: 8px;
+  }
+}
+
+
+.boardTitles{
+color: rgba(22, 22, 22, 0.5);
+text-align: start;
+font-size: 14px;
+font-style: normal;
+font-weight: 500;
+line-height: normal;
+letter-spacing: -0.28px;
+transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+.boardItem:hover .projectIcon,
+.boardItem:focus .projectIcon,
+.boardItem:hover .boardTitles,
+.boardItem:focus .boardTitles {
+  stroke: var(--active-icon-color); 
+  color: var(--active-icon-color); 
+font-size: 16px;
+}
+
+
 
 .actions button {
   background: transparent;
@@ -183,8 +224,19 @@
 .iconAction {
   fill: transparent;
   stroke: var(--side-icon-color);
+transition: stroke 250ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+.iconAction :hover {
+  stroke: var(--active-icon-color);
 }
 
+.projectIcon {
+  width: 18px;
+  height: 18px;
+  fill: transparent;
+  stroke: var(--side-icon-color);
+  transition: stroke 250ms cubic-bezier(0.4, 0, 0.2, 1);
+}
 .toggleButton {
   position: absolute;
   top: 16px;
@@ -233,4 +285,12 @@
   margin-top: 150px;
   margin-bottom: 30px;
   background-color: var(--main-bg-color);
+}
+.noBoards{
+color: var(--sec-text-color);
+font-size: 14px;
+font-style: normal;
+font-weight: 500;
+line-height: normal;
+letter-spacing: -0.28px;
 }

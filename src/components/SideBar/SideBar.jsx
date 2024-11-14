@@ -138,7 +138,13 @@ const Sidebar = () => {
                   className={s.boardItem}
                   onClick={() => handleBoardClick(board)}
                 >
-                  <span>{board.title}</span>
+                        <div className={s.projecContainer}>
+                        <svg className={s.projectIcon} width="18" height="18">
+                      <use href={`${sprite}#project-icon`} />
+                      </svg>
+                    
+                  <span className={s.boardTitles}>{board.title}</span>
+                        </div>
                   <div className={s.actions}>
                     <button
                       className={s.editButton}
@@ -160,7 +166,7 @@ const Sidebar = () => {
                 </div>
               ))
             ) : (
-              <p>No boards available</p>
+              <p className={s.noBoards}>No boards available</p>
             )}
           </div>
 
