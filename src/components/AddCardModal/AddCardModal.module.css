@@ -51,6 +51,7 @@
   font-weight: 400;
   font-size: 14px;
   letter-spacing: -0.02em;
+  color: var(--main-text-color);
 }
 
 .textarea {
@@ -193,7 +194,6 @@
   font-size: 12px;
   letter-spacing: -0.02em;
   color: var(--icon-color);
-
 }
 
 .priority input[type='radio'] {
@@ -252,15 +252,12 @@
   stroke: var(--sec-iconPlus-color);
 }
 
-
-
-
-.calendar {
+/* .calendar {
   position: absolute;
   margin-bottom: -50px;
   left: 50px;
   z-index: 1000;
-}
+} */
 
 .react-datepicker__triangle {
   display: none !important;

@@ -15,9 +15,12 @@ export const selectFilteredCardsForColumn = createSelector(
       level => priorityFilter[level]
     );
 
-    const filteredCards = cards.filter(card =>
-      activeFilters.includes(card.priority)
-    );
+    const filteredCards = cards.filter(card => {
+      if (!card.priority) {
+        return activeFilters.includes('none');
+      }
+      return activeFilters.includes(card.priority);
+    });
 
     return filteredCards;
   }
