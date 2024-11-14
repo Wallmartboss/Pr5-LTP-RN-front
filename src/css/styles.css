@@ -73,7 +73,7 @@ body.dark-mode {
   --scrollX-color: rgba(255, 255, 255, 0.1);
   --scrollX-bg-color: #161616;
   --scrollY-color: #121212;
-  --scrollY-bg-color: #121212;
+  --scrollY-bg-color: rgba(255, 255, 255, 0.1);
 
   --main-color: #bedbb0;
   --accent-color: #9dc888;

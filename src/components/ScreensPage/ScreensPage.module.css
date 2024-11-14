@@ -5,7 +5,7 @@
   max-width: 375px;
 }
 
-@media screen and (min-width: 768px) {
+@media screen and (max-width: 768px) {
   .container {
     padding-left: 32px;
     padding-right: 32px;
@@ -52,7 +52,7 @@
   border-radius: 8px;
   width: 335px;
   height: 56px;
-  background-color: var(--main-bg-color);
+  background-color: var(--cards-bg-color);
   border: none;
   margin-top: 40px;
   font-weight: 500;
@@ -97,12 +97,13 @@
 .columnsContainer {
   display: flex;
   align-items: flex-start;
-  gap: 16px;
+  gap: 34px;
   padding-bottom: 16px;
   overflow-x: auto;
   white-space: nowrap;
   width: 100%;
-  background-color: blue;
+  background-color: var(--main-bg-color);
+  margin-right: 10px;
 }
 
 .boardTitle {

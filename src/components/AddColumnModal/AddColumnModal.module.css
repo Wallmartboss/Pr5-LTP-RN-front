@@ -84,10 +84,10 @@
 .plusIcon {
   width: 28px;
   height: 28px;
-  background-color: var(--addColumnPlus-bg-color);
+  background-color: var(--btn-text-color);
   display: flex;
   justify-content: center;
   align-items: center;
   border-radius: 6px;
-  stroke: var(--main-text-color);
+  stroke: var(--main-iconPlus-color);
 }
