@@ -99,9 +99,17 @@ const Card = ({ card }) => {
     
     // Перевірка на те, чи картка дійсно змінює колонку
     if (cardId && newColumnId && newColumnId !== card.columnId) {
+
       // Відправка дії для переміщення картки
       dispatch(moveCard({ cardId, columnId: newColumnId, boardId }));
       // Закриття дропдауна після переміщення
+
+     // console.log('cardId', cardId);
+    //  console.log('newColumnId', newColumnId);
+
+    //  const updatedCard = { ...card, columnId: newColumnId };
+     // dispatch(editCard({ boardId, updatedCard, cardId }));
+
       setIsDropdownOpen(false);
     }
   };
