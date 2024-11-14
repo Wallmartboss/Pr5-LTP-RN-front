@@ -178,11 +178,48 @@ const columnsSlice = createSlice({
       })
       .addCase(editCardOperation.fulfilled, (state, action) => {
         state.isLoading = false;
-        const index = state.columns.findIndex(
-          card => card.id === action.payload.id
+        const { id, updatedCard, columnId } = action.payload.data;
+
+        // Находим нужную колонку по columnId
+        const column = state.columns.find(
+          column => column._id === action.payload.data.columnId
         );
-        if (index !== -1) state.items[index] = action.payload;
+        console.log('column', column);
+        if (column) {
+          // Находим нужную карточку по id внутри найденной колонки
+          const cardIndex = column.cards.findIndex(card => card._id === id);
+          if (cardIndex !== -1) {
+            column.cards[cardIndex] = {
+              ...column.cards[cardIndex],
+              ...updatedCard,
+            };
+          }
+        }
       })
+      // .addCase(editCardOperation.fulfilled, (state, action) => {
+      //   state.isLoading = false;
+      //   const { id, updatedCard } = action.payload.data;
+      //   const column = action.payload.data.columnId;
+      //   console.log(action.payload.data);
+      //   console.log('columns', column);
+      //   for  column  {
+      //     const cardIndex = column.cards.findIndex(card => card._id === id);
+      //     if (cardIndex !== -1) {
+      //       column.cards[cardIndex] = {
+      //         ...column.cards[cardIndex],
+      //         ...updatedCard,
+      //       };
+      //       break;
+      //     }
+      //   }
+      // })
+      // .addCase(editCardOperation.fulfilled, (state, action) => {
+      //   state.isLoading = false;
+      //   const index = state.columns.findIndex(
+      //     card => card.id === action.payload.id
+      //   );
+      //   if (index !== -1) state.items[index] = action.payload;
+      // })
       .addCase(editCardOperation.rejected, (state, action) => {
         state.isLoading = false;
         state.error = action.payload;

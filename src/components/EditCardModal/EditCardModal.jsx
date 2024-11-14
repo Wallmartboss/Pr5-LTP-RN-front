@@ -27,7 +27,7 @@
 //           </svg>
 //         </button>
 
-//         <h2 className={s.title}>Edit Card</h2>   
+//         <h2 className={s.title}>Edit Card</h2>
 //         <Formik
 //           initialValues={{
 //             title: card.title || '',
@@ -44,7 +44,7 @@
 //             resetForm();
 //           }}
 //         >
-//           {({ setFieldValue }) => (          
+//           {({ setFieldValue }) => (
 //             <Form className={s.modalForm}>
 //               <div>
 //                 <Field type="text" name="title" placeholder="Title" className={s.input} />
@@ -54,7 +54,7 @@
 //               <div>
 //                 <Field as="textarea" type="text" name="description" placeholder="Description" className={s.textarea} />
 //                 <ErrorMessage name="description" component="div" className={s.error} />
-//               </div>  
+//               </div>
 
 //               <div className={s.formGroupLabelColor}>
 //                 <label>Label color</label>
@@ -100,12 +100,12 @@
 // };
 
 // export default EditCardModal;
-import DatePicker from "react-datepicker";
+import DatePicker from 'react-datepicker';
 import format from 'date-fns/format';
-import "react-datepicker/dist/react-datepicker.css";
+import 'react-datepicker/dist/react-datepicker.css';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
-import s from './EditCardModal.module.css'
+import s from './EditCardModal.module.css';
 import sprite from '../../icons/icons.svg';
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
@@ -116,21 +116,27 @@ const EditCardModal = ({ boardId, card, onClose, columnId }) => {
 
   const [showCalendar, setShowCalendar] = useState(false);
   const [priority, setPriority] = useState(card.priority || 'without');
-  const [selectedDate, setSelectedDate] = useState(card.date ? new Date(card.date) : null);
-  const formattedDate = selectedDate ? format(selectedDate, 'MMMM d') : format(new Date(), 'MMMM d');
+  const [selectedDate, setSelectedDate] = useState(
+    card.date ? new Date(card.date) : null
+  );
+  const formattedDate = selectedDate
+    ? format(selectedDate, 'MMMM d')
+    : format(new Date(), 'MMMM d');
   const displayDate = `Today, ${formattedDate}`;
   const validationSchema = Yup.object({
     title: Yup.string().required('Title is required'),
     description: Yup.string().required('Description is required'),
   });
 
-  const handleSubmit = (values) => {
+  const handleSubmit = values => {
     const updateData = {
       ...values,
       boardId,
       columnId,
       priority,
-      date: selectedDate ? selectedDate.toISOString() : new Date().toISOString(),
+      date: selectedDate
+        ? selectedDate.toISOString()
+        : new Date().toISOString(),
     };
 
     dispatch(editCard({ boardId, cardId: card._id, updatedCard: updateData }));
@@ -150,7 +156,7 @@ const EditCardModal = ({ boardId, card, onClose, columnId }) => {
 
         <Formik
           initialValues={{
-            title: card.title || '',
+            title: card.title,
             description: card.description || '',
           }}
           validationSchema={validationSchema}
@@ -159,13 +165,31 @@ const EditCardModal = ({ boardId, card, onClose, columnId }) => {
           {() => (
             <Form className={s.modalForm}>
               <div>
-                <Field type="text" name="title" placeholder="Title" className={s.input} />
-                <ErrorMessage name="title" component="div" className={s.error} />
+                <Field
+                  type="text"
+                  name="title"
+                  placeholder="Title"
+                  className={s.input}
+                />
+                <ErrorMessage
+                  name="title"
+                  component="div"
+                  className={s.error}
+                />
               </div>
 
               <div>
-                <Field as="textarea" name="description" placeholder="Description" className={s.textarea} />
-                <ErrorMessage name="description" component="div" className={s.error} />
+                <Field
+                  as="textarea"
+                  name="description"
+                  placeholder="Description"
+                  className={s.textarea}
+                />
+                <ErrorMessage
+                  name="description"
+                  component="div"
+                  className={s.error}
+                />
               </div>
 
               <div className={s.formGroupLabelColor}>
@@ -174,7 +198,9 @@ const EditCardModal = ({ boardId, card, onClose, columnId }) => {
                   {['low', 'medium', 'high', 'without'].map(color => (
                     <label
                       key={color}
-                      className={`${s.priority} ${s[color]} ${priority === color ? s.selected : ''}`}
+                      className={`${s.priority} ${s[color]} ${
+                        priority === color ? s.selected : ''
+                      }`}
                     >
                       <input
                         checked={priority === color}
@@ -189,7 +215,9 @@ const EditCardModal = ({ boardId, card, onClose, columnId }) => {
               </div>
 
               <div className={s.deadline}>
-                <label className={s.labelName} htmlFor="date">Deadline</label>
+                <label className={s.labelName} htmlFor="date">
+                  Deadline
+                </label>
                 <div
                   className={s.currentDate}
                   onClick={() => setShowCalendar(!showCalendar)}
@@ -204,7 +232,7 @@ const EditCardModal = ({ boardId, card, onClose, columnId }) => {
                 <div className={s.calendar}>
                   <DatePicker
                     selected={selectedDate}
-                    onChange={(date) => {
+                    onChange={date => {
                       setSelectedDate(date);
                       setShowCalendar(false);
                     }}

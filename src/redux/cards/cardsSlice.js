@@ -81,10 +81,10 @@ const cardsSlice = createSlice({
         // state.items.push(action.payload);
         // console.log('Updated Cards:', state.items); // Логування оновленого масиву карток
       })
-      .addCase(editCard.pending, state => {
-        state.isLoading = true;
-        state.error = null;
-      })
+      // .addCase(editCard.pending, state => {
+      //   state.isLoading = true;
+      //   state.error = null;
+      // })
       // .addCase(editCard.fulfilled, (state, action) => {
       //   state.isLoading = false;
       //   const index = state.items.findIndex(
