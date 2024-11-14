@@ -196,6 +196,7 @@
 
 import { useEffect, useState } from 'react';
 import s from './CreateBoardForm.module.css';
+import sprite from '../../icons/icons.svg';
 import backgrounds from '../../bg/background/bgImages.js'; // Імпортуємо масив фонів для різних пристро
 import icons from '../../bg/iconBg/icons.js';
 import SvgIcon from '../SvgIcon/SvgIcon.jsx';
@@ -346,7 +347,10 @@ const CreateBoardForm = ({ closeModal }) => {
           onClick={createNewBoard}
         >
           <div className={s.plusBtn}>
-            <SvgIcon id="plus-icon" className={s.plusIcon} />
+            {/* <SvgIcon id="plus-icon" className={s.plusIcon} /> */}
+            <svg className={s.plusIcon} width="14" height="14">
+              <use href={`${sprite}#plus-icon`} />
+            </svg>
           </div>
           Create
         </button>

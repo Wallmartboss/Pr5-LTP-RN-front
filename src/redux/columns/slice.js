@@ -176,24 +176,47 @@ const columnsSlice = createSlice({
         state.isLoading = false;
         state.error = action.payload;
       })
+      /* -- */
       .addCase(editCardOperation.fulfilled, (state, action) => {
-        state.isLoading = false;
-        const { _id, updatedCard, columnId } = action.payload.data;
+        const { _id, columnId, title, description, date, priority } =
+          action.payload.data;
 
-        // Находим нужную колонку по columnId
-        const column = state.columns.find(column => column._id === columnId);
-        console.log('column', column);
+        const column = state.columns.find(col => col._id === columnId);
+
         if (column) {
-          // Находим нужную карточку по id внутри найденной колонки
           const cardIndex = column.cards.findIndex(card => card._id === _id);
+
           if (cardIndex !== -1) {
             column.cards[cardIndex] = {
-              ...column.cards[cardIndex],
-              ...updatedCard,
+              _id,
+              title,
+              description,
+              date,
+              priority,
+              columnId,
             };
           }
         }
       })
+      /*  --- */
+      // .addCase(editCardOperation.fulfilled, (state, action) => {
+      //   state.isLoading = false;
+      //   const { _id, updatedCard, columnId } = action.payload.data;
+
+      //   // Находим нужную колонку по columnId
+      //   const column = state.columns.find(column => column._id === columnId);
+      //   console.log('column', column);
+      //   if (column) {
+      //     // Находим нужную карточку по id внутри найденной колонки
+      //     const cardIndex = column.cards.findIndex(card => card._id === _id);
+      //     if (cardIndex !== -1) {
+      //       column.cards[cardIndex] = {
+      //         ...column.cards[cardIndex],
+      //         ...updatedCard,
+      //       };
+      //     }
+      //   }
+      // })
       // .addCase(editCardOperation.fulfilled, (state, action) => {
       //   state.isLoading = false;
       //   const { id, updatedCard } = action.payload.data;
