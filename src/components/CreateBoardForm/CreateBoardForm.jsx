@@ -258,20 +258,14 @@ const CreateBoardForm = ({ closeModal }) => {
     // }
     dispatch(
       addBoard({
-        userId,
+        owner: userId,
         title: newBoardObject.title,
         icon: newBoardObject.icon,
-        background: bg,
+        // background: newBoardObject.background,
         token,
       })
-    )
-      .unwrap()
-      .then(() => {
-        closeModal();
-      })
-      .catch(error => {
-        console.error('Error creating board:', error);
-      });
+    );
+    closeModal();
   };
 
   return (

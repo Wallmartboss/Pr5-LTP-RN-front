@@ -27,16 +27,11 @@ export const fetchBoards = createAsyncThunk(
 
 export const addBoard = createAsyncThunk(
   'boards/addBoard',
-  async ({ userId, title, icon, background, token }, thunkAPI) => {
+  async ({ userId, title, icon, token }, thunkAPI) => {
     try {
       const { data } = await axios.post(
         '/boards',
-        {
-          title,
-          owner: userId,
-          icon, // Додаємо іконку
-          background,
-        },
+        { owner: userId, title, icon },
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -55,8 +50,8 @@ export const addBoard = createAsyncThunk(
         theme: 'light',
       }); */
 
-      console.log('Adding board:', response.data);
-      return response.data;
+      console.log('Adding board:', data);
+      return data;
     } catch (error) {
       // Виводимо повідомлення про помилку
       /*  toast.error('Error, please try again later!', {
