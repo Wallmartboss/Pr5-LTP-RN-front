@@ -85,6 +85,9 @@ const Card = ({ card, filteredColumns }) => {
 
   const handleMoveCard = (newColumnId, cardId) => {
     if (cardId && newColumnId && newColumnId !== card.columnId) {
+      console.log('cardId', cardId);
+      console.log('newColumnId', newColumnId);
+
       const updatedCard = { ...card, columnId: newColumnId };
       dispatch(editCard({ boardId, updatedCard, cardId }));
       setIsDropdownOpen(false);

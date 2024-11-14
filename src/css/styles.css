@@ -18,6 +18,7 @@ body {
   min-width: 320px;
   background-color: var(--main-bg-color);
   color: var(--main-text-color);
+  position: relative;
 
   --main-bg-color: #f6f6f7; /*основний колір заднього фону, атакож колір заднього фону на іконці з зображенням при створенні дошки */
   --modal-bg-color: #fcfcfc; /*колір заднього фону для всіх модалок (включаючи дропдаун) */
@@ -177,6 +178,7 @@ html {
 /* Для десктопного екрану від 1440 px  */
 @media screen and (min-width: 1440px) {
   .container {
-    width: 1440px;
+    /* min-width: 1440px;*/
+    width: 100%;
   }
 }
