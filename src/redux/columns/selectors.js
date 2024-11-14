@@ -1,4 +1,5 @@
 import { createSelector } from '@reduxjs/toolkit';
+import { selectSelectedBoard } from '../boards/selectors.js';
 
 export const selectColumns = state => state.columns.columns;
 
@@ -33,3 +34,13 @@ export const selectIsError = state => state.columns.isError;
 export const selectCardsByBoardId = createSelector([selectColumns], columns =>
   columns.flatMap(column => column.cards)
 );
+
+
+
+export const allColumnsByBoard = (state) => state.columns.columns;
+
+
+export const selectColumnsForSelectedBoard = (state) => {
+  const selectedBoard = selectSelectedBoard(state);
+  return selectedBoard ? selectedBoard.columns : [];  
+};
