@@ -2,10 +2,10 @@ import { createSelector } from '@reduxjs/toolkit';
 
 export const selectColumns = state => state.columns.columns;
 
-export const selectColumnsByBoardId = createSelector(
-  [selectColumns, (state, boardId) => boardId], 
-  (columns, boardId) => columns.filter(column => column.boardId === boardId) || []
-);
+// export const selectColumnsByBoardId = createSelector(
+//   [selectColumns, (state, boardId) => boardId], 
+//   (columns, boardId) => columns.filter(column => column.boardId === boardId) || []
+// );
 
 export const selectCardsByColumnId = createSelector(
   [selectColumns, (state, columnId) => columnId], // Вхідні параметри: state і columnId
@@ -30,3 +30,6 @@ export const selectCardsByBoardId = createSelector(
   (columns) => columns.flatMap(column => column.cards) 
 );
 
+
+
+export const allColumnsByBoard = (state) => state.columns.columns;

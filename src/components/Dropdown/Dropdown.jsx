@@ -3,8 +3,9 @@ import s from './Dropdown.module.css';
 import sprite from '../../icons/icons.svg'
 import { useEffect, useRef } from 'react';
 
-const Dropdown = ({isOpen, filteredColumns, handleMoveCard, onClose }) => {
-   
+
+const Dropdown = ({isOpen, filteredColumns, handleMoveCard, onClose , cardId, boardId}) => {
+
     const dropdownRef = useRef(null); 
     
     useEffect(() => {
@@ -35,11 +36,17 @@ const Dropdown = ({isOpen, filteredColumns, handleMoveCard, onClose }) => {
     }, [onClose]);
 
     if (!isOpen) return null;
+
+    const handleColumnClick = (newColumnId) => {
+        handleMoveCard(newColumnId, cardId, boardId);  // Передаємо newColumnId, cardId, boardId
+        onClose();
+    };
+
     return (
         <div className={s.dropdown} ref={dropdownRef}>
             {filteredColumns.map((column) => (
-                <button className={s.btn} key={column._id} onClick={() => handleMoveCard(column._id)}>
-                    <span>{column.title}</span>
+                <button className={s.btn} key={column._id} onClick={() => handleColumnClick(column._id)} >
+                    <span className={s.title}>{column.title}</span>
                     <svg className={s.icon} width="16" height="16">
                         <use href={`${sprite}#arrow-circle-icon`} />
                     </svg>

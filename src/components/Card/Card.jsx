@@ -4,38 +4,43 @@ import Dropdown from '../Dropdown/Dropdown.jsx';
 import ModalDeleteCard from '../ModalDeleteCard/ModalDeleteCard.jsx';
 import {
   toggleDescription,
-  openModal,
+  // openModal,
   closeModal,
-  selectCardIdToDelete,
+  // selectCardIdToDelete,
 } from '../../redux/cards/cardsSlice.js';
+import {selectColumnsForSelectedBoard} from '../../redux/boards/selectors.js';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   selectExpandedCardId,
   selectIsModalOpen,
-  selectOpenDropdowns,
+  // selectOpenDropdowns,
   selectSelectedBoard,
 } from '../../redux/cards/selectors.js';
 import { useEffect, useState } from 'react';
-import { deleteCard, editCard } from '../../redux/cards/operations.js';
+import { deleteCard } from '../../redux/cards/operations.js';
+import { moveCard } from '../../redux/cards/operations.js';
 import EditCardModal from '../EditCardModal/EditCardModal.jsx';
+// import { allColumnsByBoard } from '../../redux/columns/selectors.js';
 
-const Card = ({ card, filteredColumns }) => {
+const Card = ({ card}) => {
   const selectedBoard = useSelector(selectSelectedBoard);
   const boardId = selectedBoard?._id;
   const [cardIdToDelete, setCardIdToDelete] = useState(null);
-  //   const cardIdToDelete = useSelector(selectCardIdToDelete);
   const dispatch = useDispatch();
   const expandedCardId = useSelector(selectExpandedCardId);
-  const [selectedCard, setSelectedCard] = useState(null);
   const isModalOpen = useSelector(selectIsModalOpen);
-  // const isDropdownOpen = useSelector((state) => state.cards.openDropdowns[card._id]);
-  // const openDropdowns = useSelector(selectOpenDropdowns);
   const { _id: cardId, priority, title, description, date } = card;
   const [isToday, setIsToday] = useState(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  // const [selectedCard, setSelectedCard] = useState(null);
-
+  const columns = useSelector(selectColumnsForSelectedBoard);
+  console.log('Columns for the active board:', columns); 
+  const filteredColumns = columns.filter(column => column._id !== card.columnId);
+  console.log('Columns filtered:', filteredColumns); 
+ 
+  // const columns = useSelector(allColumnsByBoard);
+  // const filteredColumns = columns.filter((column) => column._id !== card.columnId);
+  // console.log('Columns filtered:', filteredColumns); 
   const isDeadlineToday = date => {
     const deadlineDate = new Date(date);
     const currentDate = new Date();
@@ -86,14 +91,16 @@ const Card = ({ card, filteredColumns }) => {
     dispatch(closeModal());
   };
 
+
   const handleMoveCard = (newColumnId, cardId) => {
+    console.log("Moving card to column:", newColumnId);
     if (cardId && newColumnId && newColumnId !== card.columnId) {
-      const updatedCard = { ...card, columnId: newColumnId };
-      dispatch(editCard({ boardId, updatedCard, cardId }));
+      dispatch(moveCard({ cardId, columnId: newColumnId, boardId }));
       setIsDropdownOpen(false);
     }
-  };
+    setIsDropdownOpen(false);
 
+  };
   const openDropdownHandler = () => {
     setIsDropdownOpen(true);
   };
@@ -190,6 +197,8 @@ const Card = ({ card, filteredColumns }) => {
         handleMoveCard={handleMoveCard}
         onClose={closeDropdownHandler}
         isOpen={isDropdownOpen}
+        columnId={card.columnId}
+        boardId={boardId}
       />
 
       <ModalDeleteCard

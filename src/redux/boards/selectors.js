@@ -17,3 +17,7 @@ export const selectSelectedBoard = state => state.boards?.selectedBoard || null;
 
 
 
+export const selectColumnsForSelectedBoard = (state) => {
+    const selectedBoard = selectSelectedBoard(state);
+    return selectedBoard ? selectedBoard.columns : [];  // Якщо вибраний борд існує, повертаємо його колонки
+  };

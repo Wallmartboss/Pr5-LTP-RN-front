@@ -2,8 +2,8 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 import { setAuthHeader } from '../auth/operations.js';
 
-axios.defaults.baseURL = 'https://pr5-ltp-rn-back.onrender.com';
-
+// axios.defaults.baseURL = 'https://pr5-ltp-rn-back.onrender.com';
+axios.defaults.baseURL = 'http://localhost:3000';
 const getAuthHeaders = token => ({
   Authorization: `Bearer ${token}`,
 });

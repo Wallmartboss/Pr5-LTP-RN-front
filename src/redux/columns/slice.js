@@ -211,20 +211,56 @@ const columnsSlice = createSlice({
         state.loading = true;
         state.error = null;
       })
-      .addCase(moveCard.pending, state => {
-        state.status = 'loading';
+      // .addCase(moveCard.pending, state => {
+      //   state.status = 'loading';
+      // })
+      // .addCase(moveCard.fulfilled, (state, action) => {
+      //   state.status = 'succeeded';
+      //   const { cardId, columnId } = action.payload;
+      //   const index = state.items.findIndex(card => card._id === cardId);
+      //   if (index !== -1) {
+      //     state.items[index].columnId = columnId;
+      //   }
+      // })
+      // .addCase(moveCard.rejected, (state, action) => {
+      //   state.status = 'failed';
+      //   state.error = action.error.message;
+      // })
+      .addCase(moveCard.pending, (state) => {
+        state.loading = true;
+        state.error = null;
       })
       .addCase(moveCard.fulfilled, (state, action) => {
-        state.status = 'succeeded';
-        const { cardId, columnId } = action.payload;
-        const index = state.items.findIndex(card => card._id === cardId);
-        if (index !== -1) {
-          state.items[index].columnId = columnId;
+        state.loading = false;
+        const movedCard = action.payload?.data;
+        if (!movedCard) {
+            console.error("Moved card is undefined:", action.payload);
+            return;
         }
+        const { columnId: newColumnId, _id: cardId } = movedCard;
+
+        // Видаляємо картку зі старої колонки
+        state.columns = state.columns.map((column) => {
+          if (column.cards.some((card) => card._id === cardId)) {
+            return {
+              ...column,
+              cards: column.cards.filter((card) => card._id !== cardId),
+            };
+          }
+          return column;
+          
+        });
+
+        // Додаємо картку в нову колонку
+        const targetColumn = state.columns.find((column) => column._id === newColumnId);
+        if (targetColumn) {
+          targetColumn.cards.push(movedCard);
+        }
+        console.log("Updated columns state:", state.columns);
       })
       .addCase(moveCard.rejected, (state, action) => {
-        state.status = 'failed';
-        state.error = action.error.message;
+        state.loading = false;
+        state.error = action.payload;
       })
       .addCase(fetchCards.fulfilled, (state, action) => {
         state.loading = false;

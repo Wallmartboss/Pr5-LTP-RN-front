@@ -1,7 +1,7 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 // import instance from '../../instance';
 import axios from 'axios';
-import { addCard as addCardAction } from '../columns/slice';
+
 
 axios.defaults.baseURL = 'https://pr5-ltp-rn-back.onrender.com';
 
@@ -23,7 +23,7 @@ export const addCard = createAsyncThunk(
 export const editCard = createAsyncThunk(
   'cards/edit_Card',
 
-  async ({ boardId, updatedCard, cardId }, thunkApi) => {
+  async ({ boardId, updatedCard, cardId, }, thunkApi) => {
     try {
       const response = await axios.patch(`/cards/${cardId}`, {
         ...updatedCard,
@@ -79,14 +79,31 @@ export const deleteCard = createAsyncThunk(
   }
 );
 
+
 export const moveCard = createAsyncThunk(
   'cards/moveCard',
-  async ({ cardId, columnId }, { rejectWithValue }) => {
-    try {
-      await axios.patch(`/cards/move/${cardId}`, { columnId });
-      return { cardId, columnId }; // Повертаємо ID картки і колонку, куди її перемістили
-    } catch (error) {
-      return rejectWithValue(error.message); // Помилка при переміщенні
-    }
+  async ({ cardId, columnId, boardId }, { rejectWithValue }) => {
+      try {
+        const response =  await axios.patch(`/cards/move/${cardId}`, { columnId, boardId });
+          return response.data
+      } catch (error) {
+          return rejectWithValue(error.message);
+      }
   }
 );
+// export const moveCard = createAsyncThunk(
+//   'cards/move_Card',
+//   async ({ cardId, newColumnId, boardId,columnId }, thunkApi) => {
+//     try {
+//       const data = { columnId: newColumnId };
+//       console.log('Attempting to move card:', { cardId, newColumnId, boardId , columnId});  // Debugging line
+//       const response = await axios.patch(`/cards/move/${cardId}`, data);
+//       console.log('Card moved successfully:', response.data);
+//       return { ...response.data, oldColumnId: columnId };
+//     } catch (error) {
+//       console.error('Error moving card:', error);
+//       return thunkApi.rejectWithValue(error.message);
+//     }
+//   }
+// );
+

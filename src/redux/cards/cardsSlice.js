@@ -118,21 +118,21 @@ const cardsSlice = createSlice({
       //   state.loading = false;
       //   state.error = action.payload;
       // })
-      .addCase(moveCard.pending, state => {
-        state.status = 'loading';
-      })
-      .addCase(moveCard.fulfilled, (state, action) => {
-        state.status = 'succeeded';
-        const { cardId, columnId } = action.payload;
-        const index = state.items.findIndex(card => card._id === cardId);
-        if (index !== -1) {
-          state.items[index].columnId = columnId;
-        }
-      })
-      .addCase(moveCard.rejected, (state, action) => {
-        state.status = 'failed';
-        state.error = action.error.message;
-      });
+      // .addCase(moveCard.pending, state => {
+      //   state.status = 'loading';
+      // })
+      // .addCase(moveCard.fulfilled, (state, action) => {
+      //   state.status = 'succeeded';
+      //   const { cardId, columnId } = action.payload;
+      //   const index = state.items.findIndex(card => card._id === cardId);
+      //   if (index !== -1) {
+      //     state.items[index].columnId = columnId;
+      //   }
+      // })
+      // .addCase(moveCard.rejected, (state, action) => {
+      //   state.status = 'failed';
+      //   state.error = action.error.message;
+      // });
   },
 });
 
