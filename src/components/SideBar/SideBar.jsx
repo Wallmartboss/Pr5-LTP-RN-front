@@ -138,13 +138,13 @@ const Sidebar = () => {
                   className={s.boardItem}
                   onClick={() => handleBoardClick(board)}
                 >
-                        <div className={s.projecContainer}>
-                        <svg className={s.projectIcon} width="18" height="18">
+                  <div className={s.projecContainer}>
+                    <svg className={s.projectIcon} width="18" height="18">
                       <use href={`${sprite}#project-icon`} />
-                      </svg>
-                    
-                  <span className={s.boardTitles}>{board.title}</span>
-                        </div>
+                    </svg>
+
+                    <span className={s.boardTitles}>{board.title}</span>
+                  </div>
                   <div className={s.actions}>
                     <button
                       className={s.editButton}
@@ -171,9 +171,12 @@ const Sidebar = () => {
           </div>
 
           {isCreateModalOpen && (
-            <Modal onClose={() => setCreateModalOpen(false)}>
-              <CreateBoardForm onCreate={handleCreateBoard} />
-            </Modal>
+            // <Modal onClose={() => setCreateModalOpen(false)}>
+            <CreateBoardForm
+              onCreate={handleCreateBoard}
+              closeModal={() => setCreateModalOpen(false)}
+            />
+            // </Modal>
           )}
 
           {isEditModalOpen && (

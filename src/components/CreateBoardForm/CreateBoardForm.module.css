@@ -62,26 +62,28 @@
   position: fixed;
   top: 0%;
   left: 0%;
-  width: 100%;
-  height: 100%;
+  width: 100vw;
+  height: 100vh;
   background: var(--modal-overlay);
   display: flex;
   align-items: center;
   justify-content: center;
   z-index: 1000;
+  background-color: rgba(22, 22, 22, 0.5);
 }
 .form {
-  position: absolute;
+  /* position: absolute; */
   /* position: relative; */
-  z-index: 220;
-  left: 50%;
+  /* z-index: 220; */
+  /* left: 50%;
   top: 50%;
-  transform: translate(-50%, -50%);
-  width: 100%;
+  transform: translate(-50%, -50%); */
+  width: 400px;
   border-radius: 8px;
   padding: 24px;
-  background: var(--main-bg-color);
+  /* background: var(--main-bg-color); */
   color: var(--main-text-color);
+  background-color: #ffffff;
 }
 
 /* Стилі для поля введення заголовка */

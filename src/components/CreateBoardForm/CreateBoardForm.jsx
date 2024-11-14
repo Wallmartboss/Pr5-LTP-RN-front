@@ -271,12 +271,12 @@ const CreateBoardForm = ({ closeModal }) => {
 
   return (
     <div
-      /* className={s.modalOverlay} */
+      className={s.modalOverlay}
       onClick={e => {
         if (e.target === e.currentTarget) closeModal();
       }}
     >
-      <div /* onSubmit={handleSubmit} */ /* className={s.form} */>
+      <div /* onSubmit={handleSubmit} */ className={s.form}>
         <h2 className={s.textBoard}>New board</h2>
         <input
           type="text"
@@ -347,7 +347,6 @@ const CreateBoardForm = ({ closeModal }) => {
           onClick={createNewBoard}
         >
           <div className={s.plusBtn}>
-            {/* <SvgIcon id="plus-icon" className={s.plusIcon} /> */}
             <svg className={s.plusIcon} width="14" height="14">
               <use href={`${sprite}#plus-icon`} />
             </svg>
