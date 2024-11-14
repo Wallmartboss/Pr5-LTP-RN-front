@@ -3,7 +3,7 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 import { addCard as addCardAction } from '../columns/slice';
 
-axios.defaults.baseURL = 'https://pr5-ltp-rn-back.onrender.com';
+// axios.defaults.baseURL = 'https://pr5-ltp-rn-back.onrender.com';
 
 export const addCard = createAsyncThunk(
   'cards/add_Card',
@@ -75,18 +75,6 @@ export const deleteCard = createAsyncThunk(
       return cardId;
     } catch (error) {
       return thunkAPI.rejectWithValue(error.message);
-    }
-  }
-);
-
-export const moveCard = createAsyncThunk(
-  'cards/moveCard',
-  async ({ cardId, columnId }, { rejectWithValue }) => {
-    try {
-      await axios.patch(`/cards/move/${cardId}`, { columnId });
-      return { cardId, columnId }; // Повертаємо ID картки і колонку, куди її перемістили
-    } catch (error) {
-      return rejectWithValue(error.message); // Помилка при переміщенні
     }
   }
 );

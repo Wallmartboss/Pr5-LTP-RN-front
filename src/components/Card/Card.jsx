@@ -63,11 +63,8 @@ const Card = ({ card, filteredColumns }) => {
     dispatch(toggleDescription({ cardId }));
   };
   const openDeleteModal = cardId => {
-    console.log('Has opened OpenDeleteModal');
-
-    console.log('String Id:', cardId);
     setCardIdToDelete(cardId);
-    console.log('cardIdToDelete:', cardIdToDelete);
+
     dispatch(deleteCard(cardId));
     // dispatch(openModal(cardIdToDelete));
   };

@@ -6,7 +6,7 @@ import {
   selectColumnsByBoardId,
 } from '../../redux/columns/selectors.js';
 import { selectSelectedBoard } from '../../redux/boards/selectors.js';
-import { moveCard } from '../../redux/cards/operations.js';
+import { moveCard } from '../../redux/columns/operations.js';
 
 import Card from '../Card/Card.jsx';
 import { toggleDropdown } from '../../redux/cards/cardsSlice.js';

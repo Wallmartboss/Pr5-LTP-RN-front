@@ -4,13 +4,13 @@ import {
   deleteCard as deleteCardOperation,
   editCard as editCardOperation,
   fetchCards,
-  moveCard,
 } from '../cards/operations';
 import {
   fetchColumns,
   addColumn,
   editColumnTitle,
   deleteColumn,
+  moveCard,
 } from './operations';
 
 const initialState = {
@@ -149,13 +149,12 @@ const columnsSlice = createSlice({
       .addCase(deleteColumn.fulfilled, (state, action) => {
         state.isLoading = false;
         state.columns = state.columns.filter(
-          column => column._id !== action.payload._id // Видаляємо колонку за ID
+          column => column._id !== action.payload._id
         );
       })
       .addCase(deleteColumn.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;
-        // Обробка помилки
       })
       .addCase(addCardOperation.fulfilled, (state, action) => {
         state.isLoading = false;
@@ -164,7 +163,7 @@ const columnsSlice = createSlice({
         );
 
         if (column) {
-          column.cards.push(action.payload); // Додаємо картку в колонку
+          column.cards.push(action.payload);
         }
         // state.allColumns = state.columns;
       })
@@ -198,49 +197,6 @@ const columnsSlice = createSlice({
           }
         }
       })
-      /*  --- */
-      // .addCase(editCardOperation.fulfilled, (state, action) => {
-      //   state.isLoading = false;
-      //   const { _id, updatedCard, columnId } = action.payload.data;
-
-      //   // Находим нужную колонку по columnId
-      //   const column = state.columns.find(column => column._id === columnId);
-      //   console.log('column', column);
-      //   if (column) {
-      //     // Находим нужную карточку по id внутри найденной колонки
-      //     const cardIndex = column.cards.findIndex(card => card._id === _id);
-      //     if (cardIndex !== -1) {
-      //       column.cards[cardIndex] = {
-      //         ...column.cards[cardIndex],
-      //         ...updatedCard,
-      //       };
-      //     }
-      //   }
-      // })
-      // .addCase(editCardOperation.fulfilled, (state, action) => {
-      //   state.isLoading = false;
-      //   const { id, updatedCard } = action.payload.data;
-      //   const column = action.payload.data.columnId;
-      //   console.log(action.payload.data);
-      //   console.log('columns', column);
-      //   for  column  {
-      //     const cardIndex = column.cards.findIndex(card => card._id === id);
-      //     if (cardIndex !== -1) {
-      //       column.cards[cardIndex] = {
-      //         ...column.cards[cardIndex],
-      //         ...updatedCard,
-      //       };
-      //       break;
-      //     }
-      //   }
-      // })
-      // .addCase(editCardOperation.fulfilled, (state, action) => {
-      //   state.isLoading = false;
-      //   const index = state.columns.findIndex(
-      //     card => card.id === action.payload.id
-      //   );
-      //   if (index !== -1) state.items[index] = action.payload;
-      // })
       .addCase(editCardOperation.rejected, (state, action) => {
         state.isLoading = false;
         state.error = action.payload;
@@ -249,11 +205,6 @@ const columnsSlice = createSlice({
         state.loading = true;
         state.error = null;
       })
-      // .addCase(deleteCardOperation.fulfilled, (state, action) => {
-      //   state.columns.cards = state.columns.cards.filter(
-      //     card => card._id !== action.payload
-      //   );
-      // })
       .addCase(deleteCardOperation.fulfilled, (state, action) => {
         const cardIdToRemove = action.payload;
         state.columns = state.columns.map(column => ({
