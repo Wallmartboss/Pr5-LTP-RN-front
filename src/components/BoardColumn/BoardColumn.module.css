@@ -30,7 +30,7 @@
   justify-content: space-between;
   height: 56px;
   padding: 20px;
-  background-color: var(--modal-bg-color);
+  background-color: var(--cards-bg-color);
   border-radius: 8px;
 }
 
