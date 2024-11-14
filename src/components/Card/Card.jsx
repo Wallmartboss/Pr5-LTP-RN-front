@@ -22,7 +22,6 @@ import EditCardModal from '../EditCardModal/EditCardModal.jsx';
 const Card = ({ card, filteredColumns }) => {
   const selectedBoard = useSelector(selectSelectedBoard);
   const boardId = selectedBoard?._id;
-  const [isColumnModalOpen, setIsColumnModalOpen] = useState(false);
   const [cardIdToDelete, setCardIdToDelete] = useState(null);
   //   const cardIdToDelete = useSelector(selectCardIdToDelete);
   const dispatch = useDispatch();
@@ -31,15 +30,10 @@ const Card = ({ card, filteredColumns }) => {
   const isModalOpen = useSelector(selectIsModalOpen);
   // const isDropdownOpen = useSelector((state) => state.cards.openDropdowns[card._id]);
   // const openDropdowns = useSelector(selectOpenDropdowns);
-  const { _id: cardId, columnId, priority, title, description, date } = card;
+  const { _id: cardId, priority, title, description, date } = card;
   const [isToday, setIsToday] = useState(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  console.log('filteredColumns:', filteredColumns);
-
-  // Открытие/закрытие модального окна
-  const openColumnModalHandler = () => setIsColumnModalOpen(true);
-  const closeColumnModalHandler = () => setIsColumnModalOpen(false);
   // const [selectedCard, setSelectedCard] = useState(null);
 
   const isDeadlineToday = date => {
@@ -89,15 +83,13 @@ const Card = ({ card, filteredColumns }) => {
     dispatch(closeModal());
   };
 
-  // const handleMoveCard = (newColumnId, cardId) => {
-  //   if (cardId && newColumnId && newColumnId !== card.columnId) {
-  //     const updatedCard = { ...card, columnId: newColumnId };
-  //     console.log('updatedCard', updatedCard);
-  //     console.log('card.columnId', card.columnId);
-  //     dispatch(editCard({ boardId, updatedCard, cardId }));
-  //     setIsDropdownOpen(false);
-  //   }
-  // };
+  const handleMoveCard = (newColumnId, cardId) => {
+    if (cardId && newColumnId && newColumnId !== card.columnId) {
+      const updatedCard = { ...card, columnId: newColumnId };
+      dispatch(editCard({ boardId, updatedCard, cardId }));
+      setIsDropdownOpen(false);
+    }
+  };
 
   const openDropdownHandler = () => {
     setIsDropdownOpen(true);
@@ -121,22 +113,13 @@ const Card = ({ card, filteredColumns }) => {
     }
   };
 
-  //*---------*//
-
-  const handleMoveCard = newColumnId => {
-    if (newColumnId && newColumnId !== columnId) {
-      const updatedCard = { ...card, columnId: newColumnId };
-      dispatch(editCard({ boardId, updatedCard, cardId }));
-      setIsColumnModalOpen(false);
-    }
-  };
-
   return (
     <div
       className={s.card}
       style={{ '--card-color': getPriorityColor(priority) }}
     >
       <h5 className={s.title}>{title}</h5>
+
       <div className={s.desWrap}>
         <p
           className={`${s.description} ${
@@ -175,8 +158,7 @@ const Card = ({ card, filteredColumns }) => {
               </svg>
             </div>
           )}
-
-          {/* <button
+          <button
             onClick={openDropdownHandler}
             className={s.move}
             // disabled={filteredColumns.length === 0}
@@ -184,41 +166,7 @@ const Card = ({ card, filteredColumns }) => {
             <svg className={s.icon} width="16" height="16">
               <use href={`${sprite}#arrow-circle-icon`} />
             </svg>
-          </button> */}
-
-          <div className={s.bottom}>
-            <div className={s.buttons}>
-              {/* Open modal with columns when pencil icon button is clicked */}
-              <button onClick={openColumnModalHandler}>
-                <svg className={s.icon} width="16" height="16">
-                  <use href={`${sprite}#arrow-circle-icon`} />
-                </svg>
-              </button>
-            </div>
-          </div>
-          {/* Modal to select column */}
-          {isColumnModalOpen && (
-            <div className={s.modalOverlay}>
-              <div className={s.modalContent}>
-                <h2>Select Column</h2>
-                <ul>
-                  {filteredColumns
-                    .filter(col => col._id !== columnId) // Exclude current column
-                    .map(col => (
-                      <li
-                        key={col._id}
-                        onClick={() => handleMoveCard(col._id)}
-                        className={s.columnItem}
-                      >
-                        {col.title}
-                      </li>
-                    ))}
-                </ul>
-                <button onClick={closeColumnModalHandler}>Close</button>
-              </div>
-            </div>
-            //*-----------------*//
-          )}
+          </button>
           <button onClick={openEditModalHandler}>
             <svg className={s.icon} width="16" height="16">
               <use href={`${sprite}#pencil-icon`} />
@@ -231,15 +179,16 @@ const Card = ({ card, filteredColumns }) => {
           </button>
         </div>
       </div>
-      {/* {isDropdownOpen && ( */}
-      {/* <Dropdown
-        cardId={cardId}
-        filteredColumns={filteredColumns}
-        handleMoveCard={handleMoveCard}
-        onClose={closeDropdownHandler} */}
-      {/* // isOpen={isDropdownOpen}
-      /> */}
-      {/* )} */}
+
+      {isDropdownOpen && (
+        <Dropdown
+          cardId={cardId}
+          filteredColumns={filteredColumns}
+          handleMoveCard={handleMoveCard}
+          onClose={closeDropdownHandler}
+          isOpen={isDropdownOpen}
+        />
+      )}
       <ModalDeleteCard
         isOpen={isModalOpen}
         onClose={handleCancelDelete}

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import s from './CardList.module.css';
 import {
@@ -7,7 +7,7 @@ import {
 } from '../../redux/columns/selectors.js';
 import { selectSelectedBoard } from '../../redux/boards/selectors.js';
 import { moveCard } from '../../redux/columns/operations.js';
-
+import { fetchBoardById } from '../../redux/boards/operations.js';
 import Card from '../Card/Card.jsx';
 import { toggleDropdown } from '../../redux/cards/cardsSlice.js';
 import {
@@ -29,21 +29,25 @@ const CardList = ({ columnId }) => {
   const filteredCards = selectAll
     ? cards
     : cards.filter(card => priorityFilter[card.priority]);
-
+  const token = localStorage.getItem('token');
   const selectedBoard = useSelector(selectSelectedBoard);
   const boardId = selectedBoard?._id;
   console.log('boardId:', boardId);
-  const filteredColumns = useSelector(state =>
-    boardId
-      ? selectColumnsByBoardId(state, boardId).filter(
-          column => column._id !== columnId
-        )
-      : []
-  );
+  useEffect(() => {
+    if (selectedBoard?._id) {
+      dispatch(fetchBoardById({ boardId: selectedBoard._id, token }));
+    }
+  }, [dispatch, selectedBoard?._id, token]);
+
+  const columns = selectedBoard ? selectedBoard.columns : [];
+  console.log('Columns:', columns);
+
+  const filteredColumns = columns
+    ? columns.filter(column => column._id !== columnId)
+    : [];
 
   console.log('filteredColumns:', filteredColumns);
 
-  console.log('Columns for board:', filteredColumns());
   const openDropdowns = useSelector(state => state.cards.openDropdowns);
   console.log('All cards for column:', cards);
   console.log('Filtered cards for column:', filteredCards);
