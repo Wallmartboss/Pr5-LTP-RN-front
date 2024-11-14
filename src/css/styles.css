@@ -9,7 +9,7 @@
   --low-priority-color: #8fa1d0;
   --medium-priority-color: #e09cb5;
   --high-priority-color: #bedbb0;
-  --no-priopity-color: rgba(255, 255, 255, 0.3);
+
   --auth-form-bg-color: #151515;
 }
 
@@ -54,6 +54,7 @@ body {
   --needHelp-text-color: #161616;
   --side-icon-color: rgba(22, 22, 22, 0.5);
   --logout-color: #bedbb0;
+  --no-priopity-color: rgba(22, 22, 22, 0.3);
 }
 
 body.dark-mode {
@@ -73,7 +74,7 @@ body.dark-mode {
   --scrollX-color: rgba(255, 255, 255, 0.1);
   --scrollX-bg-color: #161616;
   --scrollY-color: #121212;
-  --scrollY-bg-color: #121212;
+  --scrollY-bg-color: rgba(255, 255, 255, 0.1);
 
   --main-color: #bedbb0;
   --accent-color: #9dc888;
@@ -94,6 +95,7 @@ body.dark-mode {
   --needHelp-text-color: #fff;
   --side-icon-color: rgba(255, 255, 255, 0.5);
   --logout-color: #bedbb0;
+  --no-priopity-color: rgba(255, 255, 255, 0.3);
 }
 
 body.violet-mode {
@@ -132,6 +134,7 @@ body.violet-mode {
   --logo-bg-color: #ecedfd;
   --create-plus-color: #ffffff;
   --logout-color: #ffffff;
+  --no-priopity-color: rgba(22, 22, 22, 0.3);
 }
 
 .visually-hidden {

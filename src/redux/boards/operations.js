@@ -1,6 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
-import { setAuthHeader } from '../auth/operations.js';
+// import { setAuthHeader } from '../auth/operations.js';
 
 // axios.defaults.baseURL = 'https://pr5-ltp-rn-back.onrender.com';
 axios.defaults.baseURL = 'http://localhost:3000';
@@ -27,26 +27,11 @@ export const fetchBoards = createAsyncThunk(
 
 export const addBoard = createAsyncThunk(
   'boards/addBoard',
-  async ({ userId, boardName, icon, background, token }, thunkAPI) => {
-    // const state = thunkAPI.getState();
-    // const token = state.user.token;
-    console.log('token', token);
-
-    if (!token) {
-      //   // Відхиляємо запит, якщо токен відсутній
-      return thunkAPI.rejectWithValue('Token not found');
-    }
-
+  async ({ userId, title, icon, token }, thunkAPI) => {
     try {
-      // Відправляємо запит на створення нової дошки
-      const response = await axios.post(
+      const { data } = await axios.post(
         '/boards',
-        {
-          title: boardName,
-          owner: userId,
-          icon, // Додаємо іконку
-          background,
-        },
+        { owner: userId, title, icon },
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -65,8 +50,8 @@ export const addBoard = createAsyncThunk(
         theme: 'light',
       }); */
 
-      console.log('Adding board:', response.data);
-      return response.data;
+      console.log('Adding board:', data);
+      return data;
     } catch (error) {
       // Виводимо повідомлення про помилку
       /*  toast.error('Error, please try again later!', {

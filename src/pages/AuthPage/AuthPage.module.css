@@ -6,9 +6,5 @@
   margin-bottom: auto;
   padding: 0;
   height: 100vh;
-  background: linear-gradient(
-    180deg,
-    rgba(196, 196, 196, 0),
-    var(--main-color)
-  );
+  background: linear-gradient(180deg, rgba(196, 196, 196, 0), #bedbb0);
 }

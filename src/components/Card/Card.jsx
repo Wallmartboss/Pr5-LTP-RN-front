@@ -139,7 +139,6 @@ const Card = ({ card}) => {
         >
           {description}
         </p>
-        Added card 13/11
       </div>
       <span className={s.line}></span>
       <div className={s.bottom}>
@@ -170,9 +169,9 @@ const Card = ({ card}) => {
             </div>
           )}
           <button
-            className={s.move}
             onClick={openDropdownHandler}
-            disabled={filteredColumns.length === 0}
+            className={s.move}
+            // disabled={filteredColumns.length === 0}
           >
             <svg className={s.icon} width="16" height="16">
               <use href={`${sprite}#arrow-circle-icon`} />
@@ -200,7 +199,7 @@ const Card = ({ card}) => {
         columnId={card.columnId}
         boardId={boardId}
       />
-
+    
       <ModalDeleteCard
         isOpen={isModalOpen}
         onClose={handleCancelDelete}

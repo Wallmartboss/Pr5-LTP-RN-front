@@ -47,16 +47,13 @@ const ScreensPage = () => {
     dispatch(closeModal());
   };
 
-
-
   const handleAddColumn = async columnTitle => {
-    await dispatch(addColumn({ boardId: selectedBoard._id, title: columnTitle, token }));
+    await dispatch(
+      addColumn({ boardId: selectedBoard._id, title: columnTitle, token })
+    );
     dispatch(fetchBoardById({ boardId: selectedBoard._id, token })); // Оновлюємо дошку з новими колонками
     handleCloseModal();
   };
-
-
-
 
   // const handleAddColumn = async columnTitle => {
   //   await dispatch(addColumn(columnTitle));
@@ -90,7 +87,7 @@ const ScreensPage = () => {
               <BoardColumn key={column._id} column={column} />
             ))
           ) : (
-            <p>No columns available for this board</p>
+            <p> </p>
           )}
           <button className={s.addColumnBtn} onClick={handleOpenModal}>
             <svg className={s.plusIcon} width="24" height="24">
@@ -110,7 +107,7 @@ const ScreensPage = () => {
       {isDeleteModalOpen && <DeleteColumnModal />}
     </div>
   ) : (
-    <p>Select a board to view its details</p>
+    <p></p>
   );
 };
 

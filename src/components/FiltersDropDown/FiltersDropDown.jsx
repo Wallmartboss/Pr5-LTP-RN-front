@@ -16,13 +16,11 @@ import {
 import { toggleFiltersOpen } from '../../redux/columns/slice';
 
 const FiltersDropDown = () => {
-  const selectedFilter = useSelector(selectSelectedFilter);
   const isOpen = useSelector(selectIsFiltersOpen);
   const isModalOpen = useSelector(selectIsModalOpen);
   const isEditModalOpen = useSelector(selectEditModalOpen);
   const isDeleteModalOpen = useSelector(selectIsDeleteModalOpen);
   const selectPriority = useSelector(state => state.filters.priority);
-  const selectAll = useSelector(state => state.filters.selectAll);
   const dispatch = useDispatch();
 
   const handlePriorityChange = priorityLevel => {
@@ -83,7 +81,7 @@ const FiltersDropDown = () => {
             <label className={s.prioItem}>
               <input
                 type="checkbox"
-                value="none"
+                value="without"
                 checked={selectPriority.none}
                 onChange={() => handlePriorityChange('without')}
               />
