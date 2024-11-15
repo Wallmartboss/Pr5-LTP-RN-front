@@ -1,4 +1,5 @@
 .column {
+  background-color: transparent;
   display: flex;
   gap: 10px;
   flex-direction: column;

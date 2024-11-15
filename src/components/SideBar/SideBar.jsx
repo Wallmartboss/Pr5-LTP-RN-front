@@ -6,7 +6,6 @@ import {
   addBoard,
   updateBoard,
   deleteBoard,
-  // selectBoard,
 } from '../../redux/boards/operations';
 import { selectBoards } from '../../redux/boards/selectors';
 import LogoComponent from '../LogoComponent/LogoComponent';
@@ -63,12 +62,6 @@ const Sidebar = () => {
     console.log(selectedBoard);
     setEditModalOpen(true);
   };
-
-  // const editedBoardObject = {
-  //   title: updatedBoard.title,
-  //   icon: iconsSelected,
-  //   background: backgroundSelected,
-  // };
 
   const handleEditBoard = updatedBoard => {
     console.log('Updated board data:', updatedBoard);
@@ -140,7 +133,7 @@ const Sidebar = () => {
                 >
                   <div className={s.projecContainer}>
                     <svg className={s.projectIcon} width="18" height="18">
-                      <use href={`${sprite}#project-icon`} />
+                      <use href={`${sprite}#${board.icon}`} />
                     </svg>
 
                     <span className={s.boardTitles}>{board.title}</span>
@@ -171,18 +164,12 @@ const Sidebar = () => {
           </div>
 
           {isCreateModalOpen && (
-            // <Modal onClose={() => setCreateModalOpen(false)}>
-            <CreateBoardForm
-              onCreate={handleCreateBoard}
-              closeModal={() => setCreateModalOpen(false)}
+            <CreateBoardForm onCreate={handleCreateBoard} board={selectedBoard} closeModal={() => setCreateModalOpen(false)}
             />
-            // </Modal>
           )}
 
           {isEditModalOpen && (
-            <Modal onClose={() => setEditModalOpen(false)}>
-              <EditBoardForm board={selectedBoard} onSave={handleEditBoard} />
-            </Modal>
+            <EditBoardForm board={selectedBoard} onSave={handleEditBoard} closeModal={() => setEditModalOpen(false)}/>
           )}
         </div>
 
@@ -204,90 +191,5 @@ const Sidebar = () => {
     </>
   );
 };
-//   return (
-//     <div className={s.sidebarContainer}>
-//       <div className={`${s.sidebar} ${isSidebarOpen ? s.openSidebar : ''}`}>
-//         <LogoComponent />
-
-//         <h2 className={s.title}>My boards</h2>
-//         <hr className={s.separator} />
-
-//         <div className={s.createBoardContainer}>
-//           <div className={s.createBoardText}>
-//             <span>Create a new board</span>
-//           </div>
-//           <button
-//             className={s.createButton}
-//             onClick={() => setCreateModalOpen(true)}
-//           >
-//             <svg className={s.plusIcon} width="20" height="20">
-//               <use href={`${sprite}#plus-icon`} />
-//             </svg>
-//           </button>
-//         </div>
-
-//         <hr className={s.separator} />
-
-//         {/* Список дошок */}
-//         <div className={s.boardList}>
-//           {boards.map(board => (
-//             <div key={board.id} className={s.boardItem}>
-//               <span>{board.name}</span>
-//               <div className={s.actions}>
-//                 <button
-//                   className={s.editButton}
-//                   onClick={() => handleEditBoardClick(board)}
-//                 >
-//                   <svg className={s.icon} width="16" height="16">
-//                     <use href={`${sprite}#pencil-icon`} />
-//                   </svg>
-//                 </button>
-//                 <button
-//                   className={s.deleteButton}
-//                   onClick={() => handleDeleteBoard(board.id)}
-//                 >
-//                   <svg className={s.icon} width="16" height="16">
-//                     <use href={`${sprite}#trash-icon`} />
-//                   </svg>
-//                 </button>
-//               </div>
-//             </div>
-//           ))}
-//         </div>
-
-//         {/* Модальне вікно для створення нової дошки */}
-//         {isCreateModalOpen && (
-//           <Modal onClose={() => setCreateModalOpen(false)}>
-//             <CreateBoardForm onCreate={handleCreateBoard} />
-//           </Modal>
-//         )}
-
-//         {/* Модальне вікно для редагування дошки */}
-//         {isEditModalOpen && (
-//           <Modal onClose={() => setEditModalOpen(false)}>
-//             <EditBoardForm board={selectedBoard} onSave={handleEditBoard} />
-//           </Modal>
-//         )}
-//       </div>
-
-//       {/* Кнопка для відкриття/закриття панелі */}
-//       <button
-//         className={s.toggleButton}
-//         onClick={() => setSidebarOpen(!isSidebarOpen)}
-//       >
-//         {/* Іконка для відкриття/закриття (можна замінити на потрібну) */}
-//         <svg className={s.toggleIcon} width="20" height="20">
-//           <use href={`${sprite}#menu-icon`} />
-//         </svg>
-//       </button>
-//       <div className={s.need}>
-//         <NeedHelp />
-//       </div>
-//       <div className={s.out}>
-//         <Logout />
-//       </div>
-//     </div>
-//   );
-// };
 
 export default Sidebar;
