@@ -17,17 +17,12 @@ const icons = [
   { value: 'hexagon-icon', label: 'Hexagon' },
 ];
 
-const EditBoardForm = ({ board }) => {
-  const dispatch = useDispatch(); // Ініціалізація dispatch для виклику дії
+const EditBoardForm = ({ board, closeModal }) => {
+  const dispatch = useDispatch();
   const [title, setTitle] = useState(board.title);
   const [icon, setIcon] = useState(board.icon || 'project-icon');
   const [background, setBackground] = useState(board.background || '');
   const token = localStorage.getItem('token');
-
-  // Встановлюємо початкові значення для форми, якщо борд оновлюється
-  useEffect(() => {
-    console.log("Selected icon has changed:", icon);
-  }, [icon]);
 
   const handleSubmit = async e => {
     e.preventDefault();
@@ -38,17 +33,10 @@ const EditBoardForm = ({ board }) => {
 
     try {
       const actionResult = await dispatch(
-        updateBoard({
-          boardId: board._id,
-          title,
-          icon,
-          background,
-          token,
-        })
+        updateBoard({ boardId: board._id, title, icon, background, token })
       );
       if (updateBoard.fulfilled.match(actionResult)) {
-        alert('Board updated successfully!');
-        console.log('Selected icon:', icon); // Виведемо вибрану іконку для перевірки
+        closeModal(); // Закриваємо форму після успішного оновлення
       }
     } catch (error) {
       console.error('Error while updating board:', error);
@@ -56,65 +44,76 @@ const EditBoardForm = ({ board }) => {
   };
 
   return (
-    <form onSubmit={handleSubmit} className={s.form}>
-      <h2>Edit board</h2>
-      <input
-        type="text"
-        placeholder="Title"
-        value={title}
-        onChange={e => setTitle(e.target.value)}
-        className={s.input}
-      />
+    <div
+      className={s.modalOverlay}
+      onClick={e => {
+        if (e.target === e.currentTarget) closeModal();
+      }}
+    >
+      <form onSubmit={handleSubmit} className={s.form}>
+        <h2>Edit board</h2>
+        <input
+    type="text"
+    placeholder="Title"
+    value={title}
+    onChange={e => setTitle(e.target.value)}
+    className={s.titleInput}
+  />
 
-      <div className={s.section}>
-        <p>Icons</p>
-        <div className={s.icons}>
-          {icons.map(({ value }) => (
-            <label key={value} className={s.iconOption}>
-              <input
-                type="radio"
-                name="icon"
-                value={value}
-                checked={icon === value}
-                onChange={() => setIcon(value)} // Оновлюємо вибір іконки
-                className={s.iconRadio}
-              />
-              <svg
-                className={`${s.icon} ${icon === value ? s.activeIcon : ''}`}
-                width="18"
-                height="18"
-              >
-                <use href={`${sprite}#${value}`} />
-              </svg>
-            </label>
-          ))}
+  <div className={s.section}>
+    <p>Icons</p>
+    <div className={s.icons}>
+      {icons.map(({ value }) => (
+        <label key={value} className={s.iconOption}>
+          <input
+            type="radio"
+            name="icon"
+            value={value}
+            checked={icon === value}
+            onChange={() => setIcon(value)}
+            className={s.iconRadio}
+          />
+          <svg
+            className={`${s.icon} ${icon === value ? s.activeIcon : ''}`}
+            width="18"
+            height="18"
+          >
+            <use href={`${sprite}#${value}`} />
+          </svg>
+        </label>
+      ))}
+    </div>
+  </div>
+
+  <h3 className={s.textBackground}>Background</h3>
+  
+  <div className={s.section}>
+    <p>BG</p>
+    <div className={s.icons}>
+      {backgrounds.map(bg => (
+        <div
+          key={bg.id}
+          className={s.iconWrapper}
+          onClick={() => setBackground(String(bg.id))}
+        >
+          <img src={bg.min} alt={bg.id} className={s.iconImage} />
         </div>
-      </div>
+      ))}
+    </div>
+  </div>
 
-      <div className={s.section}>
-        <p>Background</p>
-        
-        <div className={s.section}>
-          <p>BG</p>
-          <div className={s.icons}>
-            {backgrounds.map(bg => (
-              <div
-                key={bg.id}
-                className={s.iconWrapper}
-                onClick={() => setBackground(String(bg.id))} // Set background ID on click
-              >
-                <img src={bg.min} alt={bg.id} className={s.iconImage} />
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
-
-      <button type="submit" className={s.createButton}>
-        Save
-      </button>
-    </form>
+  <button type="submit" className={s.createButton}>
+    <div className={s.plusBtn}>
+      <svg className={s.plusIcon} width="14" height="14">
+        <use href={`${sprite}#plus-icon`} />
+      </svg>
+    </div>
+    Save
+  </button>
+      </form>
+    </div>
   );
 };
+
 
 export default EditBoardForm;

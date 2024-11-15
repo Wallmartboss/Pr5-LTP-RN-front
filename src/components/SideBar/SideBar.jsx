@@ -164,17 +164,12 @@ const Sidebar = () => {
           </div>
 
           {isCreateModalOpen && (
-            <CreateBoardForm
-              onCreate={handleCreateBoard}
-              board={selectedBoard}
-              closeModal={() => setCreateModalOpen(false)}
+            <CreateBoardForm onCreate={handleCreateBoard} board={selectedBoard} closeModal={() => setCreateModalOpen(false)}
             />
           )}
 
           {isEditModalOpen && (
-            <Modal onClose={() => setEditModalOpen(false)}>
-              <EditBoardForm board={selectedBoard} onSave={handleEditBoard} />
-            </Modal>
+            <EditBoardForm board={selectedBoard} onSave={handleEditBoard} closeModal={() => setEditModalOpen(false)}/>
           )}
         </div>
 

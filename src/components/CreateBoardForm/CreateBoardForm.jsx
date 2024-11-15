@@ -48,7 +48,7 @@ const CreateBoardForm = ({ closeModal }) => {
       console.log('Creating board with:', { title, icon, background, token });
       if (addBoard.fulfilled.match(actionResult)) {
         dispatch(fetchBoards()); 
-        alert('Board created successfully!');
+        
         closeModal(); 
       }
     } catch (error) {
