@@ -29,7 +29,6 @@ const ScreensPage = () => {
   const isEditModalOpen = useSelector(selectEditModalOpen);
   const isDeleteModalOpen = useSelector(selectIsDeleteModalOpen);
   const isLoading = useSelector(selectIsLoading);
-  // const isError = useSelector(selectIsError);
   const token = localStorage.getItem('token');
   // useEffect(() => {
   //   dispatch(fetchColumns());
