@@ -27,48 +27,26 @@ export const fetchBoards = createAsyncThunk(
 
 export const addBoard = createAsyncThunk(
   'boards/addBoard',
-  async ({ userId, title, icon, token }, thunkAPI) => {
-    try {
+  async ({ title, icon, background, token }, thunkAPI) => {
+    try {     
       const { data } = await axios.post(
         '/boards',
-        { owner: userId, title, icon },
+        {title, icon, background},
         {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         }
       );
-
-      // Виводимо успішне повідомлення
-      /*  toast.success('The board is created!', {
-        position: 'top-right',
-        autoClose: 3000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: false,
-        draggable: false,
-        theme: 'light',
-      }); */
-
       console.log('Adding board:', data);
       return data;
     } catch (error) {
-      // Виводимо повідомлення про помилку
-      /*  toast.error('Error, please try again later!', {
-        position: 'top-right',
-        autoClose: 3000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: false,
-        draggable: false,
-        theme: 'light',
-      } )*/
-
       console.error('Error adding board:', error);
       return thunkAPI.rejectWithValue(error.message);
     }
   }
 );
+
 
 /* export const addBoard = createAsyncThunk(
   'boards/addBoard',
@@ -91,24 +69,25 @@ export const addBoard = createAsyncThunk(
 ); */
 export const updateBoard = createAsyncThunk(
   'boards/updateBoard',
-  async ({ boardId, editedBoardObject, token }, thunkAPI) => {
+  async ({ boardId, title, icon, background, token }, thunkAPI) => {
     try {
-      console.log('boardId:', boardId, 'editedBoardObject:', editedBoardObject);
+      console.log('boardId:', boardId, 'Payload:', { title, icon, background });
       const { data } = await axios.patch(
         `/boards/${boardId}`,
-        editedBoardObject,
+        { title, icon, background },
         {
-          headers: getAuthHeaders(token),
+          headers: { Authorization: `Bearer ${token}` }, // Заголовок авторизації
         }
       );
       console.log('Server response after update:', data);
       return data;
     } catch (error) {
-      console.error('Error while updating board:', error);
-      return thunkAPI.rejectWithValue(error.message);
+      console.error('Error while updating board:', error.response?.data || error.message);
+      return thunkAPI.rejectWithValue(error.response?.data?.message || error.message);
     }
   }
 );
+
 export const deleteBoard = createAsyncThunk(
   'boards/deleteBoard',
   async ({ boardId, token }, thunkAPI) => {

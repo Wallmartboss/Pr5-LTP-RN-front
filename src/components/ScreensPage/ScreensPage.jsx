@@ -20,6 +20,7 @@ import EditColumnModal from '../EditColumnModal/EditColumnModal';
 import DeleteColumnModal from '../DeleteColumnModal/DeleteColumnModal';
 import { fetchColumns, addColumn } from '../../redux/columns/operations';
 import { openModal, closeModal } from '../../redux/columns/slice';
+import backgrounds from '../../bg/background/bgImages';
 const ScreensPage = () => {
   const selectedBoard = useSelector(selectSelectedBoard);
   const dispatch = useDispatch();
@@ -55,11 +56,6 @@ const ScreensPage = () => {
     handleCloseModal();
   };
 
-  // const handleAddColumn = async columnTitle => {
-  //   await dispatch(addColumn(columnTitle));
-  //   handleCloseModal();
-  // };
-
   useEffect(() => {
     if (selectedBoard?._id) {
       dispatch(fetchBoardById({ boardId: selectedBoard._id, token }));
@@ -70,12 +66,14 @@ const ScreensPage = () => {
     return <p>Loading...</p>;
   }
 
-  // if (isError) {
-  //   return <p>{toString(isError)}</p>;
-  // }
+  const background = backgrounds.find(bg => bg.id === Number(selectedBoard?.background));
+  console.log(background);
 
   return selectedBoard ? (
-    <div className={s.mainDashboard}>
+    <div       className={s.mainDashboard}
+    style={{
+      backgroundImage: `url(${background?.desktop})`, 
+    }}>
       <div className={s.container}>
         <div className={s.boardHeader}>
           <p className={s.boardTitle}>{selectedBoard.title}</p>

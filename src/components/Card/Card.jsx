@@ -37,9 +37,9 @@ const Card = ({ card }) => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   // const [selectedCard, setSelectedCard] = useState(null);
   const columns = useSelector(selectColumnsForSelectedBoard);
-  console.log('columns for board', columns);
+
   const filteredColumns = columns.filter(column => column._id !== card.columnId);
-  console.log('filteredColumns',filteredColumns);
+
   const isDeadlineToday = date => {
     const deadlineDate = new Date(date);
     const currentDate = new Date();
