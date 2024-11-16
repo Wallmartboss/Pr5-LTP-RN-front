@@ -19,6 +19,7 @@ import { useEffect, useState } from 'react';
 import { deleteCard, moveCard } from '../../redux/cards/operations.js';
 import EditCardModal from '../EditCardModal/EditCardModal.jsx';
 import { selectColumnsForSelectedBoard } from '../../redux/columns/selectors.js';
+import { fetchBoardById } from '../../redux/boards/operations';
 
 const Card = ({ card }) => {
   const selectedBoard = useSelector(selectSelectedBoard);
@@ -37,7 +38,7 @@ const Card = ({ card }) => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   // const [selectedCard, setSelectedCard] = useState(null);
   const columns = useSelector(selectColumnsForSelectedBoard);
-
+  const token = localStorage.getItem('token');
   const filteredColumns = columns.filter(
     column => column._id !== card.columnId
   );
@@ -96,20 +97,14 @@ const Card = ({ card }) => {
   //     setIsDropdownOpen(false);
   //   }
   // };
-  const handleMoveCard = (columnId, newColumnId, cardId, boardId) => {
+  const handleMoveCard = (cardId, columnId, newColumnId, boardId) => {
     console.log('Moving card to column:', newColumnId);
 
     // Перевірка на те, чи картка дійсно змінює колонку
     if (cardId && newColumnId && newColumnId !== card.columnId) {
-      // Відправка дії для переміщення картки
-      dispatch(moveCard({ cardId, columnId: newColumnId, boardId }));
-      // Закриття дропдауна після переміщення
+      dispatch(moveCard({ cardId, columnId, newColumnId, boardId }));
 
-      // console.log('cardId', cardId);
-      //  console.log('newColumnId', newColumnId);
-
-      //  const updatedCard = { ...card, columnId: newColumnId };
-      // dispatch(editCard({ boardId, updatedCard, cardId }));
+      // dispatch(fetchBoardById({ boardId: selectedBoard._id, token }));
 
       setIsDropdownOpen(false);
     }
@@ -207,6 +202,7 @@ const Card = ({ card }) => {
       {isDropdownOpen && (
         <Dropdown
           cardId={card._id}
+          columnId={card.columnId}
           boardId={boardId}
           filteredColumns={filteredColumns}
           handleMoveCard={handleMoveCard}

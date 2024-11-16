@@ -79,8 +79,6 @@ export const deleteCard = createAsyncThunk(
   }
 );
 
-
-
 // export const moveCard = createAsyncThunk(
 //   'cards/moveCard',
 //   async ({ cardId, newColumnId, boardId }, { rejectWithValue }) => {
@@ -95,11 +93,12 @@ export const deleteCard = createAsyncThunk(
 
 export const moveCard = createAsyncThunk(
   'cards/move_Card',
-  async ({ cardId, columnId, boardId }, thunkApi) => {
+  async ({ cardId, columnId, newColumnId, boardId }, thunkApi) => {
     try {
-      console.log('Attempting to move card:', { cardId, columnId, boardId });  // Debugging line
+      console.log('Attempting to move card:', { cardId, columnId, boardId }); // Debugging line
       const response = await axios.patch(`/cards/move/${cardId}`, {
         columnId,
+        newColumnId,
         boardId,
       });
       console.log('Card moved successfully:', response.data);

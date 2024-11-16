@@ -1,6 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
-axios.defaults.baseURL = 'https://pr5-ltp-rn-back.onrender.com';
+// axios.defaults.baseURL = 'https://pr5-ltp-rn-back.onrender.com';
 
 export const fetchColumns = createAsyncThunk(
   'columns/fetchColumns',
