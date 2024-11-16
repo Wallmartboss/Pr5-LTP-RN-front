@@ -78,12 +78,16 @@
   /* left: 50%;
   top: 50%;
   transform: translate(-50%, -50%); */
-  max-width: 400px;
+  max-width: 350px;
   border-radius: 8px;
   padding: 24px;
-  /* background: var(--main-bg-color); */
   color: var(--main-text-color);
-  background-color: #ffffff;
+
+  background-color: var(--modal-bg-color);
+
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
 }
 
 /* Стилі для поля введення заголовка */
@@ -262,8 +266,8 @@
   justify-content: center;
   align-items: center;
   border-radius: 8px;
-  color: var(--main-text-color);
-  background-color: var(--main-bg-color);
+  color: var(--btn-text-color);
+  background-color: var(--main-color);
   font-size: 14px;
   font-style: normal;
   font-weight: 500;
@@ -327,7 +331,9 @@
   background-color: var(--accent-color); /*#a6c398;*/
 }
 .plusBtn {
-  background-color: var(--modal-icon-wrap);
+  /* background-color: var(--modal-icon-wrap); */
+  /* background-color: var(--btn-text-color); */
+
   border-radius: 4px;
   width: 28px;
   height: 28px;
@@ -347,40 +353,35 @@
 .plusIcon {
   width: 28px;
   height: 28px;
-  background-color: var(--btn-text-color);
+  background-color: var(--columnPlus-bg-color);
   display: flex;
   justify-content: center;
   align-items: center;
   border-radius: 6px;
-  stroke: var(--sec-iconPlus-color);
-}
-
-.form {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
+  stroke: var(--main-iconPlus-color);
 }
 
 .input {
   width: 100%;
   padding: 8px;
   font-size: 16px;
-  border: 1px solid #bedbb0;
+  border: 1px solid var(--main-color); /*#bedbb0;*/
   border-radius: 8px;
   color: var(--main-text-color);
 }
 
-.section {
+/* .section {
   margin-top: 10px;
-}
+} */
 
 .icons {
   display: flex;
   gap: 5px;
   flex-wrap: wrap;
-  fill: transparent;
-  stroke: #16161680;
+  /* fill: transparent; */
+  /* stroke: #16161680; */
   margin-top: 10px;
+  width: 260px;
 }
 
 .iconOption {
@@ -398,11 +399,12 @@
   cursor: pointer;
   fill: none;
   transition: fill 0.3s ease, background-color 0.3s ease;
+  stroke: var(--icon-color);
 }
 
 .activeIcon {
   stroke: #161616;
-  fill: #bedbb0; /* Виділення активної іконки */
+  fill: var(--active-icon-color); /* Виділення активної іконки */
 }
 
 .backgrounds {
@@ -425,29 +427,15 @@
   transform: scale(1.05);
 }
 .backgroundOption input:checked + label img {
-  box-shadow: 0 0 0 2px #bedbb0; /* Підсвічування вибраного фону */
+  box-shadow: 0 0 0 2px var(--main-color); /*#bedbb0; /* Підсвічування вибраного фону */
   transform: scale(1.05); /* Легке збільшення */
 }
 
 .backgroundOption:hover img {
   transform: scale(1.1);
-  box-shadow: 0 0 0 3px #bedbb0;
-}
-.createButton {
-  width: 100%;
-  padding: 10px;
-  font-size: 16px;
-  color: #fff;
-  background-color: #bedbb0;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
+  box-shadow: 0 0 0 2px var(--main-color);
 }
 
-.createButton:hover {
-  background-color: #a6c398;
-}
 .activeIcon .backgroundImage {
   width: 28px;
   height: 28px;

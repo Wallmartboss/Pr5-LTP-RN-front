@@ -1,13 +1,10 @@
-
 import { useState } from 'react';
 import s from './CreateBoardForm.module.css';
 import sprite from '../../icons/icons.svg';
-import backgrounds from '../../bg/background/bgImages.js'; 
+import backgrounds from '../../bg/background/bgImages.js';
 
-
-import { useDispatch} from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { addBoard, fetchBoards } from '../../redux/boards/operations.js';
-
 
 const icons = [
   { value: 'project-icon', label: 'Project' },
@@ -21,42 +18,40 @@ const icons = [
 ];
 const CreateBoardForm = ({ closeModal }) => {
   const [title, setTitle] = useState('');
-  const [icon, setIcon] = useState('project-icon'); 
-  const [background, setBackground] = useState(null); 
-  
+  const [icon, setIcon] = useState('project-icon');
+  const [background, setBackground] = useState(null);
 
   const dispatch = useDispatch();
   const token = localStorage.getItem('token');
 
-  const createNewBoard = async (e) => {
+  const createNewBoard = async e => {
     e.preventDefault();
-  
+
     if (!title.trim()) {
       alert('Title is required');
       return;
     }
-  
+
     try {
       const actionResult = await dispatch(
         addBoard({
           title,
           icon,
-          background, 
+          background,
           token,
         })
       );
       console.log('Creating board with:', { title, icon, background, token });
       if (addBoard.fulfilled.match(actionResult)) {
-        dispatch(fetchBoards()); 
-        
-        closeModal(); 
+        dispatch(fetchBoards());
+
+        closeModal();
       }
     } catch (error) {
       console.error('Error while creating board:', error);
     }
   };
-  
-  
+
   return (
     <div
       className={s.modalOverlay}
@@ -73,38 +68,37 @@ const CreateBoardForm = ({ closeModal }) => {
           onChange={e => setTitle(e.target.value)}
           className={s.titleInput}
         />
-      <div className={s.section}>
-        <p>Icons</p>
-        <div className={s.icons}>
-          {icons.map(({ value }) => (
-            <label key={value} className={s.iconOption}>
-              <input
-                type="radio"
-                name="icon"
-                value={value}
-                checked={icon === value}
-                onChange={() => {
-                  setIcon(value);
-                  console.log('Selected icon:', value); // Додайте цей рядок
-                }}
-                className={s.iconRadio}
-              />
-              <svg
-                className={`${s.icon} ${icon === value ? s.activeIcon : ''}`}
-                width="18"
-                height="18"
-              >
-                <use href={`${sprite}#${value}`} />
-              </svg>
-            </label>
-          ))}
+        <div className={s.section}>
+          <p>Icons</p>
+          <div className={s.icons}>
+            {icons.map(({ value }) => (
+              <label key={value} className={s.iconOption}>
+                <input
+                  type="radio"
+                  name="icon"
+                  value={value}
+                  checked={icon === value}
+                  onChange={() => {
+                    setIcon(value);
+                    console.log('Selected icon:', value); // Додайте цей рядок
+                  }}
+                  className={s.iconRadio}
+                />
+                <svg
+                  className={`${s.icon} ${icon === value ? s.activeIcon : ''}`}
+                  width="18"
+                  height="18"
+                >
+                  <use href={`${sprite}#${value}`} />
+                </svg>
+              </label>
+            ))}
+          </div>
         </div>
-      </div>
 
         {/* Вибір фону */}
         <h3 className={s.textBackground}>Background</h3>
         <div className={s.section}>
-          <p>BG</p>
           <div className={s.icons}>
             {backgrounds.map(bg => (
               <div

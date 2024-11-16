@@ -108,7 +108,6 @@
   overflow-x: auto;
   white-space: nowrap;
   width: 100%;
-  background-color: var(--main-bg-color);
   margin-right: 10px;
   @media screen and (min-width: 375px) {
     width: 335px;

@@ -18,7 +18,7 @@ import {
 import { useEffect, useState } from 'react';
 import { deleteCard, moveCard } from '../../redux/cards/operations.js';
 import EditCardModal from '../EditCardModal/EditCardModal.jsx';
-import {selectColumnsForSelectedBoard } from '../../redux/columns/selectors.js';
+import { selectColumnsForSelectedBoard } from '../../redux/columns/selectors.js';
 
 const Card = ({ card }) => {
   const selectedBoard = useSelector(selectSelectedBoard);
@@ -38,7 +38,9 @@ const Card = ({ card }) => {
   // const [selectedCard, setSelectedCard] = useState(null);
   const columns = useSelector(selectColumnsForSelectedBoard);
 
-  const filteredColumns = columns.filter(column => column._id !== card.columnId);
+  const filteredColumns = columns.filter(
+    column => column._id !== card.columnId
+  );
 
   const isDeadlineToday = date => {
     const deadlineDate = new Date(date);
@@ -94,26 +96,24 @@ const Card = ({ card }) => {
   //     setIsDropdownOpen(false);
   //   }
   // };
-  const handleMoveCard = (newColumnId, cardId, boardId) => {
-    console.log("Moving card to column:", newColumnId);
-    
+  const handleMoveCard = (columnId, newColumnId, cardId, boardId) => {
+    console.log('Moving card to column:', newColumnId);
+
     // Перевірка на те, чи картка дійсно змінює колонку
     if (cardId && newColumnId && newColumnId !== card.columnId) {
-
       // Відправка дії для переміщення картки
       dispatch(moveCard({ cardId, columnId: newColumnId, boardId }));
       // Закриття дропдауна після переміщення
 
-     // console.log('cardId', cardId);
-    //  console.log('newColumnId', newColumnId);
+      // console.log('cardId', cardId);
+      //  console.log('newColumnId', newColumnId);
 
-    //  const updatedCard = { ...card, columnId: newColumnId };
-     // dispatch(editCard({ boardId, updatedCard, cardId }));
+      //  const updatedCard = { ...card, columnId: newColumnId };
+      // dispatch(editCard({ boardId, updatedCard, cardId }));
 
       setIsDropdownOpen(false);
     }
   };
-  
 
   const openDropdownHandler = () => {
     setIsDropdownOpen(true);
@@ -207,7 +207,7 @@ const Card = ({ card }) => {
       {isDropdownOpen && (
         <Dropdown
           cardId={card._id}
-        boardId={boardId} 
+          boardId={boardId}
           filteredColumns={filteredColumns}
           handleMoveCard={handleMoveCard}
           onClose={closeDropdownHandler}
