@@ -5,11 +5,11 @@
   flex-direction: column;
   flex: 0 0 335px;
   width: 335px;
-  background-color: var(--main-bg-color);
+  background-color: transparent;
   border-radius: 8px;
   overflow: hidden;
   margin-top: 40px;
-  height: 85%vh;
+  height: 95%vh;
 }
 
 @media screen and (min-width: 768px) {
