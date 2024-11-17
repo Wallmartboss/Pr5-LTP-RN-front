@@ -98,7 +98,8 @@ const Card = ({ card }) => {
   //   }
   // };
   const handleMoveCard = (cardId, columnId, newColumnId, boardId) => {
-    console.log('Moving card to column:', newColumnId);
+    // console.log('Moving card', cardId, 'from column:', columnId);
+    // console.log('Moving card to column:', newColumnId);
 
     // Перевірка на те, чи картка дійсно змінює колонку
     if (cardId && newColumnId && newColumnId !== card.columnId) {
