@@ -102,7 +102,8 @@ export const moveCard = createAsyncThunk(
         boardId,
       });
       console.log('Card moved successfully:', response.data);
-      return response.data;
+      console.log('Card.data moved successfully:', response.data.data);
+      return response.data.card;
     } catch (error) {
       console.error('Error moving card:', error);
       return thunkApi.rejectWithValue(error.message);
