@@ -220,31 +220,178 @@ const columnsSlice = createSlice({
         state.loading = true;
         state.error = null;
       })
-      .addCase(moveCard.pending, state => {
-        state.status = 'loading';
-      })
       .addCase(moveCard.fulfilled, (state, action) => {
-        state.status = 'succeeded';
-        const { cardId, columnId: newColumnId } = action.payload;
-    
-        // Знаходимо колонку, в якій наразі знаходиться картка, та видаляємо її з цієї колонки
-        state.columns = state.columns.map((column) => {
-            if (column.cards.some((card) => card._id === cardId)) {
-                return {
-                    ...column,
-                    cards: column.cards.filter((card) => card._id !== cardId),
-                };
-            }
-            return column;
-        });
-    
-        // Додаємо картку до нової колонки
-        const targetColumn = state.columns.find((column) => column._id === newColumnId);
+        const {
+          _id: cardId,
+          columnId: newColumnId,
+          boardId,
+          ...movedCard
+        } = action.payload;
+
+        // Видалення картки зі старої колонки
+        state.columns = state.columns.map(column => ({
+          ...column,
+          cards: column.cards.filter(card => card._id !== cardId), // Видаляємо картку з попередньої колонки
+        }));
+
+        // Додавання картки в нову колонку
+        const targetColumn = state.columns.find(
+          column => column._id === newColumnId
+        );
         if (targetColumn) {
-          const movedCard = { ...action.payload };
-          targetColumn.cards = [...targetColumn.cards, movedCard];
+          targetColumn.cards = [...targetColumn.cards, movedCard]; // Додаємо переміщену картку
         }
-    })
+      })
+      /*=======*/
+      // .addCase(moveCard.fulfilled, (state, action) => {
+      //   state.status = 'succeeded';
+      //   const { cardId, columnId, newColumnId, boardId } = action.payload;
+
+      //   // Знаходимо колонку, в якій наразі знаходиться картка, та видаляємо її з цієї колонки
+      //   // state.columns = state.columns.map(column => {
+      //   //   if (column.cards.some(card => card._id === cardId)) {
+      //   //     return {
+      //   //       ...column,
+      //   //       cards: column.cards.filter(card => card._id !== cardId),
+      //   //     };
+      //   //   }
+      //   //   return column;
+      //   // });
+
+      //   const sourceColumn = state.columns.find(
+      //     column => column._id === columnId
+      //   );
+      //   if (sourceColumn) {
+      //     sourceColumn.cards = sourceColumn.cards.filter(
+      //       card => card._id !== cardId
+      //     );
+      //   }
+
+      //   // Додаємо картку до нової колонки
+      //   const targetColumn = state.columns.find(
+      //     column => column._id === newColumnId
+      //   );
+      //   console.log('TC ', targetColumn);
+      //   if (targetColumn) {
+      //     const movedCard = { ...action.payload };
+      //     console.log(movedCard);
+      //     targetColumn.cards = [...targetColumn.cards, movedCard];
+      //   }
+      // })
+      /*-----------*/
+      // .addCase(moveCard.pending, state => {
+      //   state.status = 'loading'; // Встановлюємо статус завантаження під час очікування
+      // })
+      // .addCase(moveCard.fulfilled, (state, action) => {
+      //   state.status = 'succeeded';
+      //   const { cardId, columnId: newColumnId } = action.payload;
+
+      //   // Знаходимо колонку, в якій наразі знаходиться картка, та видаляємо її з цієї колонки
+      //   state.columns = state.columns.map(column => {
+      //     if (column.cards.some(card => card._id === cardId)) {
+      //       return {
+      //         ...column,
+      //         cards: column.cards.filter(card => card._id !== cardId),
+      //       };
+      //     }
+      //     return column;
+      //   });
+
+      //   // Додаємо картку до нової колонки
+      //   const targetColumn = state.columns.find(
+      //     column => column._id === newColumnId
+      //   );
+      //   if (targetColumn) {
+      //     const movedCard = { ...action.payload };
+      //     targetColumn.cards = [...targetColumn.cards, movedCard];
+      //   }
+      // })
+      // .addCase(moveCard.fulfilled, (state, action) => {
+      //   const {
+      //     _id: cardId,
+      //     columnId: newColumnId,
+      //     title,
+      //     description,
+      //     date,
+      //     priority,
+      //   } = action.payload.data;
+      //   // const { cardId, columnId, newColumnId } = action.payload;
+
+      //   console.log('Card moved:', action.payload);
+      //   console.log('All columns:', state.columns);
+      //   console.log('Moving card', _id, 'from column:');
+      //   console.log('Moving card to column:', newColumnId);
+      //   // Перевіряємо, чи існує нова колонка
+      //   const targetColumn = state.columns.find(
+      //     column => column._id === newColumnId
+      //   );
+      //   if (!targetColumn) {
+      //     console.error('Неможливо знайти цільову колонку!');
+      //     return;
+      //   }
+
+      //   // Видаляємо картку з поточної колонки
+      //   state.columns = state.columns.map(column => {
+      //     if (column.cards.some(card => card._id === cardId)) {
+      //       return {
+      //         ...column,
+      //         cards: column.cards.filter(card => card._id !== cardId), // Видалення картки з поточної колонки
+      //       };
+      //     }
+      //     return column;
+      //   });
+
+      //   // Додаємо картку до нової колонки
+      //   targetColumn.cards.push(action.payload); // Додаємо картку до нової колонки
+      //   const column = state.columns.find(col => col._id === columnId);
+
+      //   if (column) {
+      //     const cardIndex = column.cards.findIndex(card => card._id === _id);
+
+      //     if (cardIndex !== -1) {
+      //       column.cards[cardIndex] = {
+      //         _id,
+      //         title,
+      //         description,
+      //         date,
+      //         priority,
+      //         columnId,
+      //       };
+      //     }
+      //   }
+      //   // Встановлюємо статус як успішний
+      //   state.status = 'succeeded';
+      // })
+      // .addCase(moveCard.rejected, (state, action) => {
+      //   console.error('Помилка при переміщенні картки:', action.error);
+      //   state.status = 'failed'; // Встановлюємо статус помилки
+      // })
+
+      /*========= не обновляет*/
+      // .addCase(moveCard.fulfilled, (state, action) => {
+      //   const {
+      //     _id: cardId,
+      //     columnId: newColumnId,
+      //     boardId,
+      //     ...movedCard
+      //   } = action.payload;
+
+      //   // Видалення картки зі старої колонки
+      //   state.columns = state.columns.map(column => ({
+      //     ...column,
+      //     cards: column.cards.filter(card => card._id !== cardId), // Видаляємо картку з попередньої колонки
+      //   }));
+
+      //   // Додавання картки в нову колонку
+      //   const targetColumn = state.columns.find(
+      //     column => column._id === newColumnId
+      //   );
+      //   if (targetColumn) {
+      //     targetColumn.cards = [...targetColumn.cards, movedCard]; // Додаємо переміщену картку
+      //   }
+      // })
+
+      /*=========*/
       // .addCase(moveCard.fulfilled, (state, action) => {
       //   state.status = 'succeeded';
       //   const { cardId, columnId } = action.payload;
@@ -254,10 +401,10 @@ const columnsSlice = createSlice({
       //     state.items[index].columnId = columnId;
       //   }
       // })
-      .addCase(moveCard.rejected, (state, action) => {
-        state.status = 'failed';
-        state.error = action.error.message;
-      })
+      // .addCase(moveCard.rejected, (state, action) => {
+      //   state.status = 'failed';
+      //   state.error = action.error.message;
+      // })
       .addCase(fetchCards.fulfilled, (state, action) => {
         state.loading = false;
         const newCards = action.payload.data;
@@ -295,6 +442,3 @@ export const {
 } = columnsSlice.actions;
 
 export const columnsReducer = columnsSlice.reducer;
-
-
-

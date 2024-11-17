@@ -2,7 +2,7 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 // import { setAuthHeader } from '../auth/operations.js';
 
-axios.defaults.baseURL = 'https://pr5-ltp-rn-back.onrender.com';
+// axios.defaults.baseURL = 'https://pr5-ltp-rn-back.onrender.com';
 
 const getAuthHeaders = token => ({
   Authorization: `Bearer ${token}`,
@@ -28,10 +28,10 @@ export const fetchBoards = createAsyncThunk(
 export const addBoard = createAsyncThunk(
   'boards/addBoard',
   async ({ title, icon, background, token }, thunkAPI) => {
-    try {     
+    try {
       const { data } = await axios.post(
         '/boards',
-        {title, icon, background},
+        { title, icon, background },
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -46,7 +46,6 @@ export const addBoard = createAsyncThunk(
     }
   }
 );
-
 
 /* export const addBoard = createAsyncThunk(
   'boards/addBoard',
@@ -82,8 +81,13 @@ export const updateBoard = createAsyncThunk(
       console.log('Server response after update:', data);
       return data;
     } catch (error) {
-      console.error('Error while updating board:', error.response?.data || error.message);
-      return thunkAPI.rejectWithValue(error.response?.data?.message || error.message);
+      console.error(
+        'Error while updating board:',
+        error.response?.data || error.message
+      );
+      return thunkAPI.rejectWithValue(
+        error.response?.data?.message || error.message
+      );
     }
   }
 );
