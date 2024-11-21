@@ -8,7 +8,6 @@ import {
 import { selectSelectedBoard } from '../../redux/boards/selectors.js';
 import { fetchBoardById } from '../../redux/boards/operations.js';
 import Card from '../Card/Card.jsx';
-import { toggleDropdown } from '../../redux/cards/cardsSlice.js';
 import {
   selectAllPriorityFilter,
   selectSelectAll,
@@ -38,23 +37,7 @@ const CardList = ({ columnId }) => {
     }
   }, [dispatch, selectedBoard?._id, token]);
 
-  const columns = selectedBoard ? selectedBoard.columns : [];
-  console.log('Columns:', columns);
 
-  const filteredColumns = columns
-    ? columns.filter(column => column._id !== columnId)
-    : [];
-
-  console.log('filteredColumns:', filteredColumns);
-
-  const openDropdowns = useSelector(state => state.cards.openDropdowns);
-  console.log('All cards for column:', cards);
-  console.log('Filtered cards for column:', filteredCards);
-
-
-  const toggleDropdownHandler = cardId => {
-    dispatch(toggleDropdown(cardId));
-  };
 
   return (
     <div className={s.cardsContainer}>
@@ -68,9 +51,6 @@ const CardList = ({ columnId }) => {
             key={card._id}
             card={card}
             columnId={columnId}
-            openDropdowns={openDropdowns}
-            filteredColumns={filteredColumns}
-            toggleDropdown={toggleDropdownHandler}
           />
         ))
       )}

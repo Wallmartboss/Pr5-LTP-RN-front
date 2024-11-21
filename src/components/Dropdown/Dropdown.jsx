@@ -1,16 +1,20 @@
 import s from './Dropdown.module.css';
 import sprite from '../../icons/icons.svg';
 import { useEffect, useRef } from 'react';
+import { useDispatch } from 'react-redux';
+import { editCard } from '../../redux/cards/operations.js';
 
 const Dropdown = ({
+  boardId, card, onClose,
   isOpen,
   filteredColumns,
-  handleMoveCard,
-  onClose,
-  cardId,
-  columnId,
-  boardId,
+  // handleMoveCard,
+  // onClose,
+  // cardId,
+  // columnId,
+  // boardId,
 }) => {
+  const dispatch = useDispatch();
   const dropdownRef = useRef(null);
 
   useEffect(() => {
@@ -41,10 +45,25 @@ const Dropdown = ({
   }, [onClose]);
 
   if (!isOpen) return null;
+
   const handleColumnClick = newColumnId => {
-    handleMoveCard(cardId, columnId, newColumnId, boardId); // Передаємо newColumnId, cardId, boardId
+    const updateData = {
+      columnId: newColumnId,
+      title: card.title,
+      description: card.description,
+      priority: card. priority,
+      date: card.date,
+    };
+    console.log('cardId:', card._id); // Дебаг
+    console.log('updateData:', updateData); // Дебаг
+    dispatch(editCard({ boardId, cardId: card._id, updatedCard: updateData }));
     onClose();
-  };
+  }
+
+  // const handleColumnClick = newColumnId => {
+  //   handleMoveCard(cardId, columnId, newColumnId, boardId); // Передаємо newColumnId, cardId, boardId
+  //   onClose();
+  // };
   return (
     <div className={s.dropdown} ref={dropdownRef}>
       {filteredColumns.map(column => (

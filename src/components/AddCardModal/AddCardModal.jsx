@@ -6,11 +6,9 @@ import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
-// import 'flatpickr/dist/themes/material_blue.css';
 import s from './AddCardModal.module.css';
 import sprite from '../../icons/icons.svg';
-// import Calendar from '../Calendar/Calendar';
-import { addCard, fetchCards } from '../../redux/cards/operations';
+import { addCard } from '../../redux/cards/operations';
 
 const AddCardModal = ({ onClose, columnId, boardId }) => {
   const dispatch = useDispatch();
@@ -34,7 +32,6 @@ const AddCardModal = ({ onClose, columnId, boardId }) => {
       boardId,
     };
     dispatch(addCard({ newCard }));
-    dispatch(fetchCards({ boardId }));
     onClose();
   };
 
