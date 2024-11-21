@@ -1,48 +1,36 @@
+
 import s from './Card.module.css';
 import sprite from '../../icons/icons.svg';
 import Dropdown from '../Dropdown/Dropdown.jsx';
-import ModalDeleteCard from '../ModalDeleteCard/ModalDeleteCard.jsx';
+// import ModalDeleteCard from '../ModalDeleteCard/ModalDeleteCard.jsx';
 import {
   toggleDescription,
-  // openModal,
-  closeModal,
-  // selectCardIdToDelete,
-} from '../../redux/cards/cardsSlice.js';
+} from '../../redux/cards/slice.js';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   selectExpandedCardId,
-  selectIsModalOpen,
-  // selectOpenDropdowns,
   selectSelectedBoard,
 } from '../../redux/cards/selectors.js';
 import { useEffect, useState } from 'react';
-import { deleteCard, moveCard } from '../../redux/cards/operations.js';
+import { deleteCard} from '../../redux/cards/operations.js';
 import EditCardModal from '../EditCardModal/EditCardModal.jsx';
-import { selectColumnsForSelectedBoard } from '../../redux/columns/selectors.js';
-import { fetchBoardById } from '../../redux/boards/operations';
+import { allColumnsByBoard} from '../../redux/columns/selectors.js';
 
 const Card = ({ card }) => {
   const selectedBoard = useSelector(selectSelectedBoard);
   const boardId = selectedBoard?._id;
-  const [cardIdToDelete, setCardIdToDelete] = useState(null);
-  //   const cardIdToDelete = useSelector(selectCardIdToDelete);
   const dispatch = useDispatch();
   const expandedCardId = useSelector(selectExpandedCardId);
-  // const [selectedCard, setSelectedCard] = useState(null);
-  const isModalOpen = useSelector(selectIsModalOpen);
-  // const isDropdownOpen = useSelector((state) => state.cards.openDropdowns[card._id]);
-  // const openDropdowns = useSelector(selectOpenDropdowns);
   const { _id: cardId, priority, title, description, date } = card;
   const [isToday, setIsToday] = useState(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  // const [selectedCard, setSelectedCard] = useState(null);
-  const columns = useSelector(selectColumnsForSelectedBoard);
-  const token = localStorage.getItem('token');
+  const columns = useSelector(allColumnsByBoard);
+  console.log('columns:', columns);
   const filteredColumns = columns.filter(
     column => column._id !== card.columnId
   );
-
+  console.log('filteredColumns:', filteredColumns);
   const isDeadlineToday = date => {
     const deadlineDate = new Date(date);
     const currentDate = new Date();
@@ -67,48 +55,18 @@ const Card = ({ card }) => {
   };
 
   const toggleDescriptionHandler = () => {
-    dispatch(toggleDescription({ cardId }));
+    console.log('Toggling description for cardId:', cardId);
+    dispatch(toggleDescription(cardId));
   };
+  console.log('Card ID:', cardId, 'Expanded Card ID:', expandedCardId);
+
+  console.log(
+    `Card ID: ${cardId}, Expanded Card ID: ${expandedCardId}, Class: ${
+      expandedCardId === cardId ? 'expanded' : 'collapsed'
+    }`
+  );
   const openDeleteModal = cardId => {
-    setCardIdToDelete(cardId);
-
-    dispatch(deleteCard(cardId));
-    // dispatch(openModal(cardIdToDelete));
-  };
-
-  const handleConfirmDelete = cardId => {
-    if (cardId) {
-      console.log('Card for DELETE:', cardId);
-      dispatch(deleteCard(cardId));
-      setCardIdToDelete(null);
-    } else {
-      console.error('No cardId to delete:');
-    }
-    dispatch(closeModal());
-  };
-  const handleCancelDelete = () => {
-    dispatch(closeModal());
-  };
-
-  // const handleMoveCard = (newColumnId, cardId) => {
-  //   if (cardId && newColumnId && newColumnId !== card.columnId) {
-  //     const updatedCard = { ...card, columnId: newColumnId };
-  //     dispatch(editCard({ boardId, updatedCard, cardId }));
-  //     setIsDropdownOpen(false);
-  //   }
-  // };
-  const handleMoveCard = (cardId, columnId, newColumnId, boardId) => {
-    // console.log('Moving card', cardId, 'from column:', columnId);
-    // console.log('Moving card to column:', newColumnId);
-
-    // Перевірка на те, чи картка дійсно змінює колонку
-    if (cardId && newColumnId && newColumnId !== card.columnId) {
-      dispatch(moveCard({ cardId, columnId, newColumnId, boardId }));
-
-      // dispatch(fetchBoardById({ boardId: selectedBoard._id, token }));
-
-      setIsDropdownOpen(false);
-    }
+   dispatch(deleteCard(cardId));
   };
 
   const openDropdownHandler = () => {
@@ -142,9 +100,9 @@ const Card = ({ card }) => {
 
       <div className={s.desWrap}>
         <p
-          className={`${s.description} ${
-            expandedCardId === cardId ? s.expanded : ''
-          }`}
+         className={`${s.description} ${
+          expandedCardId === cardId ? s.expanded : ''
+        }`}
           onClick={toggleDescriptionHandler}
         >
           {description}
@@ -181,7 +139,7 @@ const Card = ({ card }) => {
           <button
             onClick={openDropdownHandler}
             className={s.move}
-            // disabled={filteredColumns.length === 0}
+            disabled={filteredColumns.length === 0}
           >
             <svg className={s.icon} width="16" height="16">
               <use href={`${sprite}#arrow-circle-icon`} />
@@ -202,21 +160,19 @@ const Card = ({ card }) => {
 
       {isDropdownOpen && (
         <Dropdown
-          cardId={card._id}
-          columnId={card.columnId}
           boardId={boardId}
+          card={card}
           filteredColumns={filteredColumns}
-          handleMoveCard={handleMoveCard}
           onClose={closeDropdownHandler}
           isOpen={isDropdownOpen}
         />
       )}
-      <ModalDeleteCard
+      {/* <ModalDeleteCard
         isOpen={isModalOpen}
         onClose={handleCancelDelete}
         onConfirm={handleConfirmDelete}
         cardId={cardId}
-      />
+      /> */}
       {isEditModalOpen && (
         <EditCardModal
           columnId={card.columnId}

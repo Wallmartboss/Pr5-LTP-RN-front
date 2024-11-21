@@ -16,7 +16,7 @@ import { columnsReducer } from './columns/slice.js';
 import helpSliceReducer from './help/slice';
 import { setAuthHeader } from './auth/operations';
 import { boardsReducer } from './boards/slice.js';
-import cardsReducer from './cards/cardsSlice';
+import cardsReducer from './cards/slice';
 import filtersReducer from './filters/filtersSlice.js';
 
 import { sidebarReducer } from './sidebarSlice/slice.js';

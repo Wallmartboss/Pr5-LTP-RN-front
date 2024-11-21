@@ -1,10 +1,10 @@
+
 import { createSlice } from '@reduxjs/toolkit';
 import {
-  addCard as addCardOperation,
-  deleteCard as deleteCardOperation,
-  editCard as editCardOperation,
+  addCard,
+  deleteCard,
+  editCard,
   fetchCards,
-  moveCard,
 } from '../cards/operations';
 import {
   fetchColumns,
@@ -78,23 +78,23 @@ const columnsSlice = createSlice({
         column => column._id !== action.payload
       );
     },
-    removeCardFromList(state, action) {
-      state.columns.cards = state.columns.cards.filter(
-        card => card._id !== action.payload
-      );
-    },
-    addCard(state, action) {
-      const { columnId, card } = action.payload;
-      const column = state.columns.find(col => col._id === columnId);
-      if (column) {
-        console.log('Column, куди додаємо:', column);
-        console.log('Card, яку додаэмо:', card);
-        column.cards.push(card); // Додаємо картку до відповідної колонки
-        state.columns = [...state.columns]; // Это триггерит ререндер в некоторых случаях
-      } else {
-        console.error('Column not found:', columnId);
-      }
-    },
+    // removeCardFromList(state, action) {
+    //   state.columns.cards = state.columns.cards.filter(
+    //     card => card._id !== action.payload
+    //   );
+    // },
+    // addCard(state, action) {
+    //   const { columnId, card } = action.payload;
+    //   const column = state.columns.find(col => col._id === columnId);
+    //   if (column) {
+    //     console.log('Column, куди додаємо:', column);
+    //     console.log('Card, яку додаэмо:', card);
+    //     column.cards.push(card); // Додаємо картку до відповідної колонки
+    //     state.columns = [...state.columns]; // Это триггерит ререндер в некоторых случаях
+    //   } else {
+    //     console.error('Column not found:', columnId);
+    //   }
+    // },
   },
   extraReducers: builder => {
     builder
@@ -156,7 +156,7 @@ const columnsSlice = createSlice({
         state.isLoading = false;
         state.isError = true;
       })
-      .addCase(addCardOperation.fulfilled, (state, action) => {
+      .addCase(addCard.fulfilled, (state, action) => {
         state.isLoading = false;
         const column = state.columns.find(
           col => col._id === action.payload.columnId
@@ -167,244 +167,79 @@ const columnsSlice = createSlice({
         }
         // state.allColumns = state.columns;
       })
-      .addCase(addCardOperation.pending, state => {
+      .addCase(addCard.pending, state => {
         state.isLoading = true;
         state.error = null;
       })
-      .addCase(addCardOperation.rejected, (state, action) => {
+      .addCase(addCard.rejected, (state, action) => {
         state.isLoading = false;
         state.error = action.payload;
       })
       /* -- */
-      .addCase(editCardOperation.fulfilled, (state, action) => {
-        const { _id, columnId, title, description, date, priority } =
-          action.payload.data;
-
-        const column = state.columns.find(col => col._id === columnId);
-
-        if (column) {
-          const cardIndex = column.cards.findIndex(card => card._id === _id);
-
+      .addCase(editCard.fulfilled, (state, action) => {
+        const { _id, columnId, title, description, date, priority } = action.payload.data;
+      
+        const oldColumn = state.columns.find(col => 
+          col.cards.some(card => card._id === _id)
+        );
+      
+        if (oldColumn) {
+          const cardIndex = oldColumn.cards.findIndex(card => card._id === _id);
+      
           if (cardIndex !== -1) {
-            column.cards[cardIndex] = {
-              _id,
-              title,
-              description,
-              date,
-              priority,
-              columnId,
-            };
+            const card = oldColumn.cards[cardIndex];
+      
+            if (card.columnId === columnId) {
+              oldColumn.cards[cardIndex] = {
+                ...card,
+                title,
+                description,
+                date,
+                priority,
+              };
+              return;
+            }
+      
+            oldColumn.cards.splice(cardIndex, 1);
           }
         }
+      
+        const newColumn = state.columns.find(col => col._id === columnId);
+      
+        if (newColumn) {
+          newColumn.cards.push({
+            _id,
+            title,
+            description,
+            date,
+            priority,
+            columnId,
+          });
+        }
       })
-      .addCase(editCardOperation.rejected, (state, action) => {
+      .addCase(editCard.rejected, (state, action) => {
         state.isLoading = false;
         state.error = action.payload;
       })
-      .addCase(editCardOperation.pending, state => {
+      .addCase(editCard.pending, state => {
         state.loading = true;
         state.error = null;
       })
-      .addCase(deleteCardOperation.fulfilled, (state, action) => {
+      .addCase(deleteCard.fulfilled, (state, action) => {
         const cardIdToRemove = action.payload;
         state.columns = state.columns.map(column => ({
           ...column,
           cards: column.cards.filter(card => card._id !== cardIdToRemove),
         }));
       })
-      .addCase(deleteCardOperation.rejected, (state, action) => {
+      .addCase(deleteCard.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
       })
-      .addCase(deleteCardOperation.pending, (state, action) => {
+      .addCase(deleteCard.pending, (state) => {
         state.loading = true;
         state.error = null;
       })
-      .addCase(moveCard.fulfilled, (state, action) => {
-        const {
-          _id: cardId,
-          columnId: newColumnId,
-          boardId,
-          ...movedCard
-        } = action.payload;
-
-        // Видалення картки зі старої колонки
-        state.columns = state.columns.map(column => ({
-          ...column,
-          cards: column.cards.filter(card => card._id !== cardId), // Видаляємо картку з попередньої колонки
-        }));
-
-        // Додавання картки в нову колонку
-        const targetColumn = state.columns.find(
-          column => column._id === newColumnId
-        );
-        if (targetColumn) {
-          targetColumn.cards = [...targetColumn.cards, movedCard]; // Додаємо переміщену картку
-        }
-      })
-      /*=======*/
-      // .addCase(moveCard.fulfilled, (state, action) => {
-      //   state.status = 'succeeded';
-      //   const { cardId, columnId, newColumnId, boardId } = action.payload;
-
-      //   // Знаходимо колонку, в якій наразі знаходиться картка, та видаляємо її з цієї колонки
-      //   // state.columns = state.columns.map(column => {
-      //   //   if (column.cards.some(card => card._id === cardId)) {
-      //   //     return {
-      //   //       ...column,
-      //   //       cards: column.cards.filter(card => card._id !== cardId),
-      //   //     };
-      //   //   }
-      //   //   return column;
-      //   // });
-
-      //   const sourceColumn = state.columns.find(
-      //     column => column._id === columnId
-      //   );
-      //   if (sourceColumn) {
-      //     sourceColumn.cards = sourceColumn.cards.filter(
-      //       card => card._id !== cardId
-      //     );
-      //   }
-
-      //   // Додаємо картку до нової колонки
-      //   const targetColumn = state.columns.find(
-      //     column => column._id === newColumnId
-      //   );
-      //   console.log('TC ', targetColumn);
-      //   if (targetColumn) {
-      //     const movedCard = { ...action.payload };
-      //     console.log(movedCard);
-      //     targetColumn.cards = [...targetColumn.cards, movedCard];
-      //   }
-      // })
-      /*-----------*/
-      // .addCase(moveCard.pending, state => {
-      //   state.status = 'loading'; // Встановлюємо статус завантаження під час очікування
-      // })
-      // .addCase(moveCard.fulfilled, (state, action) => {
-      //   state.status = 'succeeded';
-      //   const { cardId, columnId: newColumnId } = action.payload;
-
-      //   // Знаходимо колонку, в якій наразі знаходиться картка, та видаляємо її з цієї колонки
-      //   state.columns = state.columns.map(column => {
-      //     if (column.cards.some(card => card._id === cardId)) {
-      //       return {
-      //         ...column,
-      //         cards: column.cards.filter(card => card._id !== cardId),
-      //       };
-      //     }
-      //     return column;
-      //   });
-
-      //   // Додаємо картку до нової колонки
-      //   const targetColumn = state.columns.find(
-      //     column => column._id === newColumnId
-      //   );
-      //   if (targetColumn) {
-      //     const movedCard = { ...action.payload };
-      //     targetColumn.cards = [...targetColumn.cards, movedCard];
-      //   }
-      // })
-      // .addCase(moveCard.fulfilled, (state, action) => {
-      //   const {
-      //     _id: cardId,
-      //     columnId: newColumnId,
-      //     title,
-      //     description,
-      //     date,
-      //     priority,
-      //   } = action.payload.data;
-      //   // const { cardId, columnId, newColumnId } = action.payload;
-
-      //   console.log('Card moved:', action.payload);
-      //   console.log('All columns:', state.columns);
-      //   console.log('Moving card', _id, 'from column:');
-      //   console.log('Moving card to column:', newColumnId);
-      //   // Перевіряємо, чи існує нова колонка
-      //   const targetColumn = state.columns.find(
-      //     column => column._id === newColumnId
-      //   );
-      //   if (!targetColumn) {
-      //     console.error('Неможливо знайти цільову колонку!');
-      //     return;
-      //   }
-
-      //   // Видаляємо картку з поточної колонки
-      //   state.columns = state.columns.map(column => {
-      //     if (column.cards.some(card => card._id === cardId)) {
-      //       return {
-      //         ...column,
-      //         cards: column.cards.filter(card => card._id !== cardId), // Видалення картки з поточної колонки
-      //       };
-      //     }
-      //     return column;
-      //   });
-
-      //   // Додаємо картку до нової колонки
-      //   targetColumn.cards.push(action.payload); // Додаємо картку до нової колонки
-      //   const column = state.columns.find(col => col._id === columnId);
-
-      //   if (column) {
-      //     const cardIndex = column.cards.findIndex(card => card._id === _id);
-
-      //     if (cardIndex !== -1) {
-      //       column.cards[cardIndex] = {
-      //         _id,
-      //         title,
-      //         description,
-      //         date,
-      //         priority,
-      //         columnId,
-      //       };
-      //     }
-      //   }
-      //   // Встановлюємо статус як успішний
-      //   state.status = 'succeeded';
-      // })
-      // .addCase(moveCard.rejected, (state, action) => {
-      //   console.error('Помилка при переміщенні картки:', action.error);
-      //   state.status = 'failed'; // Встановлюємо статус помилки
-      // })
-
-      /*========= не обновляет*/
-      // .addCase(moveCard.fulfilled, (state, action) => {
-      //   const {
-      //     _id: cardId,
-      //     columnId: newColumnId,
-      //     boardId,
-      //     ...movedCard
-      //   } = action.payload;
-
-      //   // Видалення картки зі старої колонки
-      //   state.columns = state.columns.map(column => ({
-      //     ...column,
-      //     cards: column.cards.filter(card => card._id !== cardId), // Видаляємо картку з попередньої колонки
-      //   }));
-
-      //   // Додавання картки в нову колонку
-      //   const targetColumn = state.columns.find(
-      //     column => column._id === newColumnId
-      //   );
-      //   if (targetColumn) {
-      //     targetColumn.cards = [...targetColumn.cards, movedCard]; // Додаємо переміщену картку
-      //   }
-      // })
-
-      /*=========*/
-      // .addCase(moveCard.fulfilled, (state, action) => {
-      //   state.status = 'succeeded';
-      //   const { cardId, columnId } = action.payload;
-      //   console.log('payload', action.payload);
-      //   const index = state.columns.findIndex(card => card._id === cardId);
-      //   if (index !== -1) {
-      //     state.items[index].columnId = columnId;
-      //   }
-      // })
-      // .addCase(moveCard.rejected, (state, action) => {
-      //   state.status = 'failed';
-      //   state.error = action.error.message;
-      // })
       .addCase(fetchCards.fulfilled, (state, action) => {
         state.loading = false;
         const newCards = action.payload.data;
@@ -427,7 +262,7 @@ const columnsSlice = createSlice({
 });
 
 export const {
-  addCard,
+  // addCard,
   openModal,
   closeModal,
   toggleFilter,
@@ -438,7 +273,7 @@ export const {
   openDeleteModal,
   closeDeleteModal,
   removeColumnFromList,
-  removeCardFromList,
+  // removeCardFromList,
 } = columnsSlice.actions;
 
 export const columnsReducer = columnsSlice.reducer;

@@ -1,3 +1,4 @@
+
 import { createSelector } from '@reduxjs/toolkit';
 export const selectAllCards = state => {
   const selectedBoard = state.boards.selectedBoard;
@@ -40,3 +41,5 @@ export const selectIsModalOpen = state => state.cards.isModalOpen;
 export const selectExpandedCardId = state => state.cards.expandedCardId;
 export const selectOpenDropdowns = state => state.cards.openDropdowns;
 export const selectCardToDelete = state => state.cardId;
+
+
