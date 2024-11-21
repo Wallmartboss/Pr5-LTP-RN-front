@@ -1,3 +1,4 @@
+
 import s from './Card.module.css';
 import sprite from '../../icons/icons.svg';
 import Dropdown from '../Dropdown/Dropdown.jsx';

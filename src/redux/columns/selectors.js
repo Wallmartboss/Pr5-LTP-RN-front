@@ -35,8 +35,6 @@ export const selectCardsByBoardId = createSelector([selectColumns], columns =>
   columns.flatMap(column => column.cards)
 );
 
-
-
 export const allColumnsByBoard = (state) => state.columns.columns;
 
 
