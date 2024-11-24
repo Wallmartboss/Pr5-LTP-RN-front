@@ -38,20 +38,6 @@ export const editCard = createAsyncThunk(
   }
 );
 
-export const fetchCards = createAsyncThunk(
-  'cards/fetchCards',
-  async ({ boardId }, thunkAPI) => {
-    try {
-      const response = await axios.get(`/cards/${boardId}`);
-      return response.data;
-    } catch (error) {
-      return thunkAPI.rejectWithValue(
-        error.response?.data?.message || error.message
-      );
-    }
-  }
-);
-
 export const deleteCard = createAsyncThunk(
   'cards/delete_Card',
   async (cardId, thunkAPI) => {
@@ -64,3 +50,17 @@ export const deleteCard = createAsyncThunk(
     }
   }
 );
+
+// export const fetchCards = createAsyncThunk(
+//   'cards/fetchCards',
+//   async ({ boardId }, thunkAPI) => {
+//     try {
+//       const response = await axios.get(`/cards/${boardId}`);
+//       return response.data;
+//     } catch (error) {
+//       return thunkAPI.rejectWithValue(
+//         error.response?.data?.message || error.message
+//       );
+//     }
+//   }
+// );

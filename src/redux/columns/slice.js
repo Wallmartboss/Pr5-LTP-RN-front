@@ -239,25 +239,25 @@ const columnsSlice = createSlice({
       .addCase(deleteCard.pending, (state) => {
         state.loading = true;
         state.error = null;
-      })
-      .addCase(fetchCards.fulfilled, (state, action) => {
-        state.loading = false;
-        const newCards = action.payload.data;
-
-        state.columns.items = [
-          ...state.columns.items,
-          ...newCards.filter(
-            newCard =>
-              !state.cards.some(
-                existingCard => existingCard._id === newCard._id
-              )
-          ),
-        ];
-      })
-      .addCase(fetchCards.rejected, (state, action) => {
-        state.loading = false;
-        state.error = action.payload;
       });
+      // .addCase(fetchCards.fulfilled, (state, action) => {
+      //   state.loading = false;
+      //   const newCards = action.payload.data;
+
+      //   state.columns.items = [
+      //     ...state.columns.items,
+      //     ...newCards.filter(
+      //       newCard =>
+      //         !state.cards.some(
+      //           existingCard => existingCard._id === newCard._id
+      //         )
+      //     ),
+      //   ];
+      // })
+      // .addCase(fetchCards.rejected, (state, action) => {
+      //   state.loading = false;
+      //   state.error = action.payload;
+      // });
   },
 });
 
