@@ -13,7 +13,7 @@ const ModalDeleteCard = ({ isOpen, onClose, onConfirm, cardTitle }) => {
  
   return (
     <div className={s.modalOverlay}>
-      <div className={s.modalContent}>
+      <div className={s.modalContent} ref={modalRef}>
         <h2 className={s.modalTitle}>
         Do you really want to delete this card? 
         </h2>
