@@ -7,17 +7,17 @@ import { openEditModalBoard } from '../../redux/boards/slice';
 import CardList from '../CardList/CardList.jsx';
 import { selectSelectedBoard } from '../../redux/boards/selectors.js';
 import { selectColumns } from '../../redux/columns/selectors.js';
-import { addCard, fetchCards } from '../../redux/cards/operations.js';
 import AddCardModal from '../AddCardModal/AddCardModal.jsx';
 
 import { useState } from 'react';
-// import AddCardModal from '../AddCardModal/AddCardModal.jsx';
 
 // import { selectToken } from '../../redux/auth/selectors.js';
 
 const BoardColumn = ({ column }) => {
   const dispatch = useDispatch();
+
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
+
   const selectedBoard = useSelector(selectSelectedBoard);
   const columns = useSelector(selectColumns);
   const boardId = selectedBoard?._id;
@@ -29,20 +29,6 @@ const BoardColumn = ({ column }) => {
 
   const handleCloseAddModal = () => {
     setIsAddModalOpen(false);
-  };
-
-  const handleAddCard = taskData => {
-    dispatch(
-      addCard({
-        ...taskData,
-        columnId,
-        boardId,
-      })
-    ).then(() => {
-      dispatch(fetchCards({ boardId }));
-    });
-
-    handleCloseAddModal();
   };
 
   const handleEditClick = () => {
@@ -79,7 +65,6 @@ const BoardColumn = ({ column }) => {
       <CardList columnId={columnId} />
       {isAddModalOpen && (
         <AddCardModal
-          onAdd={handleAddCard}
           onClose={handleCloseAddModal}
           boardId={boardId}
           columnId={columnId}

@@ -41,6 +41,8 @@
   letter-spacing: -0.02em;
   color: var(--main-text-color);
   text-align: left;
+  padding-bottom: 2px;
+  border-bottom: 1px solid var(--main-text-color);
 }
 
 .deleteBtns {

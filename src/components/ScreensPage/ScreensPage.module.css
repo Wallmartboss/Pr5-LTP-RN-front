@@ -247,3 +247,34 @@
   border-radius: 6px;
   stroke: var(--columnPlus-strok);
 }
+
+.noBoard{
+  display: flex;
+  width: 100vw;
+  height: 100vh;
+  justify-content: center;
+  align-items: center;
+}
+
+.noBoardText{
+  padding: 20px;
+  max-width: 335px;
+  color: var(--description-color);
+text-align: center;
+font-size: 12px;
+line-height: 16px; /* 133.333% */
+letter-spacing: -0.24px;
+
+span{
+color: var(--accent-color);
+}
+}
+
+@media screen and (min-width: 768px) {
+  .noBoardText {
+    max-width: 486px; 
+    font-size: 14px;
+    line-height: 18px; 
+letter-spacing: -0.28px;
+  }
+}

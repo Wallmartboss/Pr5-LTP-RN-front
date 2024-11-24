@@ -1,4 +1,4 @@
-/* AddCardForm.module.css */
+
 .wrapper {
   position: fixed;
   top: 0;
@@ -23,12 +23,23 @@
   position: relative;
 }
 
-.modalForm {
-  line-height: 0;
-  position: relative;
-  display: block;
-  width: 100%;
-  margin-bottom: 0;
+
+.closeButton {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  background-color: inherit;
+  border: none;
+  font-size: 18px;
+  cursor: pointer;
+}
+
+.iconClose{
+  stroke: var(--main-iconPlus-color);
+}
+
+.closeButton:hover .iconClose, .closeButton:focus .iconClose{
+  stroke: var(--accent-color);
 }
 
 .title {
@@ -40,7 +51,16 @@
   margin-bottom: 24px;
 }
 
+.modalForm {
+  line-height: 0;
+  position: relative;
+  display: block;
+  width: 100%;
+  margin-bottom: 0;
+}
+
 .input {
+  position: relative;
   padding: 14px 18px;
   border: 1px solid var(--main-color);
   opacity: 1;
@@ -55,6 +75,8 @@
 }
 
 .textarea {
+  position: relative;
+  background-color: transparent;
   padding: 14px 18px;
   border: 1px solid var(--main-color);
   opacity: 1;
@@ -65,6 +87,7 @@
   font-weight: 400;
   font-size: 14px;
   letter-spacing: -0.02em;
+  color: var(--main-text-color);
   /* font: inherit; */
   resize: none;
 }
@@ -83,59 +106,12 @@
   opacity: 1;
 }
 
-.labelRadio {
-  text-align: left;
-  font: inherit;
-  font-weight: 400;
-  font-size: 14px;
-  margin-bottom: 4px;
-}
-
-.wrapperRadio {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  margin-bottom: 14px;
-}
-
 .error {
+  position: absolute;
+  margin-top: -15px;
   color: red;
   font-size: 12px;
-}
-
-.deadline {
-  display: flex;
-  flex-direction: column;
-  text-align: left;
-  gap: 14px;
-  margin-bottom: 40px;
-}
-
-.deadline label {
-  font-weight: 400;
-  font-size: 12px;
-  letter-spacing: -0.02em;
-  margin-top: 10px;
-}
-
-.closeButton {
-  position: absolute;
-  top: 14px;
-  right: 14px;
-  background-color: inherit;
-  border: none;
-  font-size: 18px;
-  cursor: pointer;
-}
-
-.icon {
-  stroke: var(--btn-text-color);
-}
-
-.radioGroup {
-  display: flex;
-  justify-content: space-around;
-  margin: 4px 0;
+  text-align: start;
 }
 
 .formGroupLabelColor {
@@ -145,26 +121,13 @@
   margin-bottom: 10px;
 }
 
-/* .formGroupLabelcolor label {
+.labelName {
   text-align: start;
-  margin-bottom: 4px;
-  color: var(--icon-color); */
-/* color: var(--main-text-color); */
-/* opacity: 0.5;
+  margin-bottom: 6px;
   font-weight: 400;
-  font-size: 12px; */
-/* text-align: left; */
-/* } */
-.currentDate {
-  display: flex;
-  align-items: center;
-  color: var(--icon-bg-color);
-}
-
-.icon {
-  margin-left: 2px;
-  fill: transparent;
-  stroke: var(--icon-bg-color);
+  font-size: 12px;
+  letter-spacing: -0.02em;
+  color: var(--icon-color);
 }
 
 .labelColors {
@@ -185,15 +148,6 @@
   align-items: center;
   justify-content: center;
   position: relative;
-}
-
-.labelName {
-  text-align: start;
-  margin-bottom: 6px;
-  font-weight: 400;
-  font-size: 12px;
-  letter-spacing: -0.02em;
-  color: var(--icon-color);
 }
 
 .priority input[type='radio'] {
@@ -225,6 +179,33 @@
   border-color: var(--main-text-color);
 }
 
+.deadline {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+  gap: 14px;
+  margin-bottom: 40px;
+}
+
+.deadline label {
+  font-weight: 400;
+  font-size: 12px;
+  letter-spacing: -0.02em;
+  margin-top: 10px;
+}
+
+.currentDate {
+  display: flex;
+  align-items: center;
+  color: var(--icon-bg-color);
+}
+
+.icon {
+  margin-left: 2px;
+  fill: transparent;
+  stroke: var(--icon-bg-color);
+}
+
 .addButton {
   border-radius: 8px;
   width: 100%;
@@ -244,110 +225,23 @@
 .plusIcon {
   width: 28px;
   height: 28px;
-  background-color: var(--btn-text-color);
+  background-color: var(--columnPlus-bg-color);
   display: flex;
   justify-content: center;
   align-items: center;
   border-radius: 6px;
-  stroke: var(--sec-iconPlus-color);
+  stroke: var(--main-iconPlus-color);
 }
 
-/* .calendar {
-  position: absolute;
-  margin-bottom: -50px;
-  left: 50px;
-  z-index: 1000;
-} */
-
-.react-datepicker__triangle {
-  display: none !important;
-}
-
-.react-datepicker {
-  font-family: 'Arial', sans-serif;
-  /* Шрифт */
-  background-color: #fff;
-  /* Фон календаря */
-  border-radius: 10px;
-  /* Округлені кути */
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  /* Тінь для календаря */
-  width: 300px;
-  /* Ширина календаря */
-  padding: 10px;
-  /* Відступи всередині */
-  z-index: 1000;
-  /* Забезпечує правильне перекриття */
-}
-
-/* Стилі для дат */
-.react-datepicker__day {
-  padding: 10px;
-  margin: 5px;
-  border-radius: 5px;
-  transition: background-color 0.3s ease;
-}
-
-/* Активна дата */
-.react-datepicker__day--selected {
-  background-color: #4caf50;
-  /* Колір для вибраної дати */
-  color: white;
-  font-weight: bold;
-}
-
-/* Календар в модальному вікні */
-.calendar {
-  position: absolute;
-  margin-top: -20px;
-  /* Відстань від елемента, до якого прив'язаний календар */
-  left: 30px;
-  z-index: 1000;
-}
-
-/* Кнопка для вибору дати */
-.datePickerToggle {
-  background-color: green;
-  /* Фон кнопки */
-  color: white;
-  padding: 10px 15px;
-  border-radius: 5px;
+.addButton:hover,.addButton:focus {
   cursor: pointer;
-  border: none;
-  font-size: 16px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  background-color: var(--accent-color);
 }
 
-.datePickerToggle:hover {
-  background-color: green;
-  /* Фон кнопки при наведенні */
+.calendar{
+  position: absolute;
+  bottom: -20px;
+  left: 30px;
 }
 
-/* Вибір року та місяця */
-.react-datepicker__header {
-  background-color: blue;
-  /* Фон заголовка календаря */
-  padding: 10px;
-  text-align: center;
-  border-radius: 8px;
-}
-
-/* Стилі для днів тижня */
-.react-datepicker__day-name {
-  font-weight: bold;
-  color: #333;
-}
-
-/* Налаштування розміру для календаря */
-.react-datepicker__day--disabled {
-  color: #d3d3d3;
-}
-
-.react-datepicker__input-container input {
-  width: 100%;
-  /* Розтягнути input на всю ширину */
-  padding: 10px;
-  border-radius: 5px;
-  border: 1px solid #ccc;
-  font-size: 16px;
-  margin-top: 10px;
-}

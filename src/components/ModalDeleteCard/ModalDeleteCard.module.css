@@ -31,10 +31,20 @@
     font-size: 18px;
     letter-spacing: -0.02em;
     color: var(--main-text-color);
-    text-align: left;
+    text-align: center;
     padding-bottom: 15px;
+    max-width: 310px;
 }
 
+.cardTitle {
+    font-weight: 500;
+    font-size: 18px;
+    letter-spacing: -0.02em;
+    color: var(--main-text-color);
+    text-align: center;
+    padding-bottom: 2px;
+    border-bottom: 1px solid var(--main-text-color);
+  }
 
 .deleteBtns {
     display: flex;

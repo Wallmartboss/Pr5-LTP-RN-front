@@ -1,8 +1,10 @@
-/* AddCardForm.module.css */
+
 .wrapper {
   position: fixed;
   top: 0;
   left: 0;
+  right: 0;
+  bottom: 0;
   width: 100vw;
   height: 100vh;
   background-color: rgba(0, 0, 0, 0.5);
@@ -23,12 +25,23 @@
   position: relative;
 }
 
-.modalForm {
-  line-height: 0;
-  position: relative;
-  display: block;
-  width: 100%;
-  margin-bottom: 0;
+
+.closeButton {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  background-color: inherit;
+  border: none;
+  font-size: 18px;
+  cursor: pointer;
+}
+
+.iconClose{
+  stroke: var(--main-iconPlus-color);
+}
+
+.closeButton:hover .iconClose, .closeButton:focus .iconClose{
+  stroke: var(--accent-color);
 }
 
 .title {
@@ -40,7 +53,16 @@
   margin-bottom: 24px;
 }
 
+.modalForm {
+  line-height: 0;
+  position: relative;
+  display: block;
+  width: 100%;
+  margin-bottom: 0;
+}
+
 .input {
+  position: relative;
   padding: 14px 18px;
   border: 1px solid var(--main-color);
   opacity: 1;
@@ -55,6 +77,8 @@
 }
 
 .textarea {
+  position: relative;
+  background-color: transparent;
   padding: 14px 18px;
   border: 1px solid var(--main-color);
   opacity: 1;
@@ -65,7 +89,7 @@
   font-weight: 400;
   font-size: 14px;
   letter-spacing: -0.02em;
-  /* font: inherit; */
+  color: var(--main-text-color);
   resize: none;
 }
 
@@ -83,59 +107,12 @@
   opacity: 1;
 }
 
-.labelRadio {
-  text-align: left;
-  font: inherit;
-  font-weight: 400;
-  font-size: 14px;
-  margin-bottom: 4px;
-}
-
-.wrapperRadio {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  margin-bottom: 14px;
-}
-
 .error {
+  position: absolute;
+  margin-top: -15px;
   color: red;
   font-size: 12px;
-}
-
-.deadline {
-  display: flex;
-  flex-direction: column;
-  text-align: left;
-  gap: 14px;
-  margin-bottom: 40px;
-}
-
-.deadline label {
-  font-weight: 400;
-  font-size: 12px;
-  letter-spacing: -0.02em;
-  margin-top: 10px;
-}
-
-.closeButton {
-  position: absolute;
-  top: 14px;
-  right: 14px;
-  background-color: inherit;
-  border: none;
-  font-size: 18px;
-  cursor: pointer;
-}
-
-.icon {
-  stroke: var(--btn-text-color);
-}
-
-.radioGroup {
-  display: flex;
-  justify-content: space-around;
-  margin: 4px 0;
+  text-align: start;
 }
 
 .formGroupLabelColor {
@@ -145,26 +122,13 @@
   margin-bottom: 10px;
 }
 
-/* .formGroupLabelcolor label {
+.labelName {
   text-align: start;
-  margin-bottom: 4px;
-  color: var(--icon-color); */
-/* color: var(--main-text-color); */
-/* opacity: 0.5;
+  margin-bottom: 6px;
   font-weight: 400;
-  font-size: 12px; */
-/* text-align: left; */
-/* } */
-.currentDate {
-  display: flex;
-  align-items: center;
-  color: var(--icon-bg-color);
-}
-
-.icon {
-  margin-left: 2px;
-  fill: transparent;
-  stroke: var(--icon-bg-color);
+  font-size: 12px;
+  letter-spacing: -0.02em;
+  color: var(--icon-color);
 }
 
 .labelColors {
@@ -185,15 +149,6 @@
   align-items: center;
   justify-content: center;
   position: relative;
-}
-
-.labelName {
-  text-align: start;
-  margin-bottom: 6px;
-  font-weight: 400;
-  font-size: 12px;
-  letter-spacing: -0.02em;
-  color: var(--icon-color);
 }
 
 .priority input[type='radio'] {
@@ -225,7 +180,34 @@
   border-color: var(--main-text-color);
 }
 
-.addButton {
+.deadline {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+  gap: 14px;
+  margin-bottom: 40px;
+}
+
+.deadline label {
+  font-weight: 400;
+  font-size: 12px;
+  letter-spacing: -0.02em;
+  margin-top: 10px;
+}
+
+.currentDate {
+  display: flex;
+  align-items: center;
+  color: var(--icon-bg-color);
+}
+
+.icon {
+  margin-left: 2px;
+  fill: transparent;
+  stroke: var(--icon-bg-color);
+}
+
+.editButton {
   border-radius: 8px;
   width: 100%;
   height: 49px;
@@ -241,21 +223,25 @@
   gap: 8px;
 }
 
-.plusIcon {
+.editIcon {
   width: 28px;
   height: 28px;
-  background-color: var(--btn-text-color);
+  background-color: var(--columnPlus-bg-color);
   display: flex;
   justify-content: center;
   align-items: center;
   border-radius: 6px;
-  /* stroke: var(--sec-iconPlus-color); */
   stroke: var(--main-iconPlus-color);
 }
 
-.calendar {
+.editButton:hover,.editButton:focus {
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  background-color: var(--accent-color);
+}
+
+.calendar{
   position: absolute;
-  margin-bottom: -50px;
-  left: 50px;
-  z-index: 1000;
+  bottom: -20px;
+  left: 30px;
 }

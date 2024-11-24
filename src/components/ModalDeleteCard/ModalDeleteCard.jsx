@@ -1,27 +1,25 @@
 import s from './ModalDeleteCard.module.css';
 import sprite from '../../icons/icons.svg';
-import { useDispatch, useSelector } from 'react-redux';
-import { deleteCard } from '../../redux/cards/operations';
-const ModalDeleteCard = ({ isOpen, onClose, onConfirm, cardIdToDelete }) => {
-  const dispatch = useDispatch();
+import { useRef } from 'react';
+import useOutsideAndEscapeClose from '../../hooks/useOutsideAndEscapeClose.js';
+
+const ModalDeleteCard = ({ isOpen, onClose, onConfirm, cardTitle }) => {
+
+
+  const modalRef = useRef();
+  useOutsideAndEscapeClose(modalRef, onClose);
 
   if (!isOpen) return null;
-  const handleConfirm = () => {
-    if (cardIdToDelete) {
-      console.log('Sending DELETE request for cardId:', cardIdToDelete);
-      dispatch(deleteCard(cardIdToDelete));
-    }
-    onConfirm(cardIdToDelete);
-  };
-
+ 
   return (
     <div className={s.modalOverlay}>
       <div className={s.modalContent}>
         <h2 className={s.modalTitle}>
-          Are you sure you want to delete this card?
+        Do you really want to delete this card? 
         </h2>
+        <p className={s.cardTitle}>{cardTitle} </p>
         <div className={s.modalButtons}>
-          <button onClick={handleConfirm} className={s.confirmButton}>
+          <button onClick={onConfirm} className={s.confirmButton}>
             <svg className={s.yesIcon} width="18" height="18">
               <use href={`${sprite}#icon-check`} />
             </svg>

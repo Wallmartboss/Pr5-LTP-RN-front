@@ -1,53 +1,24 @@
-
+import toast from 'react-hot-toast';
 import s from './Dropdown.module.css';
 import sprite from '../../icons/icons.svg';
-import { useEffect, useRef } from 'react';
+import { useRef } from 'react';
 import { useDispatch } from 'react-redux';
 import { editCard } from '../../redux/cards/operations.js';
+import useOutsideAndEscapeClose from '../../hooks/useOutsideAndEscapeClose.js';
 
 const Dropdown = ({
   boardId, card, onClose,
   isOpen,
   filteredColumns,
-  // handleMoveCard,
-  // onClose,
-  // cardId,
-  // columnId,
-  // boardId,
 }) => {
   const dispatch = useDispatch();
   const dropdownRef = useRef(null);
+  useOutsideAndEscapeClose(dropdownRef, onClose);
 
-  useEffect(() => {
-    const handleKeyDown = event => {
-      if (event.key === 'Escape') {
-        onClose();
-      }
-    };
-    document.addEventListener('keydown', handleKeyDown);
-
-    return () => {
-      document.removeEventListener('keydown', handleKeyDown);
-    };
-  }, [onClose]);
-
-  useEffect(() => {
-    const handleClickOutside = event => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
-        onClose();
-      }
-    };
-
-    document.addEventListener('mousedown', handleClickOutside);
-
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
-  }, [onClose]);
-
+ 
   if (!isOpen) return null;
 
-  const handleColumnClick = newColumnId => {
+  const handleColumnClick =async newColumnId => {
     const updateData = {
       columnId: newColumnId,
       title: card.title,
@@ -55,16 +26,16 @@ const Dropdown = ({
       priority: card. priority,
       date: card.date,
     };
-    console.log('cardId:', card._id); // Дебаг
-    console.log('updateData:', updateData); // Дебаг
-    dispatch(editCard({ boardId, cardId: card._id, updatedCard: updateData }));
-    onClose();
+    try {
+      await  dispatch(editCard({ boardId, cardId: card._id, updatedCard: updateData }));
+      onClose();
+      toast.success('Card moved successfully!');
+    } catch (error) {
+      toast.error('Failed to move card. Try again.');
+    }
+   
   }
 
-  // const handleColumnClick = newColumnId => {
-  //   handleMoveCard(cardId, columnId, newColumnId, boardId); // Передаємо newColumnId, cardId, boardId
-  //   onClose();
-  // };
   return (
     <div className={s.dropdown} ref={dropdownRef}>
       {filteredColumns.map(column => (

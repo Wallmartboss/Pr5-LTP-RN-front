@@ -1,26 +1,32 @@
-import DatePicker from 'react-datepicker';
-import 'react-datepicker/dist/react-datepicker.css';
 
+import s from './AddCardModal.module.css';
 import format from 'date-fns/format';
-import { useState } from 'react';
+import toast from 'react-hot-toast';
+import {  useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
-import s from './AddCardModal.module.css';
 import sprite from '../../icons/icons.svg';
 import { addCard } from '../../redux/cards/operations';
+import useOutsideAndEscapeClose from '../../hooks/useOutsideAndEscapeClose.js';
+import CalendarPicker from '../CalendarPicker/CalendarPicker.jsx';
 
 const AddCardModal = ({ onClose, columnId, boardId }) => {
   const dispatch = useDispatch();
+
+  const modalRef = useRef();
+  useOutsideAndEscapeClose(modalRef, onClose);
+ 
   const [priority, setPriority] = useState('without');
   const [showCalendar, setShowCalendar] = useState(false);
   const [selectedDate, setSelectedDate] = useState(null);
+  
   const formattedDate = selectedDate
     ? format(selectedDate, 'MMMM d')
     : format(new Date(), 'MMMM d');
   const displayDate = `Today, ${formattedDate}`;
 
-  const handleSubmit = values => {
+  const handleSubmit =async values => {
     console.log(boardId, columnId);
     const newCard = {
       ...values,
@@ -31,15 +37,22 @@ const AddCardModal = ({ onClose, columnId, boardId }) => {
       columnId,
       boardId,
     };
-    dispatch(addCard({ newCard }));
-    onClose();
+    try {
+      await dispatch(addCard({ newCard }));
+      toast.success('Card created successfully!'); 
+      onClose();
+    } catch (error) {
+      console.error(error);
+      toast.error('Failed to create card. Try again.'); 
+    } 
   };
+
 
   return (
     <div className={s.wrapper}>
-      <div className={s.modal}>
+      <div className={s.modal} ref={modalRef}>
         <button type="button" className={s.closeButton} onClick={onClose}>
-          <svg className={s.icon} width="18" height="18">
+          <svg className={s.iconClose} width="18" height="18">
             <use href={`${sprite}#x-close-icon`} />
           </svg>
         </button>
@@ -61,7 +74,7 @@ const AddCardModal = ({ onClose, columnId, boardId }) => {
             resetForm();
           }}
         >
-          {({ values }) => (
+          {() => (
             <Form className={s.modalForm}>
               <div>
                 <Field
@@ -127,16 +140,13 @@ const AddCardModal = ({ onClose, columnId, boardId }) => {
                   </svg>
                 </div>
               </div>
+
               {showCalendar && (
                 <div className={s.calendar}>
-                  <DatePicker
-                    selected={values.date}
-                    onChange={date => {
-                      setSelectedDate(date);
-                      setShowCalendar(false);
-                    }}
-                    dateFormat="MMMM d, yyyy"
-                    inline
+                  <CalendarPicker
+                    selectedDate={selectedDate}
+                    setSelectedDate={setSelectedDate}
+                    closeCalendar={() => setShowCalendar(false)}
                   />
                 </div>
               )}
