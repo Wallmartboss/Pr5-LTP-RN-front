@@ -4,7 +4,8 @@ import {
   addCard,
   deleteCard,
   editCard,
-  fetchCards,
+  moveCard,
+  // fetchCards,
 } from '../cards/operations';
 import {
   fetchColumns,
@@ -134,7 +135,9 @@ const columnsSlice = createSlice({
       .addCase(editColumnTitle.fulfilled, (state, action) => {
         const updatedColumn = action.payload;
         state.columns = state.columns.map(column =>
-          column._id === updatedColumn._id ? updatedColumn : column
+          column._id === updatedColumn._id
+            ? { ...column, title: updatedColumn.title }
+            : column
         );
         state.isLoading = false;
       })
@@ -177,46 +180,26 @@ const columnsSlice = createSlice({
       })
       /* -- */
       .addCase(editCard.fulfilled, (state, action) => {
-        const { _id, columnId, title, description, date, priority } = action.payload.data;
-      
-        const oldColumn = state.columns.find(col => 
+        const { _id, title, description, date, priority } = action.payload.data;
+        const column = state.columns.find(col =>
           col.cards.some(card => card._id === _id)
         );
-      
-        if (oldColumn) {
-          const cardIndex = oldColumn.cards.findIndex(card => card._id === _id);
-      
+
+        if (column) {
+          const cardIndex = column.cards.findIndex(card => card._id === _id);
+
           if (cardIndex !== -1) {
-            const card = oldColumn.cards[cardIndex];
-      
-            if (card.columnId === columnId) {
-              oldColumn.cards[cardIndex] = {
-                ...card,
-                title,
-                description,
-                date,
-                priority,
-              };
-              return;
-            }
-      
-            oldColumn.cards.splice(cardIndex, 1);
+            column.cards[cardIndex] = {
+              ...column.cards[cardIndex],
+              title,
+              description,
+              date,
+              priority,
+            };
           }
         }
-      
-        const newColumn = state.columns.find(col => col._id === columnId);
-      
-        if (newColumn) {
-          newColumn.cards.push({
-            _id,
-            title,
-            description,
-            date,
-            priority,
-            columnId,
-          });
-        }
       })
+
       .addCase(editCard.rejected, (state, action) => {
         state.isLoading = false;
         state.error = action.payload;
@@ -240,24 +223,39 @@ const columnsSlice = createSlice({
         state.loading = true;
         state.error = null;
       })
-      .addCase(fetchCards.fulfilled, (state, action) => {
-        state.loading = false;
-        const newCards = action.payload.data;
+      .addCase(moveCard.fulfilled, (state, action) => {
+        const { _id: cardId, columnId: newColumnId } = action.payload.data;
 
-        state.columns.items = [
-          ...state.columns.items,
-          ...newCards.filter(
-            newCard =>
-              !state.cards.some(
-                existingCard => existingCard._id === newCard._id
-              )
-          ),
-        ];
-      })
-      .addCase(fetchCards.rejected, (state, action) => {
-        state.loading = false;
-        state.error = action.payload;
+        const oldColumn = state.columns.find(col =>
+          col.cards.some(card => card._id === cardId)
+        );
+        if (oldColumn) {
+          oldColumn.cards = oldColumn.cards.filter(card => card._id !== cardId);
+        }
+        const newColumn = state.columns.find(col => col._id === newColumnId);
+        if (newColumn) {
+          newColumn.cards.push(action.payload.data);
+        }
       });
+
+    // .addCase(fetchCards.fulfilled, (state, action) => {
+    //   state.loading = false;
+    //   const newCards = action.payload.data;
+
+    //   state.columns.items = [
+    //     ...state.columns.items,
+    //     ...newCards.filter(
+    //       newCard =>
+    //         !state.cards.some(
+    //           existingCard => existingCard._id === newCard._id
+    //         )
+    //     ),
+    //   ];
+    // })
+    // .addCase(fetchCards.rejected, (state, action) => {
+    //   state.loading = false;
+    //   state.error = action.payload;
+    // });
   },
 });
 

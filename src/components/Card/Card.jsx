@@ -1,10 +1,10 @@
-
+import toast from 'react-hot-toast';
 import s from './Card.module.css';
 import sprite from '../../icons/icons.svg';
 import Dropdown from '../Dropdown/Dropdown.jsx';
-// import ModalDeleteCard from '../ModalDeleteCard/ModalDeleteCard.jsx';
+import ModalDeleteCard from '../ModalDeleteCard/ModalDeleteCard.jsx';
 import {
-  toggleDescription,
+  toggleDescription
 } from '../../redux/cards/slice.js';
 import { useDispatch, useSelector } from 'react-redux';
 import {
@@ -22,9 +22,12 @@ const Card = ({ card }) => {
   const dispatch = useDispatch();
   const expandedCardId = useSelector(selectExpandedCardId);
   const { _id: cardId, priority, title, description, date } = card;
+
   const [isToday, setIsToday] = useState(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  
   const columns = useSelector(allColumnsByBoard);
   console.log('columns:', columns);
   const filteredColumns = columns.filter(
@@ -65,10 +68,26 @@ const Card = ({ card }) => {
       expandedCardId === cardId ? 'expanded' : 'collapsed'
     }`
   );
-  const openDeleteModal = cardId => {
-   dispatch(deleteCard(cardId));
+ 
+  const openDeleteModalHandler = () => {
+    setIsDeleteModalOpen(true);
   };
 
+  const closeDeleteModalHandler = () => {
+    setIsDeleteModalOpen(false);
+  };
+
+  const confirmDeleteHandler = async () => {
+    try {
+     await dispatch(deleteCard(cardId)); 
+      setIsDeleteModalOpen(false);
+      toast.success('Card deleted successfully!');
+    } catch (error) {
+      toast.error('Failed to delete card. Try again.');
+
+    }
+   
+  };
   const openDropdownHandler = () => {
     setIsDropdownOpen(true);
   };
@@ -79,15 +98,15 @@ const Card = ({ card }) => {
   const getPriorityColor = priority => {
     switch (priority) {
       case 'low':
-        return '#8FA1D0';
+        return 'var(--low-priority-color)';
       case 'medium':
-        return '#E09CB5';
+        return 'var(--medium-priority-color)';
       case 'high':
-        return '#BEDBB0';
+        return 'var(--high-priority-color)';
       case 'without':
-        return 'rgba(22, 22, 22, 0.30)';
+        return 'var(--without-priority-color)';
       default:
-        return 'rgba(22, 22, 22, 0.30)';
+        return 'transparent';
     }
   };
 
@@ -150,7 +169,7 @@ const Card = ({ card }) => {
               <use href={`${sprite}#pencil-icon`} />
             </svg>
           </button>
-          <button onClick={() => openDeleteModal(cardId)}>
+          <button onClick={openDeleteModalHandler}>
             <svg className={s.icon} width="16" height="16">
               <use href={`${sprite}#trash-icon`} />
             </svg>
@@ -167,12 +186,12 @@ const Card = ({ card }) => {
           isOpen={isDropdownOpen}
         />
       )}
-      {/* <ModalDeleteCard
-        isOpen={isModalOpen}
-        onClose={handleCancelDelete}
-        onConfirm={handleConfirmDelete}
-        cardId={cardId}
-      /> */}
+       <ModalDeleteCard
+        isOpen={isDeleteModalOpen}
+        onClose={closeDeleteModalHandler}
+        onConfirm={confirmDeleteHandler}
+        cardTitle={title}
+      />
       {isEditModalOpen && (
         <EditCardModal
           columnId={card.columnId}

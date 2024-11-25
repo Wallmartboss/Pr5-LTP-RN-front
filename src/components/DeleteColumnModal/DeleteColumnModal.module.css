@@ -13,10 +13,10 @@
 
 .modalContent {
   background-color: var(--modal-bg-color);
-  padding: 24px;
+  padding: 10px;
   border-radius: 8px;
-  width: 425px;
-  height: 221px;
+  width: 300px;
+  height: 200px;
   border: none;
   text-align: center;
   position: relative;
@@ -27,8 +27,8 @@
 }
 
 .modalTitle {
-  font-weight: 500;
-  font-size: 18px;
+  font-weight: 400;
+  font-size: 14px;
   letter-spacing: -0.02em;
   color: var(--main-text-color);
   text-align: left;
@@ -36,11 +36,36 @@
 }
 
 .columnTitle {
-  font-weight: 500;
-  font-size: 18px;
+  font-weight: 400;
+  font-size: 14px;
   letter-spacing: -0.02em;
   color: var(--main-text-color);
   text-align: left;
+  padding-bottom: 2px;
+  border-bottom: 1px solid var(--main-text-color);
+}
+
+@media screen and (min-width: 768px) {
+  .modalContent{
+      padding: 24px;
+      width: 425px;
+      height: 220px;
+  }
+  .modalTitle{
+      font-weight: 500;
+      font-size: 18px;
+      letter-spacing: -0.02em;
+      color: var(--main-text-color);
+      text-align: center;
+      padding-bottom: 15px;
+      max-width: 310px;
+  }
+  .cardTitle {
+      font-weight: 500;
+      font-size: 18px;
+      letter-spacing: -0.02em;
+    
+    }
 }
 
 .deleteBtns {

@@ -9,7 +9,7 @@
   --low-priority-color: #8fa1d0;
   --medium-priority-color: #e09cb5;
   --high-priority-color: #bedbb0;
-
+--without-priority-color:rgba(22, 22, 22, 0.30);
   --auth-form-bg-color: #151515;
 }
 
@@ -19,6 +19,7 @@ body {
   background-color: var(--main-bg-color);
   color: var(--main-text-color);
   position: relative;
+  
 
   --main-bg-color: #f6f6f7; /*основний колір заднього фону, атакож колір заднього фону на іконці з зображенням при створенні дошки */
   --modal-bg-color: #fcfcfc; /*колір заднього фону для всіх модалок (включаючи дропдаун) */
@@ -56,6 +57,10 @@ body {
   --side-icon-color: rgba(22, 22, 22, 0.5);
   --logout-color: #bedbb0;
   --no-priopity-color: rgba(22, 22, 22, 0.3);
+  --description-color: rgba(22, 22, 22, 0.70);
+--bell-color:#BEDBB0;
+--line-color:rgba(22, 22, 22, 0.1);
+--btn-progress-color:#161616;
 }
 
 body.dark-mode {
@@ -97,6 +102,10 @@ body.dark-mode {
   --side-icon-color: rgba(255, 255, 255, 0.5);
   --logout-color: #bedbb0;
   --no-priopity-color: rgba(255, 255, 255, 0.3);
+  --description-color: rgba(255, 255, 255, 0.50);
+  --without-priority-color:rgba(255, 255, 255, 0.30);
+  --line-color:rgba(255, 255, 255, 0.10);
+  --btn-progress-color:rgba(255, 255, 255, 0.50);
 }
 
 body.violet-mode {
@@ -136,6 +145,8 @@ body.violet-mode {
   --create-plus-color: #ffffff;
   --logout-color: #ffffff;
   --no-priopity-color: rgba(22, 22, 22, 0.3);
+  --description-color: rgba(22, 22, 22, 0.70);
+  --bell-color:#5255BC;
 }
 
 .visually-hidden {

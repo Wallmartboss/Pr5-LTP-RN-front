@@ -1,118 +1,21 @@
-// import { useState } from "react";
-// import { useDispatch } from 'react-redux';
-// import { Formik, Form, Field, ErrorMessage } from 'formik';
-// import * as Yup from 'yup';
-// import 'flatpickr/dist/themes/material_blue.css';
-// import s from './AddCardModal.module.css';
-// import sprite from '../../icons/icons.svg';
-// import Calendar from '../Calendar/Calendar';
-// import { editCard } from "../../redux/cards/operations";
 
-// const EditCardModal = ({ card, onClose }) => {
-//   const dispatch = useDispatch();
-//   const [labelColor, setLabelColor] = useState(card.labelColor || 'without');
-
-//   const handleSubmit = (values) => {
-//     const updatedCard = { ...values, labelColor };
-//     dispatch(editCard({ id: card.id, updatedCard }));
-//     onClose();
-//   };
-
-//   return (
-//     <div className={s.wrapper}>
-//       <div className={s.modal}>
-//         <button type="button" className={s.closeButton} onClick={onClose}>
-//           <svg className={s.icon} width="18" height="18">
-//             <use href={`${sprite}#x-close-icon`} />
-//           </svg>
-//         </button>
-
-//         <h2 className={s.title}>Edit Card</h2>
-//         <Formik
-//           initialValues={{
-//             title: card.title || '',
-//             description: card.description || '',
-//             priority: card.priority || 'none',
-//             deadline: card.deadline || new Date(),
-//           }}
-//           validationSchema={Yup.object({
-//             title: Yup.string().required('Title is required'),
-//             description: Yup.string().required('Description is required'),
-//           })}
-//           onSubmit={(values, { resetForm }) => {
-//             handleSubmit(values);
-//             resetForm();
-//           }}
-//         >
-//           {({ setFieldValue }) => (
-//             <Form className={s.modalForm}>
-//               <div>
-//                 <Field type="text" name="title" placeholder="Title" className={s.input} />
-//                 <ErrorMessage name="title" component="div" className={s.error} />
-//               </div>
-
-//               <div>
-//                 <Field as="textarea" type="text" name="description" placeholder="Description" className={s.textarea} />
-//                 <ErrorMessage name="description" component="div" className={s.error} />
-//               </div>
-
-//               <div className={s.formGroupLabelColor}>
-//                 <label>Label color</label>
-//                 <div className={s.labelColors}>
-//                   {['low', 'medium', 'high', 'without'].map(color => (
-//                     <label
-//                       key={color}
-//                       className={`${s.priority} ${s[color]} ${labelColor === color ? s.selected : ''}`}
-//                     >
-//                       <input
-//                         checked={labelColor === color}
-//                         value={color}
-//                         type="radio"
-//                         name="labelColor"
-//                         onChange={() => setLabelColor(color)}
-//                       />
-//                     </label>
-//                   ))}
-//                 </div>
-//               </div>
-
-//               <div className={s.flatpickr}>
-//                 <label htmlFor="deadline">Deadline</label>
-//                 <Calendar
-//                   value={card.deadline || new Date()}
-//                   onChange={(date) => setFieldValue('deadline', date)}
-//                 />
-//                 <ErrorMessage name="deadline" component="div" className={s.error} />
-//               </div>
-
-//               <button className={s.addButton}>
-//                 <svg className={s.plusIcon} width="14" height="14">
-//                   <use href={`${sprite}#plus-icon`} />
-//                 </svg>
-//                 Save
-//               </button>
-//             </Form>
-//           )}
-//         </Formik>
-//       </div>
-//     </div>
-//   );
-// };
-
-// export default EditCardModal;
-import DatePicker from 'react-datepicker';
 import format from 'date-fns/format';
-import 'react-datepicker/dist/react-datepicker.css';
+import toast from 'react-hot-toast';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import s from './EditCardModal.module.css';
 import sprite from '../../icons/icons.svg';
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { editCard } from '../../redux/cards/operations';
+import useOutsideAndEscapeClose from '../../hooks/useOutsideAndEscapeClose.js';
+import CalendarPicker from '../CalendarPicker/CalendarPicker.jsx';
 
 const EditCardModal = ({ boardId, card, onClose, columnId }) => {
   const dispatch = useDispatch();
+  
+  const modalRef = useRef();
+  useOutsideAndEscapeClose(modalRef, onClose);
 
   const [showCalendar, setShowCalendar] = useState(false);
   const [priority, setPriority] = useState(card.priority || 'without');
@@ -128,7 +31,7 @@ const EditCardModal = ({ boardId, card, onClose, columnId }) => {
     description: Yup.string().required('Description is required'),
   });
 
-  const handleSubmit = values => {
+  const handleSubmit =async values => {
     const updateData = {
       ...values,
       boardId,
@@ -138,21 +41,27 @@ const EditCardModal = ({ boardId, card, onClose, columnId }) => {
         ? selectedDate.toISOString()
         : new Date().toISOString(),
     };
+try {
+ await dispatch(editCard({ boardId, cardId: card._id, updatedCard: updateData }));
+  onClose();
+  toast.success('Card updated successfully!');
+} catch (error) {
+  toast.error('Failed to update card. Try again.');
 
-    dispatch(editCard({ boardId, cardId: card._id, updatedCard: updateData }));
-    onClose();
+}
+   
   };
 
   return (
     <div className={s.wrapper}>
-      <div className={s.modal}>
+      <div className={s.modal} ref={modalRef}>
         <button type="button" className={s.closeButton} onClick={onClose}>
-          <svg className={s.icon} width="18" height="18">
+          <svg className={s.iconClose} width="18" height="18">
             <use href={`${sprite}#x-close-icon`} />
           </svg>
         </button>
 
-        <h2 className={s.title}>Update Card</h2>
+        <h2 className={s.title}>Edit Card</h2>
 
         <Formik
           initialValues={{
@@ -230,23 +139,19 @@ const EditCardModal = ({ boardId, card, onClose, columnId }) => {
               </div>
               {showCalendar && (
                 <div className={s.calendar}>
-                  <DatePicker
-                    selected={selectedDate}
-                    onChange={date => {
-                      setSelectedDate(date);
-                      setShowCalendar(false);
-                    }}
-                    dateFormat="MMMM d, yyyy"
-                    inline
+                  <CalendarPicker
+                    selectedDate={selectedDate}
+                    setSelectedDate={setSelectedDate}
+                    closeCalendar={() => setShowCalendar(false)}
                   />
                 </div>
               )}
 
-              <button type="submit" className={s.addButton}>
-                <svg className={s.plusIcon} width="14" height="14">
-                  <use href={`${sprite}#plus-icon`} />
+              <button type="submit" className={s.editButton}>
+                <svg className={s.editIcon} width="14" height="14">
+                  <use href={`${sprite}#icon-check`} />
                 </svg>
-                Update
+                Edit
               </button>
             </Form>
           )}

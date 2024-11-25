@@ -33,6 +33,9 @@ const ScreensPage = () => {
   // useEffect(() => {
   //   dispatch(fetchColumns());
   // }, [dispatch]);
+
+
+  
   useEffect(() => {
     console.log('Selected board ID:', selectedBoard?._id);
     if (selectedBoard?._id) {
@@ -84,7 +87,7 @@ const ScreensPage = () => {
               <BoardColumn key={column._id} column={column} />
             ))
           ) : (
-            <p> </p>
+            <p></p>
           )}
           <button className={s.addColumnBtn} onClick={handleOpenModal}>
             <svg className={s.plusIcon} width="24" height="24">
@@ -104,7 +107,9 @@ const ScreensPage = () => {
       {isDeleteModalOpen && <DeleteColumnModal />}
     </div>
   ) : (
-    <p></p>
+    <div className={s.noBoard}>
+    <p className={s.noBoardText}> Before starting your project, it is essential <span>to create a board</span> to visualize and track all the necessary tasks and milestones. This board serves as a powerful tool to organize the workflow and ensure effective collaboration among team members.</p>
+    </div>
   );
 };
 
