@@ -3,7 +3,7 @@ import s from './Dropdown.module.css';
 import sprite from '../../icons/icons.svg';
 import { useRef } from 'react';
 import { useDispatch } from 'react-redux';
-import { editCard } from '../../redux/cards/operations.js';
+import { moveCard } from '../../redux/cards/operations.js';
 import useOutsideAndEscapeClose from '../../hooks/useOutsideAndEscapeClose.js';
 
 const Dropdown = ({
@@ -18,23 +18,39 @@ const Dropdown = ({
  
   if (!isOpen) return null;
 
-  const handleColumnClick =async newColumnId => {
-    const updateData = {
-      columnId: newColumnId,
-      title: card.title,
-      description: card.description,
-      priority: card. priority,
-      date: card.date,
-    };
+  const handleColumnClick = async newColumnId => {
     try {
-      await  dispatch(editCard({ boardId, cardId: card._id, updatedCard: updateData }));
+      await dispatch(
+        moveCard({
+          cardId: card._id,
+          newColumnId,
+          boardId,
+        })
+      ).unwrap();
       onClose();
       toast.success('Card moved successfully!');
     } catch (error) {
       toast.error('Failed to move card. Try again.');
     }
+  };
+
+  // const handleColumnClick =async newColumnId => {
+  //   const updateData = {
+  //     columnId: newColumnId,
+  //     title: card.title,
+  //     description: card.description,
+  //     priority: card. priority,
+  //     date: card.date,
+  //   };
+  //   try {
+  //     await  dispatch(editCard({ boardId, cardId: card._id, updatedCard: updateData }));
+  //     onClose();
+  //     toast.success('Card moved successfully!');
+  //   } catch (error) {
+  //     toast.error('Failed to move card. Try again.');
+  //   }
    
-  }
+  // }
 
   return (
     <div className={s.dropdown} ref={dropdownRef}>

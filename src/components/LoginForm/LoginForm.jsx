@@ -70,7 +70,7 @@ const LoginForm = ({ onSuccess }) => {
         </div>
         <input
           {...register('email')}
-          placeholder="Email"
+          placeholder="Enter your email"
           className={errors.email ? s.errorInput : ''}
         />
         {errors.email && (
@@ -80,7 +80,7 @@ const LoginForm = ({ onSuccess }) => {
           <input
             {...register('password')}
             type={showPassword ? 'text' : 'password'}
-            placeholder="Create a password"
+            placeholder="Confirm a password"
             className={errors.password ? s.errorInput : ''}
           />
           <span
